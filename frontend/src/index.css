@@ -1,0 +1,43 @@
+@import "../src/components/record/information/CustomRecord.module.css";
+
+:root {
+  --primary-color-error: #ef5350;
+  --secondary-color-error: #e57373;
+  --primary-color-info: #494848;
+  --primary-color-highlight: #fff154;
+  --secondary-color-highlight: #fff9ba;
+  --primary-color-hover: #00ab41;
+  --secondary-color-hover: #ececec;
+  --primary-border-width: 2px;
+  --primary-border-radius: 50px;
+  --transition-hover: 0.7s;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.error,
+.required {
+  color: red;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.landing-page {
+  width: 100vw;
+  height: 100vh;
+}

@@ -1,0 +1,8 @@
+.smallbox {
+  width: 2.5vw;
+  height: 4vh;
+}
+
+.smallbox.highlighted button {
+  background: var(--secondary-color-highlight);
+}

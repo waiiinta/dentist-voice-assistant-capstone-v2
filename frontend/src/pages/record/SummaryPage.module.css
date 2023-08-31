@@ -1,0 +1,129 @@
+table,
+th,
+tr,
+td {
+  border: 1px solid black;
+}
+td {
+  background-color: rgb(176, 176, 176);
+  color: #000;
+  text-align: center;
+  border: 1px solid black;
+}
+
+tr,
+td {
+  padding: 10px;
+}
+.droplist {
+  position: absolute;
+  right: 5vw;
+  top: 7.5vh;
+  z-index: 3;
+}
+
+.box {
+  width: 10vh;
+  height: 10vh;
+}
+
+.information_area {
+  height: 89vh;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.information_user {
+  display: flex;
+  width: 90%;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  /* padding: 0 auto; */
+  transform: translate(5%, 0);
+}
+
+.information_process {
+  /* display: flex; */
+  width: 90%;
+  height: 75vh;
+  padding-top: 3vh;
+  padding-bottom: 4vh;
+  transform: translate(5%, 0);
+}
+
+.information_box {
+  display: flex;
+  width: 80vw;
+  height: 10vh;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+}
+.rand_box {
+  position: absolute;
+  top: 10vh;
+  left: 5vh;
+  width: 80px;
+  border-color: white;
+  border-style: none;
+  border-radius: 5px;
+  background-color: var(--secondary-color-hover);
+}
+
+.rand_box:hover {
+  background-color: var(--primary-color-hover);
+  color: white;
+  transition: var(--transition-hover);
+}
+
+.reset_box {
+  position: absolute;
+  top: 10vh;
+  left: 18vh;
+  width: 80px;
+  border-color: white;
+  border-style: none;
+  border-radius: 5px;
+  background-color: var(--secondary-color-hover);
+}
+
+.reset_box:hover {
+  background-color: var(--primary-color-hover);
+  color: white;
+  transition: var(--transition-hover);
+}
+
+.success_message {
+  font-size: 2.5vh;
+  font-weight: bold;
+  margin: 0;
+  border: 0;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  height: 5.5vh;
+  flex-flow: row;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  position: absolute;
+  /* animation: fadeOut 4.5s; */
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.top-bar {
+  z-index: 1;
+  position: absolute;
+}

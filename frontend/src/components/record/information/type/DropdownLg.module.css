@@ -1,0 +1,9 @@
+.largebox {
+  width: 7.9vw;
+  height: 4vh;
+  box-sizing: border-box;
+}
+
+.largebox.highlighted button {
+  background: var(--secondary-color-highlight);
+}

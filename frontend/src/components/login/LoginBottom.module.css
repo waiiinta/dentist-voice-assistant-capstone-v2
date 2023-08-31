@@ -1,0 +1,10 @@
+.text {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.text a {
+  color: green;
+  transition: var(--transition-hover);
+}

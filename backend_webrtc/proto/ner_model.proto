@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package ner_backend;
+
+service NERBackend {
+    rpc StreamingNER(stream NERRequest) returns (stream NERResponse);
+    rpc UndoMissing(Zee) returns (Empty);
+    rpc AddMissing(Zee) returns (Empty);
+}
+
+message SemanticCommand {
+    string command = 1;
+    CommandData data = 2;
+    bool is_complete = 3;
+}
+
+message CommandData {
+    Zee zee = 1;
+    string tooth_side = 2;
+    string position = 3;
+    bool is_number_PD = 4;
+    int32 payload = 5;
+
+    repeated Zee missing = 6;
+    repeated bool BOP_payload = 7;  
+}
+
+message Zee {
+  int32 first_zee = 1;
+  int32 second_zee = 2;
+}
+
+message NERResponse {
+    repeated SemanticCommand response = 1;
+}
+
+message TranscriptionResult {
+  // Transcript text representing the words that the user spoke.
+  string transcript = 1;
+
+  float start_time = 2;
+  float end_time = 3;
+  float speaking_rate = 4;
+  
+  repeated WordInfo word_timestamps = 5;
+}
+
+// Word-specific information for recognized words.
+message WordInfo {
+  
+  string word = 1;
+
+  float start_time = 2;
+
+  float end_time = 3;
+
+  float confidence = 4;
+
+}
+
+
+message NERRequest {
+
+  repeated TranscriptionResult results = 1;
+
+  bool is_final = 2;
+
+  Zee add_missing = 3;
+  Zee undo_missing = 4;
+  string version = 5;
+  float duration = 7;
+}
+
+message Empty {
+
+}
+
