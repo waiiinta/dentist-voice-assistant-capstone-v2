@@ -1,22 +1,24 @@
 const ToothTable = require("./teeth/ToothTable.js");
 
 const fs = require("fs");
-const webrtc = require("wrtc");
-const { RTCAudioSink } = require("wrtc").nonstandard;
+const webrtc = require("@koush/wrtc");
+const { RTCAudioSink } = require("@koush/wrtc").nonstandard;
 const express = require("express");
 const https = require("https");
 const http = require("http");
 const { Server } = require("socket.io");
 const gowajee_service = require("./utils/gowajee_service.js");
 const dotenv = require("dotenv");
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `./${process.env.NODE_ENV}.env` });
+dotenv.config()
 console.log(`Staring Backend Streaming Server in ${process.env.NODE_ENV} mode...`)
-
+console.log(process.env)
 const RATE = 48000; // Sample rate of the input audio
 
 // gRPC Denpendencies
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
+const { log } = require("console");
 
 // Load Gowajee proto for gRPC
 const SPEECH2TEXT_PROTO_PATH = "./proto/speech2text.proto";
