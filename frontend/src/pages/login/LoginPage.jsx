@@ -10,11 +10,11 @@ import NavBar from "../../components/ui/NavBar";
 
 const LoginPage = () => {
   // [Detect between production mode or development mode]
-  // if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  //   console.log("DEV MODE", process.env.REACT_APP_BACKEND_PORT)
-  // } else {
-  //   console.log("PROD MODE", process.env.REACT_APP_BACKEND_PORT)
-  // }
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    console.log("DEV MODE", process.env.REACT_APP_BACKEND_PORT)
+  } else {
+    console.log("PROD MODE", process.env.REACT_APP_BACKEND_PORT)
+  }
 
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);

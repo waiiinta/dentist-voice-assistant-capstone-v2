@@ -81,41 +81,43 @@ function getRandomValue(list, weight) {
 }
 
 function randomValue(mode) {
+  var list
+  var weight
   switch (mode) {
     case "PD":
-      var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-      var weight = [
+      list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+      weight = [
         0.25, 0.2, 0.15, 0.1, 0.1, 0.05, 0.05, 0.025, 0.025, 0.0125, 0.0125,
         0.00625, 0.00625, 0.00625, 0.00625,
       ];
       return getRandomValue(list, weight);
     case "RE":
-      var list = [
+      list = [
         -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         15,
       ];
-      var weight = [
+      weight = [
         0.01, 0.01, 0.02, 0.05, 0.15, 0.2, 0.2, 0.1, 0.1, 0.05, 0.04, 0.03,
         0.005, 0.005, 0.005, 0.005, 0.005, 0.00375, 0.00375, 0.00375, 0.00375,
       ];
       return getRandomValue(list, weight);
     case "BOP":
-      var list = [true, false];
-      var weight = [0.3, 0.7];
+      list = [true, false];
+      weight = [0.3, 0.7];
       return getRandomValue(list, weight);
     case "MO":
-      var list = [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      var weight = [
+      list = [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      weight = [
         0.4, 0.25, 0.15, 0.1, 0.03, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01,
       ];
       return getRandomValue(list, weight);
     case "MGJ":
-      var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      var weight = [0.5, 0.25, 0.15, 0.03, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01];
+      list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      weight = [0.5, 0.25, 0.15, 0.03, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01];
       return getRandomValue(list, weight);
     case "missing":
-      var list = [true, false];
-      var weight = [0.2, 0.8];
+      list = [true, false];
+      weight = [0.2, 0.8];
       return getRandomValue(list, weight);
     default:
       return null;
