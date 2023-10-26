@@ -63,6 +63,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.sendEmailConfirm = catchAsync(async (req, res, next) => {
+  try{
   const { email } = req.body;
 
   if (!email) {
@@ -106,11 +107,14 @@ exports.sendEmailConfirm = catchAsync(async (req, res, next) => {
     user.emailConfirmToken = undefined;
     user.emailConfirmExpires = undefined;
     await user.save({ validateBeforeSave: false });
-
+    console.log(err)
     return next(
       new AppError("There was an error sending the email. Try again later!"),
       500
     );
+  }
+  }catch(error){
+    console.log(error)
   }
 });
 
