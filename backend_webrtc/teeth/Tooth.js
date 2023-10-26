@@ -3,6 +3,9 @@ class Tooth {
     this.ID = ID;
     this.quadrant = quadrant;
     this.missing = false;
+    this.implant = false;
+    this.crown = false;
+    this.start_end_bridge = null; // for ex. Bridge 16 to 18; Tooth 16,17,18 will have this.start_end_bridge = (16,18)
 
     this.PD = {
       buccal: { distal: null, buccal: null, mesial: null },
@@ -18,6 +21,15 @@ class Tooth {
       buccal: { distal: null, buccal: null, mesial: null },
       lingual: { distal: null, lingual: null, mesial: null },
     };
+    
+    this.SUP = {
+      buccal: { distal: null, buccal: null, mesial: null },
+      lingual: { distal: null, lingual: null, mesial: null },
+    }
+
+    this.FUR = {
+      buccal: null, distal: null, lingual: null, mesial: null
+    }
 
     this.MO = null;
     this.MGJ = null;
@@ -44,19 +56,28 @@ class Tooth {
           middle: this.BOP[toothSide][toothSide],
           distal: this.BOP[toothSide]["distal"],
         },
+        SUP: {
+          mesial: this.SUP[toothSide]["mesial"],
+          middle: this.SUP[toothSide][toothSide],
+          distal: this.SUP[toothSide]["distal"],
+        }
       });
     });
     return {
       ID: this.ID,
       missing: this.missing,
+      implant: this.implant,
+      crown: this.crown,
+      start_end_bridge: this.start_end_bridge,
       depended_side_data: result,
       MO: this.MO,
       MGJ: this.MGJ,
+      FUR: this.FUR,
     };
   }
 
   importValue(toothData) {
-    const commands = ["PD", "RE", "BOP"];
+    const commands = ["PD", "RE", "BOP", "SUP"];
     let result = {};
     commands.forEach((command) => {
       result[command] = {
@@ -73,11 +94,16 @@ class Tooth {
       };
     });
     this.missing = toothData.missing;
+    this.implant = toothData.implant;
+    this.crown = toothData.crown;
+    this.start_end_bridge = toothData.start_end_bridge;
     this.PD = result.PD;
     this.RE = result.RE;
     this.BOP = result.BOP;
+    this.SUP = result.SUP;
     this.MO = toothData.MO;
     this.MGJ = toothData.MGJ;
+    this.FUR = toothData.FUR;
     return;
   }
 }
