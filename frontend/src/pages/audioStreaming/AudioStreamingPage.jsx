@@ -65,8 +65,10 @@ const AudioStreamingPage = () => {
 
   const initiateSocketandClientPeerConnection = async () => {
     /* 1) initiate RTCPeerConnectionObject and socket object */
+    console.log("test3")
     const pc = new RTCPeerConnection(RTC_CONFIG);
     const s = await io.connect(URL_BACKEND_STREAMING);
+    console.log("test3")
 
     /* 2) set event for socket */
     // receiving answer from backend streaming server
@@ -230,7 +232,9 @@ const AudioStreamingPage = () => {
     /* This function is used to initiate socket.io connection
      * and the Client's RTCPeerConnection in order to stream audio to the backend server.
      */
+    console.log("try connect")
     initiateSocketandClientPeerConnection();
+    console.log("connection complete")
   }, []);
 
   // if the model is ready, start listening
