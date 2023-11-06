@@ -17,20 +17,16 @@ class ToothTable {
     let isUpdate;
     switch (mode) {
       case "PD":
-        isUpdate =
-          this.quadrants[q - 1].teeth[i - 1].PD[side][position] !== target;
+        isUpdate = this.quadrants[q - 1].teeth[i - 1].PD[side][position] !== target;
         this.quadrants[q - 1].teeth[i - 1].PD[side][position] = target;
         break;
       case "RE":
-        isUpdate =
-          this.quadrants[q - 1].teeth[i - 1].RE[side][position] !== target;
+        isUpdate = this.quadrants[q - 1].teeth[i - 1].RE[side][position] !== target;
         this.quadrants[q - 1].teeth[i - 1].RE[side][position] = target;
         break;
       case "BOP":
-        isUpdate =
-          this.quadrants[q - 1].teeth[i - 1].BOP[side][position] !== target;
-        isUpdate = this.quadrants[q - 1].teeth[i - 1].BOP[side][position] =
-          target;
+        isUpdate = this.quadrants[q - 1].teeth[i - 1].BOP[side][position] !== target;
+        this.quadrants[q - 1].teeth[i - 1].BOP[side][position] = target;
         break;
       case "MO":
         isUpdate = this.quadrants[q - 1].teeth[i - 1].MO !== target;
@@ -44,6 +40,29 @@ class ToothTable {
         isUpdate = this.quadrants[q - 1].teeth[i - 1].missing !== target;
         this.quadrants[q - 1].teeth[i - 1].missing = target;
         break;
+      
+      case "Implant":
+        isUpdate = this.quadrants[q-1].teeth[i-1].implant !== target;
+        this.quadrants[q-1].teeth[i-1].implant = target;
+        break;
+      case "Crown":
+        isUpdate = this.quadrants[q-1].teeth[i-1].crown !== target;
+        this.quadrants[q-1].teeth[i-1].crown = target;
+        break;
+      case "Bridge":
+        isUpdate = this.quadrants[q-1].teeth[i-1].start_end_bridge !== target;
+        this.quadrants[q-1].teeth[i-1].start_end_bridge = target;
+        break;
+      case "SUP":
+        isUpdate = this.quadrants[q - 1].teeth[i - 1].SUP[side][position] !== target;
+        this.quadrants[q - 1].teeth[i - 1].SUP[side][position] = target;
+        break;
+      case "FUR":
+        isUpdate = this.quadrants[q-1].teeth[i-1].FUR[side] !== target;
+        this.quadrants[q-1].teeth[i-1].FUR[side] = target;
+        break;
+
+
       default:
         return false;
     }
@@ -114,16 +133,33 @@ class ToothTable {
       It set all the corresponding values in the particular tooth to be null, so the new incoming target should not repeated with the old kept values.
     */
     console.log("hihi", q, i, mode, side);
+    const positionArray = ["mesial", side, "distal"];
     switch (mode) {
       case "PDRE":
         side = side.toLowerCase();
-        const positionArray = ["mesial", side, "distal"];
+        // const positionArray = ["mesial", side, "distal"];
         for (const position of positionArray) {
           this.quadrants[q - 1].teeth[i - 1].PD[side][position] = null;
           this.quadrants[q - 1].teeth[i - 1].RE[side][position] = null;
         }
         break;
-
+      
+      case "PD":
+        side = side.toLowerCase();
+        // const positionArray = ["mesial", side, "distal"];
+        for (const position of positionArray) {
+          this.quadrants[q-1].teeth[i-1].PD[side][position] = null;
+        }
+        break;
+      
+      case "RE":
+        side = side.toLowerCase();
+        // const positionArray = ["mesial", side, "distal"];
+        for (const position of positionArray) {
+          this.quadrants[q-1].teeth[i-1].RE[side][position] = null;
+        }
+        break;
+      
       case "MGJ":
         this.quadrants[q - 1].teeth[i - 1].MGJ = null;
         break;
