@@ -61,7 +61,8 @@ const server = env === "production" ? https.createServer(
 const io = new Server(server, {
   // Create CORS, in order to give an access to front-end server
   cors: {
-    origin: `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.CLIENT_IP}:${process.env.CLIENT_PORT}`,
+    // origin: `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.CLIENT_IP}:${process.env.CLIENT_PORT}`,
+    origin: '*',
     methods: ["GET", "POST"],
   },
 });

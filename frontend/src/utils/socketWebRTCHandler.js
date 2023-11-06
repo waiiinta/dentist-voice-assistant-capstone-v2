@@ -73,12 +73,15 @@ const initiateConnection = async (
   // ================================================================
 
   /* 1) initiate RTCPeerConnectionObject and socket object */
+  console.log("test")
+  console.log(userId)
   const pc = new RTCPeerConnection(RTC_CONFIG);
   const s = io.connect(URL_BACKEND_STREAMING, {
     reconnectionAttempts: SOCKET_RECONNECTION_ATTEMPTS,
     reconnectionDelay: SOCKET_RECONNECTION_DELAY,
     query: { userId: userId },
   });
+  console.log("test2")
 
   /* 2) set up events for socket */
   // 2.1) events on connections ("connect", "connect_error", "reconnect_attempt", "reconnect_failed")
@@ -109,6 +112,7 @@ const initiateConnection = async (
     // mark connection success
     setSocketFailedToConnect(false);
   });
+  console.log("test2")
 
   // "connect_error" -> fired when socket connection was lost
   s.on("connect_error", (err) => {
@@ -139,6 +143,7 @@ const initiateConnection = async (
     // mark that the socket is still trying to reconnect
     setIsSocketReconnecting(true);
   });
+  console.log("test2")
 
   // "reconnect_failed" -> fired when the maximum attempts to reconnect has been reached. It still cannot make
   // any connection to the server, then
@@ -151,6 +156,8 @@ const initiateConnection = async (
 
     playConnectionSound("Disconnected");
   });
+  console.log("test2")
+
 
   // 2.2) events for SDP Exchange
   setUpEventForSDPExchangeBetweenPeerConnectionsViaSocket(s, pc);

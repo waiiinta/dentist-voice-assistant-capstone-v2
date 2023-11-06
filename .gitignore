@@ -48,3 +48,5 @@ db/*
 cert.pem
 csr.pem
 key.pem
+
+*/*.env
