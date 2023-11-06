@@ -1,8 +1,8 @@
 const ToothTable = require("./teeth/ToothTable.js");
 
 const fs = require("fs");
-const webrtc = require("@koush/wrtc");
-const { RTCAudioSink } = require("@koush/wrtc").nonstandard;
+const webrtc = require("wrtc");
+const { RTCAudioSink } = require("wrtc").nonstandard;
 const express = require("express");
 const https = require("https");
 const http = require("http");
