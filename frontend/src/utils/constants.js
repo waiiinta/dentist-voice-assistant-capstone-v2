@@ -13,6 +13,8 @@ const SURNAME_MAX_LENGTH = 45;
 const DENTISTID_MAX_LENGTH = 45;
 
 const PATIENTID_MAX_LENGTH = 45;
+const REACT_APP_OPEN_RELAY_USERNAME = "559e684f49fc156f246d90da"
+const REACT_APP_OPEN_RELAY_CREDENTIAL = "ors+Hu/NBo3GuLZN"
 
 // RTCPeerConnection Configuration Object
 const RTC_CONFIG = {
@@ -22,26 +24,27 @@ const RTC_CONFIG = {
     },
     {
       urls: "turn:a.relay.metered.ca:80",
-      username: process.env.REACT_APP_OPEN_RELAY_USERNAME,
-      credential: process.env.REACT_APP_OPEN_RELAY_CREDENTIAL,
+      username: REACT_APP_OPEN_RELAY_USERNAME,
+      credential:REACT_APP_OPEN_RELAY_CREDENTIAL,
     },
     {
       urls: "turn:a.relay.metered.ca:80?transport=tcp",
-      username: process.env.REACT_APP_OPEN_RELAY_USERNAME,
-      credential: process.env.REACT_APP_OPEN_RELAY_CREDENTIAL,
+      username: REACT_APP_OPEN_RELAY_USERNAME,
+      credential:REACT_APP_OPEN_RELAY_CREDENTIAL,
     },
     {
       urls: "turn:a.relay.metered.ca:443",
-      username: process.env.REACT_APP_OPEN_RELAY_USERNAME,
-      credential: process.env.REACT_APP_OPEN_RELAY_CREDENTIAL,
+      username: REACT_APP_OPEN_RELAY_USERNAME,
+      credential: REACT_APP_OPEN_RELAY_CREDENTIAL,
     },
     {
       urls: "turn:a.relay.metered.ca:443?transport=tcp",
-      username: process.env.REACT_APP_OPEN_RELAY_USERNAME,
-      credential: process.env.REACT_APP_OPEN_RELAY_CREDENTIAL,
+      username: REACT_APP_OPEN_RELAY_USERNAME,
+      credential: REACT_APP_OPEN_RELAY_CREDENTIAL,
     },
   ],
 };
+console.log(process.env)
 
 // socket reconnection
 const SOCKET_RECONNECTION_ATTEMPTS = 10;

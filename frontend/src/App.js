@@ -20,7 +20,7 @@ function App() {
   }
   // ================================================================================================
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -89,7 +89,7 @@ function App() {
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

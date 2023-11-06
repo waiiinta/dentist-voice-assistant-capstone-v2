@@ -192,7 +192,7 @@ def create_empty_semantic_object(command):
         semantic_object['data']['position'] = None # 'Mesial' or ['Lingual', 'Buccal'] or 'Distal'
         semantic_object['data']['type'] = PDRE
     elif command == FUR:
-      semantic_object['data']['tooth_side'] = None # 'Buccal', 'Lingual', 'Mesial' or 'Distal'
+      semantic_object['data']['position'] = None # 'Buccal', 'Lingual', 'Mesial' or 'Distal'
 
   return semantic_object
 
@@ -428,7 +428,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
       # 3.4  Side for 'FUR'
       elif semantic_object['command'] == FUR:
         if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) ==2:
-          semantic_object['data']['tooth_side'] = word_list[i]
+          semantic_object['data']['position'] = word_list[i]
           semantic_object['data']['payload'] = None
     
     
@@ -583,7 +583,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           if len(semantic_object['data']['zee']) == 2:
             semantic_object = check_tooth_appopriate(semantic_object, available_teeth_dict)
         elif semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) == 2:
-          if semantic_object['data']['tooth_side'] != None and semantic_object['data']['payload'] == None:
+          if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
           elif semantic_object['data']['payload'] != None:
             semantic_object['data']['zee'] = [word_list(i)]
