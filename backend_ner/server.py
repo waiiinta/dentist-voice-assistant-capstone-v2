@@ -8,8 +8,9 @@ from grpc.aio import ServicerContext
 import utils.ner_model_pb2 as ner_model_pb2
 import utils.ner_model_pb2_grpc as ner_model_pb2_grpc
 
-from transformers import AutoTokenizer
+# from transformers import AutoTokenizer
 
+# from utils.model import TokenClassifier
 from utils.model import TokenClassifier
 from utils.parser_model import ParserModel
 from utils.proto_utils import create_ner_response, create_incomplete_semantic
@@ -52,7 +53,6 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 continue
 
             sentence = ""
-            print("request:", request.results)
             for transcript in request.results:
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
@@ -77,15 +77,15 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 old_tooth_list = []
             else:
                 sentences[-1] = sentence
-            print(sentences)
+            print("word in list:",sentences)
 
             # Predict the class of each token in the sentence
             # predicted_token = self.token_classifier.inference(sentence)
             # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
-            semantics = parser.inference(sentence, self.token_classifier, request.is_final, prob_zee=True)
+            semantics = parser.inference(sentence, self.token_classifier, request.is_final)
             # print(semantics)
-            command, tooth, tooth_side, semantics, _ = semantics.values()
+            command, tooth, tooth_side, semantics = semantics.values()
             
             # Create an incomplete semantic for update display to frontend
             # 1.) first we consider that if there is not semantic from the result but the command is not None
@@ -99,8 +99,9 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             #     must send incomplete only at the start of the command and frontend will do the rest, if not, the cursor
             #     will be pull back to the tooth of the incomplete command. Therefore, we need to separate the MGJ command
             #     from the other (PDRE) because the tooth_side in MGJ is None.
-            if ((len(semantics) == 0) or (len(semantics) > 0 and (semantics[-1]["command"] != command or tooth is None or tooth_side is None or command=="BOP"))) \
-            and command and (command != old_command or old_tooth is None or old_tooth_side is None or \
+            if ((len(semantics) == 0) or (len(semantics) > 0 and (semantics[-1]["command"] != command or tooth is None or tooth_side is None or command in ["BOP", "SUP"]))) \
+            and command \
+            and (command != old_command or old_tooth is None or old_tooth_side is None or \
             ((command == old_command and command != "MGJ" and (tooth is None or tooth_side is None)) or \
              (command == old_command and command == "MGJ" and (tooth is None)) or \
              (command == old_command and command == "BOP" and (tooth != old_tooth)))): # or tooth != old_tooth or tooth_side != old_tooth_side):
@@ -113,7 +114,6 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 semantics.insert(0, update_display)
 
 
-            # print()
 
             old_is_final = request.is_final
             # Create a dummy response
@@ -126,11 +126,11 @@ address = f"[::]:{config.PORT}"
 
 def main():
     # Initial tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(
-        "airesearch/wangchanberta-base-att-spm-uncased", revision="main"
-    )
+    # tokenizer = AutoTokenizer.from_pretrained(
+    #     "airesearch/wangchanberta-base-att-spm-uncased", revision="main"
+    # )
     # Create token classifier and parser model
-    token_classifier = TokenClassifier(tokenizer, "model/onnx_model-quantized.onnx", "model/model_args.json")
+    token_classifier = TokenClassifier()
     dict_map = DictionaryMapping("dictionary_mapping.csv")
 
     # Create a gRPC server

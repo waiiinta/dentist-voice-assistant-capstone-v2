@@ -10,7 +10,6 @@ const RecordToothInformation = ({
   handleSetInformation,
   isHighlight
 })=>{
-  console.log(information)
   return (
     <div className={classes.box}>
       <DropdownMode

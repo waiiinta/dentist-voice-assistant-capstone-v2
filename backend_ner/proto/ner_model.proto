@@ -22,7 +22,11 @@ message CommandData {
     int32 payload = 5;
 
     repeated Zee missing = 6;
-    repeated bool BOP_payload = 7;  
+    repeated bool BOP_payload = 7;
+    
+    repeated Zee crown = 8;
+    repeated Zee implant = 9;
+    repeated Zee bridge = 10;
 }
 
 message Zee {
