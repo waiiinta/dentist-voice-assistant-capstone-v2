@@ -9,13 +9,13 @@ frontend/.pnp.js
 frontend/coverage
 
 # production
-frontend/build
+/frontend/build
 
 # misc
-frontend/.env
-frontend/.env.development
-frontend/.env.test
-frontend/.env.production
+/frontend/.env
+/frontend/.env.development
+/frontend/.env.test
+/frontend/.env.production
 
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
@@ -31,6 +31,7 @@ backend_webrtc/node_modules
 backend_webrtc/package-lock.json
 backend_webrtc/.env.development
 backend_webrtc/.env.production
+backend_webrtc/.env
 
 # backend_ner
 backend_ner/model/onnx_model-quantized.onnx
@@ -47,3 +48,5 @@ db/*
 cert.pem
 csr.pem
 key.pem
+
+*.env
