@@ -2,12 +2,12 @@ exports.teethInformationHandler = (
   obj,
   q,
   i,
-  side,
+  side = NaN,
   mode,
   target,
   spec_id = NaN
 ) => {
-  //   console.log(obj);
+    // console.log(obj,target,side,mode);
   if (obj.quadrant === q) {
     obj.idxArray.map((data) => {
       if (data.ID === i) {
@@ -57,17 +57,34 @@ exports.teethInformationHandler = (
           data.missing = target;
           return data;
         } else if (mode === "Crown") { //add 
-          data.crown = target;
+          if(data.crown){
+            data.crown = false
+          }else{
+            data.crown = target
+          }
           return data;
         } else if (mode === "FUR") {
-          data.FUR = target;
+          data.FUR[spec_id] = target
           return data;
         } else if (mode === "Implant") {
-          data.implant = target;
+          if(data.implant){
+            data.implant = false
+          }else{
+            data.implant = target
+          }
           return data;
         }else if (mode === "Bridge") {
-          data.bridge = target;
+          if(data.bridge){
+            data.bridge = false
+          }else{
+            data.bridge = target
+          }
           return data;
+        }else if(mode === "-"){
+          data.bridge = false
+          data.crown = false
+          data.missing = false
+          data.implant = false
         }
       }
       return data;

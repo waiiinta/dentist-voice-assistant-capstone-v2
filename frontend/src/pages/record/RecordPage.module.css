@@ -9,7 +9,7 @@
   display: flex;
   width: 90%;
   padding-top: 2vh;
-  padding-bottom: 2vh;
+  padding-bottom: 1.5vh;
   /* padding: 0 auto; */
   transform: translate(5%, 0);
 }
@@ -18,8 +18,8 @@
   /* display: flex; */
   width: 90%;
   height: 75vh;
-  padding-top: 3vh;
-  padding-bottom: 4vh;
+  padding-top: 1vh;
+  padding-bottom: 15vh;
   transform: translate(5%, 0);
   z-index: -1;
 }
