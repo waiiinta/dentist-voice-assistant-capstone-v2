@@ -1,12 +1,11 @@
 import { useState } from "react";
 // import Dropdown from "react-bootstrap/Dropdown";
 // import DropdownButton from "react-bootstrap/DropdownButton";
-import classes from "./DropdownSmBox.module.css";
-import DropdownSm from "./DropdownSm";
+import classes from "./DropdownFurcationBox.module.css";
+import DropdownFurcation from "./DropdownFurcation";
 
-function RecordDropdownBox({
+function FurcationDropdownBox({
 	quadrant,
-	side,
 	id,
 	mode,
 	data,
@@ -15,14 +14,27 @@ function RecordDropdownBox({
 }) {
 	const spec_id =
 		quadrant === 1 || quadrant === 4
-			? ["distal", "middle", "mesial"]
-			: ["mesial", "middle", "distal"];
+			? ["distal", "buccal","lingual", "mesial"]
+			: ["mesial", "buccal","lingual", "distal"];
+  // console.log(data)
 	return (
-		<>
-			<div className={classes.direction}>
-				<DropdownSm
+		<div >
+      <div className={classes.direction}>
+        <DropdownFurcation
+          quadrant={quadrant}
+					id={id}
+					mode={mode}
+					specific_id={spec_id[1]}
+					data={data[spec_id[1]]}
+					handleSetInformation={handleSetInformation}
+					isHighlighted={
+						positionToBeHighlighted === spec_id[0] ? true : false
+					}
+        />
+      </div>
+      <div className={classes.direction}>
+				<DropdownFurcation
 					quadrant={quadrant}
-					side={side}
 					id={id}
 					mode={mode}
 					specific_id={spec_id[0]}
@@ -32,32 +44,30 @@ function RecordDropdownBox({
 						positionToBeHighlighted === spec_id[0] ? true : false
 					}
 				/>
-				<DropdownSm
+				<DropdownFurcation
 					quadrant={quadrant}
 					id={id}
-					side={side}
 					mode={mode}
-					specific_id={spec_id[1]}
-					data={data[spec_id[1]]}
+					specific_id={spec_id[2]}
+					data={data[spec_id[2]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
 						positionToBeHighlighted === spec_id[1] ? true : false
 					}
 				/>
-				<DropdownSm
+				<DropdownFurcation
 					quadrant={quadrant}
 					id={id}
-					side={side}
 					mode={mode}
-					specific_id={spec_id[2]}
-					data={data[spec_id[2]]}
+					specific_id={spec_id[3]}
+					data={data[spec_id[3]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
 						positionToBeHighlighted === spec_id[2] ? true : false
 					}
 				/>
 			</div>
-		</>
+		</div>
 	);
 }
-export default RecordDropdownBox;
+export default FurcationDropdownBox;

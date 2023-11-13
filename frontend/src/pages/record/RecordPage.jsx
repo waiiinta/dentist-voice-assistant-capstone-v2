@@ -140,6 +140,7 @@ const RecordPage = () => {
       return teethInformationHandler(obj, q, i, side, mode, target, spec_id);
     });
     setInformation(newInformation);
+    console.log(newInformation)
 
     // updated record data to database immediately ********************
     // postRecordAPIHandler(token, {
@@ -244,6 +245,7 @@ const RecordPage = () => {
       // console.log("missing tooth from latestData", missingToothObj);
       addToothMissing(socket, missingToothObj.q, missingToothObj.i);
     }
+    console.log(information)
   };
 
   // ========================================================================

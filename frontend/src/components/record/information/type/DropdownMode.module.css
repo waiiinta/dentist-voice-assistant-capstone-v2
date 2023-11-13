@@ -1,0 +1,55 @@
+.largebox {
+    width: 7.9vw;
+    height: 3vh;
+
+    text-align: center;
+    align-items: center;
+
+    position:absolute;
+    display: block;
+    z-index: 1;
+    bottom: 8px;
+}
+
+.largebox.highlighted button {
+    background: var(--secondary-color-highlight);
+}
+
+.box{
+    width: 7.9vw;
+    height:9vh;
+    display:grid;
+    align-items:center;
+    justify-content: center;
+    overflow: visible;
+}
+.crown{
+    display: flex;
+    width: 7.9vw;
+    height: 3vh;
+    justify-content: center;
+    align-items:end;
+    z-index: 1;
+}
+
+.emptyBox{
+    height: 3vh;
+}
+
+.dropdown{
+    display: flex;
+    width: 7.9;
+    height: 4;
+    justify-content: center;
+    position: absolute;
+    padding-top: 3vh;
+    gap: 2vh;
+    z-index:1;
+}
+
+.implant{
+    z-index: -1;
+    position:absolute;
+    right: 5px;
+    bottom: 3px;
+}

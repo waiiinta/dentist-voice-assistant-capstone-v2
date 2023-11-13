@@ -2,12 +2,12 @@ exports.teethInformationHandler = (
   obj,
   q,
   i,
-  side,
+  side = NaN,
   mode,
   target,
   spec_id = NaN
 ) => {
-  //   console.log(obj);
+    // console.log(obj,target,side,mode);
   if (obj.quadrant === q) {
     obj.idxArray.map((data) => {
       if (data.ID === i) {
@@ -36,8 +36,17 @@ exports.teethInformationHandler = (
             }
             return checkSide;
           });
-
+          
           return newBOP;
+        } else if (mode === "SUP") { //add
+          const newSUP = data.depended_side_data.map((checkSide) => {
+            if (checkSide.side === side) {
+              checkSide.SUP[spec_id] = target;
+            }
+            return checkSide;
+          });
+          
+          return newSUP;
         } else if (mode === "MO") {
           data.MO = target;
           return data;
@@ -47,6 +56,35 @@ exports.teethInformationHandler = (
         } else if (mode === "Missing") {
           data.missing = target;
           return data;
+        } else if (mode === "Crown") { //add 
+          if(data.crown){
+            data.crown = false
+          }else{
+            data.crown = target
+          }
+          return data;
+        } else if (mode === "FUR") {
+          data.FUR[spec_id] = target
+          return data;
+        } else if (mode === "Implant") {
+          if(data.implant){
+            data.implant = false
+          }else{
+            data.implant = target
+          }
+          return data;
+        }else if (mode === "Bridge") {
+          if(data.bridge){
+            data.bridge = false
+          }else{
+            data.bridge = target
+          }
+          return data;
+        }else if(mode === "-"){
+          data.bridge = false
+          data.crown = false
+          data.missing = false
+          data.implant = false
         }
       }
       return data;
@@ -115,9 +153,29 @@ function randomValue(mode) {
       list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       weight = [0.5, 0.25, 0.15, 0.03, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01];
       return getRandomValue(list, weight);
-    case "missing":
+    case "Missing":
       list = [true, false];
       weight = [0.2, 0.8];
+      return getRandomValue(list, weight);
+    case "SUP": //add
+      list = [];
+      weight = [];
+      return getRandomValue(list, weight);
+    case "Implant": //add
+      list = [];
+      weight = [];
+      return getRandomValue(list, weight);
+    case "Crown": //add
+      list = [];
+      weight = [];
+      return getRandomValue(list, weight);
+    case "FUR": //add
+      list = [];
+      weight = [];
+      return getRandomValue(list, weight);
+    case "Bridge": //add
+      list = [];
+      weight = [];
       return getRandomValue(list, weight);
     default:
       return null;
@@ -127,17 +185,22 @@ function randomValue(mode) {
 exports.valueGenarator = (obj) => {
   const mapped_sides = ["distal", "middle", "mesial"];
   obj.idxArray.map((data) => {
-    data.missing = randomValue("missing");
+    data.missing = randomValue("Missing");
 
     if (data.missing === false) {
       data.MO = randomValue("MO");
       data.MGJ = randomValue("MGJ");
+      data.FUR = randomValue("FUR");
+      data.crown = randomValue("Crown");
+      data.implant = randomValue("Implant");
+      data.bridge = randomValue("Bridge");
 
       data.depended_side_data.map((checkSide) => {
         mapped_sides.forEach(function (side) {
           checkSide.PD[side] = randomValue("PD");
           checkSide.RE[side] = randomValue("RE");
           checkSide.BOP[side] = randomValue("BOP");
+          checkSide.SUP[side] = randomValue("SUP");
         });
       });
     }

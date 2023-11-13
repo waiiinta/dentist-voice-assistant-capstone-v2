@@ -1,0 +1,23 @@
+.box{
+    display: flex;
+    width: 7.9vw;
+    height: 8.6vh;
+    justify-content: center;
+    /* position: relative; */
+}
+
+.crown{
+    display: flex;
+    width: 7.9vw;
+    height: 2.8vh;
+    align-items: center;
+}
+
+.emptyBox{
+    display: flex;
+    width: 1vw;
+    height: 8.6vh;
+    align-items: center;
+    position: relative;
+
+}

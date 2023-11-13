@@ -11,6 +11,7 @@ const RecordHeader = ({ currentCommand }) => {
     BOPLingual: false,
     MGJ: command === "MGJ",
     MO: command === "MO",
+    FUR: command === "FUR"
   };
 
   if (command === "PDRE") {
@@ -75,12 +76,27 @@ const RecordHeader = ({ currentCommand }) => {
         </div>
         <div
           className={`${classes["title"]} ${
+            commandToHighLight.BOPBuccal ? classes["highlighted"] : ""
+          }`}
+        >
+          SUP
+        </div>
+        <div
+          className={`${classes["title"]} ${
             commandToHighLight.MGJ ? classes["highlighted"] : ""
           }`}
         >
           MGJ
         </div>
-        <div className={classes.title}> </div>
+        <div className={classes.gap}> </div>
+        {/* middle */}
+        <div className={`${classes.title} ${
+          commandToHighLight.FUR? classes["highlighted"] : ""
+        }`}>
+          FUR
+        </div> 
+        <div className={classes.gap2}> </div>
+
         {/* lower */}
         <div
           className={`${classes["title"]} ${
@@ -95,6 +111,13 @@ const RecordHeader = ({ currentCommand }) => {
           }`}
         >
           BOP
+        </div>
+        <div
+          className={`${classes["title"]} ${
+            commandToHighLight.BOPLingual ? classes["highlighted"] : ""
+          }`}
+        >
+          SUP
         </div>
         <div
           className={`${classes["title"]} ${

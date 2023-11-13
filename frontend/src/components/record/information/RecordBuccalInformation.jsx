@@ -15,7 +15,9 @@ const RecordBuccalInformation = ({
   const pd = buccalInformation.PD;
   const re = buccalInformation.RE;
   const bop = buccalInformation.BOP;
+  const sup = buccalInformation.SUP
   const side = buccalInformation.side;
+  // console.log(buccalInformation)
 
   const command =
     !!currentCommand && !!currentCommand.command
@@ -29,7 +31,7 @@ const RecordBuccalInformation = ({
 
   const isMGJHighlighted = !!currentCommand && command === "MGJ" ? true : false;
   const isBOPHighlighted = !!currentCommand && command === "BOP" ? true : false;
-
+  const isSUPHighlighted = !!currentCommand && command === "SUP" ? true : false;
   return (
     <div className={classes.direction}>
       <DropdownSmBox
@@ -62,6 +64,15 @@ const RecordBuccalInformation = ({
         data={bop}
         handleSetInformation={handleSetInformation}
         isHighlighted={isBOPHighlighted}
+      />
+      <CheckboxBox
+        quadrant={quadrant}
+        side={side}
+        id={id}
+        mode={"SUP"}
+        data={sup}
+        handleSetInformation={handleSetInformation}
+        isHighlighted={isSUPHighlighted}
       />
       <DropdownLg
         quadrant={quadrant}

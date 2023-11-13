@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install -g node-pre-gyp
+RUN npm install wrtc
 RUN npm install
 
 COPY . .

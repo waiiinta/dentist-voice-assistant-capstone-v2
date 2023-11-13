@@ -2,14 +2,14 @@
   width: 2.5vw;
   display: flex;
   flex-direction: column;
-  gap: 4vh;
+  gap: 2vh;
 }
 
 .side_space {
   width: 2.5vw;
   display: flex;
   flex-direction: column;
-  gap: 28vh;
+  gap: 22vh;
 }
 
 .side_direction {
@@ -21,7 +21,7 @@
 
 .title {
   width: 100%;
-  height: 4vh;
+  height: 3.6vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +32,7 @@
 .side {
   display: flex;
   width: 2.5vw;
-  height: 20vh;
+  height: 25vh;
   background: #dedede;
   text-orientation: upright;
   writing-mode: vertical-rl;
@@ -44,4 +44,15 @@
 
 .highlighted {
   background: var(--primary-color-highlight);
+}
+
+.gap{
+  display: flex;
+  width: 2.5vw;
+  height: 3.7vh
+}
+.gap2{
+  display: flex;
+  width: 2.5vw;
+  height: 5vh
 }
