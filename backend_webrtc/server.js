@@ -300,8 +300,8 @@ io.on("connection", async (socket) => {
             mode = "RE";
           }
           else {
-            // target = semantic.data.BOP_payload;
-            target = semantic.data.payload;
+            target = semantic.data.BOP_payload;
+            // target = semantic.data.payload;
           }
 
           // console.log(mode, q, i, side, position, '-->', target)

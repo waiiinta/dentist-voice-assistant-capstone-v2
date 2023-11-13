@@ -199,7 +199,7 @@ const initiateConnection = async (
       // console.log("autoChangeToothTimer is forced executed!")
     }
 
-    if (data.mode !== "BOP") {
+    if (!["BOP","SUP"].includes(data.mode)) {
       // [for "PD", "RE", "Missing", "MGJ", "MO" data]
       let spec_id = null;
       /* mapping position for PD, RE */
@@ -235,6 +235,7 @@ const initiateConnection = async (
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
     } else {
       // for "BOP" data[]
+      console.log(data)
       let positionArray;
       if (data.q === 1 || data.q === 4) {
         positionArray = ["distal", "middle", "mesial"];
@@ -251,7 +252,7 @@ const initiateConnection = async (
           data.target[i],
           positionArray[i]
         );
-        // console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
+        console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
       }
     }
 
