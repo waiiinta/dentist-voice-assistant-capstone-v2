@@ -12,13 +12,14 @@ def create_ner_response(semantics):
                         position = semantic.get("data", dict()).get("position", None),
                         is_number_PD = semantic.get("data", dict()).get("is_number_PD", None),
                         # BOP_payload = semantic.get("data", dict()).get("payload", []),
-                        payload = semantic.get("data", dict()).get("payload", []),
+                        BOP_payload = semantic.get("data", dict()).get("payload", []),
                         missing = create_missing(semantic.get("data", dict()).get("missing", None)),
                         crown = create_crown(semantic.get("data", dict()).get("crown", None)),
                         implant = create_implant(semantic.get("data", dict()).get("implant", None)),
                         bridge = create_bridge(semantic.get("data", dict()).get("bridge", None)),
                     )
         else:
+
             data = CommandData(
                         zee = create_zee(semantic.get("data", dict()).get("zee", None)),
                         tooth_side = semantic.get("data", dict()).get("tooth_side", None),

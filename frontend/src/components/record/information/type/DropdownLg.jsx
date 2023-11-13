@@ -15,6 +15,49 @@ function DropdownLg({
   const handleSelect = (target) => {
     handleSetInformation(quadrant, id, side, mode, target);
   };
+  console.log(mode)
+  const MO = (
+    <DropdownButton
+    className={`${classes["largebox"]} ${isHighlighted ? classes["highlighted"] : ""
+      }`}
+    title={data !== null ? data : ""}
+    onSelect={handleSelect}
+  >
+    <Dropdown.Item eventKey="">-</Dropdown.Item>
+    <Dropdown.Item eventKey="1">1</Dropdown.Item>
+    <Dropdown.Item eventKey="2">2</Dropdown.Item>
+    <Dropdown.Item eventKey="3">3</Dropdown.Item>
+
+  </DropdownButton>
+  );
+
+  const MGJ = (
+    <DropdownButton
+    className={`${classes["largebox"]} ${isHighlighted ? classes["highlighted"] : ""
+      }`}
+    title={data !== null ? data : ""}
+    onSelect={handleSelect}
+  >
+    <Dropdown.Item eventKey="">-</Dropdown.Item>
+    <Dropdown.Item eventKey="0">0</Dropdown.Item>
+    <Dropdown.Item eventKey="1">1</Dropdown.Item>
+    <Dropdown.Item eventKey="2">2</Dropdown.Item>
+    <Dropdown.Item eventKey="3">3</Dropdown.Item>
+    <Dropdown.Item eventKey="4">4</Dropdown.Item>
+    <Dropdown.Item eventKey="5">5</Dropdown.Item>
+    <Dropdown.Item eventKey="6">6</Dropdown.Item>
+    <Dropdown.Item eventKey="7">7</Dropdown.Item>
+    <Dropdown.Item eventKey="8">8</Dropdown.Item>
+    <Dropdown.Item eventKey="9">9</Dropdown.Item>
+    <Dropdown.Item eventKey="10">10</Dropdown.Item>
+  </DropdownButton>
+  );
+
+  if(mode === "MGJ"){
+    return MGJ
+  }else{
+    return MO
+  }
   return (
     <DropdownButton
       className={`${classes["largebox"]} ${isHighlighted ? classes["highlighted"] : ""
@@ -23,6 +66,7 @@ function DropdownLg({
       onSelect={handleSelect}
     >
       <Dropdown.Item eventKey="">-</Dropdown.Item>
+      <Dropdown.Item eventKey="0">0</Dropdown.Item>
       <Dropdown.Item eventKey="1">1</Dropdown.Item>
       <Dropdown.Item eventKey="2">2</Dropdown.Item>
       <Dropdown.Item eventKey="3">3</Dropdown.Item>
@@ -33,11 +77,6 @@ function DropdownLg({
       <Dropdown.Item eventKey="8">8</Dropdown.Item>
       <Dropdown.Item eventKey="9">9</Dropdown.Item>
       <Dropdown.Item eventKey="10">10</Dropdown.Item>
-      <Dropdown.Item eventKey="11">11</Dropdown.Item>
-      <Dropdown.Item eventKey="12">12</Dropdown.Item>
-      <Dropdown.Item eventKey="13">13</Dropdown.Item>
-      <Dropdown.Item eventKey="14">14</Dropdown.Item>
-      <Dropdown.Item eventKey="15">15</Dropdown.Item>
     </DropdownButton>
   );
 }

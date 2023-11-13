@@ -36,16 +36,6 @@ function DropdownSm({
       <Dropdown.Item eventKey="3">3</Dropdown.Item>
       <Dropdown.Item eventKey="4">4</Dropdown.Item>
       <Dropdown.Item eventKey="5">5</Dropdown.Item>
-      <Dropdown.Item eventKey="6">6</Dropdown.Item>
-      <Dropdown.Item eventKey="7">7</Dropdown.Item>
-      <Dropdown.Item eventKey="8">8</Dropdown.Item>
-      <Dropdown.Item eventKey="9">9</Dropdown.Item>
-      <Dropdown.Item eventKey="10">10</Dropdown.Item>
-      <Dropdown.Item eventKey="11">11</Dropdown.Item>
-      <Dropdown.Item eventKey="12">12</Dropdown.Item>
-      <Dropdown.Item eventKey="13">13</Dropdown.Item>
-      <Dropdown.Item eventKey="14">14</Dropdown.Item>
-      <Dropdown.Item eventKey="15">15</Dropdown.Item>
     </DropdownButton>
   );
 
@@ -67,11 +57,6 @@ function DropdownSm({
       <Dropdown.Item eventKey="8">8</Dropdown.Item>
       <Dropdown.Item eventKey="9">9</Dropdown.Item>
       <Dropdown.Item eventKey="10">10</Dropdown.Item>
-      <Dropdown.Item eventKey="11">11</Dropdown.Item>
-      <Dropdown.Item eventKey="12">12</Dropdown.Item>
-      <Dropdown.Item eventKey="13">13</Dropdown.Item>
-      <Dropdown.Item eventKey="14">14</Dropdown.Item>
-      <Dropdown.Item eventKey="15">15</Dropdown.Item>
     </DropdownButton>
   );
 

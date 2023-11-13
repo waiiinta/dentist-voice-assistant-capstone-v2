@@ -232,13 +232,14 @@ io.on("connection", async (socket) => {
       ner_call.write(ner_request);
     }).once('error', () => {
       console.log("end grpc streaming");
+      console.log("gowajee pung kuy")
     });
 
     ner_call.on("data", (response) => {
       // console.log(response.response);
       let semanticList = response.response;
       let isUpdate = false;
-
+      // console.log("pass here 1")
       semanticList.forEach(async (semantic) => {
         mode = semantic.command;
         // pd_re_bop = ["PDRE", "BOP"];
@@ -278,7 +279,7 @@ io.on("connection", async (socket) => {
           old_side = tooth_side;
           return;
         }
-
+        // console.log("pass here 2")
         // if (pd_re_bop.includes(mode)) {
         if (side_depend.includes(mode)){
           side = semantic.data.tooth_side.toLowerCase();
@@ -426,9 +427,11 @@ io.on("connection", async (socket) => {
           });
         }
         // toothTable.showPDREValue();
+        // console.log("pass here 3")
       });
     }).once('error', () => {
       console.log("end grpc streaming");
+      console.log("ner pung again")
     });;
   };
 });
