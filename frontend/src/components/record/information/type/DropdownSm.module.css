@@ -1,6 +1,8 @@
 .smallbox {
   width: 2.5vw;
   height: 4vh;
+  /* max-height: 100px;
+  overflow-y:hidden ; */
 }
 
 .smallbox.highlighted button {

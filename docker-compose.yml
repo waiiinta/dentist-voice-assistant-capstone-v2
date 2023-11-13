@@ -18,26 +18,26 @@ services:
   #   networks:
   #     - mynetwork
 
-  # frontend:
-  #   container_name: frontend
-  #   build: ./frontend
-  #   ports:
-  #     - "5001:5001"
-  #   networks:
-  #     - mynetwork
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "5001:5001"
+    networks:
+      - mynetwork
   
-  # backend:
-  #   container_name: backend
-  #   build: ./backend
-  #   ports:
-  #     - "3000:3000"
-  #   links:
-  #     - mongo
-  #     - frontend
-  #   depends_on:
-  #     - mongo
-  #   networks:
-  #     - mynetwork
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - "3000:3000"
+    # links:
+    #   - mongo
+    #   - frontend
+    # depends_on:
+    #   - mongo
+    networks:
+      - mynetwork
 
   backend_streaming:
     container_name: backend_streaming
@@ -47,13 +47,13 @@ services:
     networks:
       - mynetwork
 
-  # backend_ner:
-  #   container_name: backend_ner
-  #   build: ./backend_ner
-  #   ports:
-  #     - "50052:50052"
-  #   networks:
-  #     - mynetwork
+  backend_ner:
+    container_name: backend_ner
+    build: ./backend_ner
+    ports:
+      - "50052:50052"
+    networks:
+      - mynetwork
 
 
 networks:

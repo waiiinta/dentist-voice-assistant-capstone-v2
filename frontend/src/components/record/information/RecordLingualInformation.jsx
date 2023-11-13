@@ -15,6 +15,7 @@ const RecordLingualInformation = ({
   const pd = lingualInformation.PD;
   const re = lingualInformation.RE;
   const bop = lingualInformation.BOP;
+  const sup = lingualInformation.SUP;
   const side = lingualInformation.side;
 
   const command =
@@ -29,6 +30,7 @@ const RecordLingualInformation = ({
 
   const isMOHighlighted = !!currentCommand && command === "MO" ? true : false;
   const isBOPHighlighted = !!currentCommand && command === "BOP" ? true : false;
+  const isSUPHighlighted = !!currentCommand && command === "SUP" ? true : false;
 
   return (
     <div className={classes.direction}>
@@ -54,8 +56,8 @@ const RecordLingualInformation = ({
         quadrant={quadrant}
         side={side}
         id={id}
-        mode={"BOP"}
-        data={bop}
+        mode={"SUP"}
+        data={sup}
         handleSetInformation={handleSetInformation}
         isHighlighted={isBOPHighlighted}
       />

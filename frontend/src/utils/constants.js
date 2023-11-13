@@ -2,8 +2,8 @@
 const SUPPRESS_LOG_PRODUCTION = true;
 
 // Backend Streaming URL
-const URL_BACKEND = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_IP}:${process.env.REACT_APP_BACKEND_PORT}`;
-const URL_BACKEND_STREAMING = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_STREAMING_IP}:${process.env.REACT_APP_BACKEND_STREAMING_PORT}`;
+const URL_BACKEND = `${process.env.NODE_ENV === "production" ? "http" : "http"}://${process.env.REACT_APP_BACKEND_IP}:${process.env.REACT_APP_BACKEND_PORT}`;
+const URL_BACKEND_STREAMING = `${process.env.NODE_ENV === "production" ? "http" : "http"}://${process.env.REACT_APP_BACKEND_STREAMING_IP}:${process.env.REACT_APP_BACKEND_STREAMING_PORT}`;
 
 // user fields
 const PASSWORD_MIN_LENGTH = 8;
@@ -71,16 +71,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 7,
@@ -91,16 +103,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 6,
@@ -111,16 +135,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 5,
@@ -131,16 +167,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 4,
@@ -151,16 +193,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 3,
@@ -171,16 +225,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 2,
@@ -191,16 +251,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 1,
@@ -211,16 +277,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
     ],
   },
@@ -237,16 +309,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 2,
@@ -257,16 +335,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 3,
@@ -277,16 +361,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 4,
@@ -297,16 +387,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 5,
@@ -317,16 +419,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 6,
@@ -337,16 +445,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 7,
@@ -357,16 +477,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 8,
@@ -377,16 +509,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
     ],
   },
@@ -402,16 +546,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 2,
@@ -422,16 +572,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 3,
@@ -442,16 +598,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 4,
@@ -462,16 +624,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 5,
@@ -482,16 +650,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 6,
@@ -502,16 +676,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 7,
@@ -522,16 +708,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 8,
@@ -542,16 +740,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
     ],
   },
@@ -567,16 +777,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 7,
@@ -587,16 +809,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 6,
@@ -607,16 +841,28 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        FUR:{
+          mesial:null,
+          buccal:null,
+          lingual:null,
+          distal:null
+        },
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 5,
@@ -627,16 +873,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 4,
@@ -647,16 +899,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 3,
@@ -667,16 +925,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 2,
@@ -687,16 +951,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
       {
         ID: 1,
@@ -707,16 +977,22 @@ const EX_DATA = [
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
           {
             side: "lingual",
             PD: { mesial: null, middle: null, distal: null },
             RE: { mesial: null, middle: null, distal: null },
             BOP: { mesial: null, middle: null, distal: null },
+            SUP: { mesial:null, middle:null, distal:null}
           },
         ],
         MO: null,
         MGJ: null,
+        crown:null,
+        bridge:null,
+        implant:null,
+        bridge_edge:null,
       },
     ],
   },

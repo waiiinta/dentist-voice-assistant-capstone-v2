@@ -11,6 +11,7 @@ const RecordHeader = ({ currentCommand }) => {
     BOPLingual: false,
     MGJ: command === "MGJ",
     MO: command === "MO",
+    FUR: command === "FUR"
   };
 
   if (command === "PDRE") {
@@ -88,6 +89,14 @@ const RecordHeader = ({ currentCommand }) => {
           MGJ
         </div>
         <div className={classes.gap}> </div>
+        {/* middle */}
+        <div className={`${classes.title} ${
+          commandToHighLight.FUR? classes["highlighted"] : ""
+        }`}>
+          FUR
+        </div> 
+        <div className={classes.gap2}> </div>
+
         {/* lower */}
         <div
           className={`${classes["title"]} ${

@@ -27,7 +27,7 @@ class ParserModel:
             - threshold: CER threshold
         '''
         tokens = token_classifier.inference(sentence)
-        semantic = self.parse(tokens, threshold=threshold, save) # Don't save parser, check alternate first
+        semantic = self.parse(tokens, threshold=threshold,save=save) # Don't save parser, check alternate first
 
         return semantic # result
 

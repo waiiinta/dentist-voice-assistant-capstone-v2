@@ -1,0 +1,8 @@
+.direction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 8.7vh
+    /* gap: 1vh; */
+  }
+  

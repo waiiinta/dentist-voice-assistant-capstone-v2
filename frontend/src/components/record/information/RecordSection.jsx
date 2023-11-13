@@ -1,6 +1,8 @@
 import RecordBuccalInformation from "./RecordBuccalInformation";
 import RecordLingualInformation from "./RecordLingualInformation";
-
+import RecordFurcationInformation from "./RecordFurcationInformation";
+import RecordToothInformation from "./RecordToothInformation";
+import DropdownMode from "./type/DropdownMode";
 import classes from "./RecordSection.module.css";
 
 const RecordSection = ({
@@ -14,6 +16,8 @@ const RecordSection = ({
 }) => {
   const buccalInformation = information.depended_side_data[0];
   const lingualInformation = information.depended_side_data[1];
+  const furcationInformation = information.FUR
+  // console.log(information)
 
   const mo = information.MO;
   const mgj = information.MGJ;
@@ -25,7 +29,7 @@ const RecordSection = ({
     !!currentCommand && !!currentCommand.command
       ? currentCommand.command
       : null;
-  if (command === "PDRE" || command == "BOP") {
+  if (command === "PDRE" || command == "BOP" || command =="SUP" ) {
     const side = !!currentCommand.side
       ? currentCommand.side.toLowerCase()
       : null;
@@ -61,12 +65,33 @@ const RecordSection = ({
             handleSetInformation={handleSetInformation}
             currentCommand={highlightCommandBuccalSide ? currentCommand : null}
           />
-          <div
+          <div className={classes.emptyBox2}/>
+          {!!information.FUR && (
+            <RecordFurcationInformation
+            quadrant={quadrant}
+            id={id}
+            furcation={furcationInformation}
+            handleSetInformation={handleSetInformation}
+            currentCommand={currentCommand}
+          />
+          )}
+          {!information.FUR && (
+            <div className={classes.emptyBox}/>
+          )}
+          {/* <div
             className={`${classes.title} ${
               !!currentCommand ? classes.hightlighted : null
             }`}
             onClick={handleClickToothIDDiv}
-          >{`${quadrant}${information.ID}`}</div>
+          >{`${quadrant}${information.ID}`}</div> */}
+          <RecordToothInformation
+            quadrant={quadrant}
+            id={id}
+            information={information}
+            handleSetInformation={handleSetInformation}
+            isHighlighted={!!currentCommand}
+          >
+          </RecordToothInformation>
           <RecordLingualInformation
             quadrant={quadrant}
             id={id}

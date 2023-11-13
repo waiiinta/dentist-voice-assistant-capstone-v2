@@ -52,6 +52,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 continue
 
             sentence = ""
+            print("request:", request.results)
             for transcript in request.results:
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
