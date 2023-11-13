@@ -63,6 +63,15 @@ const RecordBuccalInformation = ({
         handleSetInformation={handleSetInformation}
         isHighlighted={isBOPHighlighted}
       />
+      <CheckboxBox
+        quadrant={quadrant}
+        side={side}
+        id={id}
+        mode={"BOP"}
+        data={bop}
+        handleSetInformation={handleSetInformation}
+        isHighlighted={isBOPHighlighted}
+      />
       <DropdownLg
         quadrant={quadrant}
         side={side}

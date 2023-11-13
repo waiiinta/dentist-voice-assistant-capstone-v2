@@ -12,7 +12,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: `./${process.env.NODE_ENV}.env` });
 dotenv.config()
 console.log(`Staring Backend Streaming Server in ${process.env.NODE_ENV} mode...`)
-console.log(process.env)
+// console.log(process.env)
 const RATE = 48000; // Sample rate of the input audio
 
 // gRPC Denpendencies
@@ -241,8 +241,10 @@ io.on("connection", async (socket) => {
 
       semanticList.forEach(async (semantic) => {
         mode = semantic.command;
-        pd_re_bop = ["PDRE", "BOP"];
-        mo_mgj = ["MO", "MGJ"];
+        // pd_re_bop = ["PDRE", "BOP"];
+        // mo_mgj = ["MO", "MGJ"];
+        side_depend = ["PDRE", "PD", "RE", "BOP", "SUP"];
+        side_not_depend = ["MO", "MGJ", "FUR"];
 
         // console.log(semantic);
         if (!semantic.is_complete) {
@@ -262,7 +264,8 @@ io.on("connection", async (socket) => {
           ) {
             sendUpdateDisplayToFrontEnd(socket, mode, q, i, tooth_side);
             // Clear the ToothValue when start a command to handle the repeat tooth value problem.
-            if (mode === "PDRE" && !!q && !!i && !!tooth_side) {
+            // if ([mode === "PDRE"] && !!q && !!i && !!tooth_side) {
+            if (["PDRE", "PD", "RE"].includes(mode) && !!q && !!i && !!tooth_side) {
               toothTable.clearToothValue(q, i, mode, tooth_side);
             } else if (mode === "MGJ" && !!q && !!i) {
               toothTable.clearToothValue(q, i, mode);
@@ -276,7 +279,8 @@ io.on("connection", async (socket) => {
           return;
         }
 
-        if (pd_re_bop.includes(mode)) {
+        // if (pd_re_bop.includes(mode)) {
+        if (side_depend.includes(mode)){
           side = semantic.data.tooth_side.toLowerCase();
           position = semantic.data.position.toLowerCase();
           q = semantic.data.zee.first_zee;
@@ -285,8 +289,18 @@ io.on("connection", async (socket) => {
           if (mode === "PDRE") {
             target = semantic.data.payload;
             mode = semantic.data.is_number_PD ? "PD" : "RE";
-          } else {
-            target = semantic.data.BOP_payload;
+          }
+          else if (mode === "PD"){
+            target = semantic.data.payload;
+            mode = "PD";
+          }
+          else if (mode ==="RE"){
+            target = semantic.data.payload;
+            mode = "RE";
+          }
+          else {
+            // target = semantic.data.BOP_payload;
+            target = semantic.data.payload;
           }
 
           // console.log(mode, q, i, side, position, '-->', target)
@@ -323,16 +337,21 @@ io.on("connection", async (socket) => {
               );
             }
           }
-        } else if (mo_mgj.includes(mode)) {
+        // } else if (mo_mgj.includes(mode)) {
+        } else if (side_not_depend.includes(mode)) {
           q = semantic.data.zee.first_zee;
           i = semantic.data.zee.second_zee;
           target = semantic.data.payload;
 
           // console.log(mode, q, i, '-->', target)
           let next_tooth = null;
+          let position = null;
           if (toothTable.updateValue(q, i, mode, target)) {
             if (mode === "MGJ") {
               next_tooth = toothTable.findNextAvailableTooth(q, i, "buccal");
+            }
+            else if (mode === "FUR"){
+              position = semantic.data.position.toLowerCase();
             }
             sendUpdateToothTableDataToFrontEnd(
               socket,
@@ -341,7 +360,7 @@ io.on("connection", async (socket) => {
               mode,
               target,
               (side = null),
-              (position = null),
+              (position = position),
               (next_tooth = next_tooth)
             );
             if (next_tooth) {
@@ -358,6 +377,52 @@ io.on("connection", async (socket) => {
             // console.log(mode, q, i, '-->', target)
             if (toothTable.updateValue(q, i, mode, target))
               sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
+          });
+        } else if (mode === "Crown") {
+          crown_list = semantic.data.crown;
+          crown_list.forEach((crown_tooth) => {
+            q = crown_tooth.first_zee;
+            i = crown_tooth.second_zee;
+            target = true;
+
+            // console.log(mode, q, i, '-->', target)
+            if (toothTable.updateValue(q, i, mode, target))
+              sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
+          });
+        } else if (mode === "Implant") {
+          implant_list = semantic.data.implant;
+          implant_list.forEach((implant_tooth) => {
+            q = implant_tooth.first_zee;
+            i = implant_tooth.second_zee;
+            target = true;
+
+            // console.log(mode, q, i, '-->', target)
+            if (toothTable.updateValue(q, i, mode, target))
+              sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
+          });
+        } else if (mode === "Bridge") {
+          bridge_list = semantic.data.bridge;
+          bridge_list.forEach((bridge_tooth) => {
+            q = bridge_tooth[0].first_zee;
+            i = bridge_tooth[0].second_zee;
+            q2 = bridge_tooth[1].first_zee;
+            i2 = bridge_tooth[1].second_zee;
+            target = true;
+
+            // console.log(mode, q, i, '-->', target)
+            if (toothTable.updateValue(q, i, mode, target))
+              sendUpdateToothTableDataToFrontEnd(
+                socket, 
+                q, 
+                i, 
+                mode, 
+                target,
+                (side = null),
+                (position = null),
+                (next_tooth = null),
+                q2,
+                i2
+              );
           });
         }
         // toothTable.showPDREValue();
@@ -376,9 +441,11 @@ const sendUpdateToothTableDataToFrontEnd = (
   target,
   side = null,
   position = null,
-  next_tooth = null
+  next_tooth = null,
+  q2 = null,
+  i2 = null
 ) => {
-  data = { q, i, mode, target, side, position, next_tooth };
+  data = { q, i, mode, target, side, position, next_tooth, q2, i2 };
   // console.log("data", data);
   socket.emit("data", data);
 };

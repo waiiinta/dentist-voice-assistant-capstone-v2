@@ -50,6 +50,15 @@ const RecordLingualInformation = ({
         handleSetInformation={handleSetInformation}
         isHighlighted={isBOPHighlighted}
       />
+      <CheckboxBox
+        quadrant={quadrant}
+        side={side}
+        id={id}
+        mode={"BOP"}
+        data={bop}
+        handleSetInformation={handleSetInformation}
+        isHighlighted={isBOPHighlighted}
+      />
       <DropdownSmBox
         quadrant={quadrant}
         side={side}

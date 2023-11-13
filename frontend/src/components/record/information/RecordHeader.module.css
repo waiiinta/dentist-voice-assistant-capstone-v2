@@ -2,14 +2,14 @@
   width: 2.5vw;
   display: flex;
   flex-direction: column;
-  gap: 4vh;
+  gap: 2vh;
 }
 
 .side_space {
   width: 2.5vw;
   display: flex;
   flex-direction: column;
-  gap: 28vh;
+  gap: 22vh;
 }
 
 .side_direction {
@@ -44,4 +44,10 @@
 
 .highlighted {
   background: var(--primary-color-highlight);
+}
+
+.gap{
+  display: flex;
+  width: 2.5vw;
+  height: 8vh
 }

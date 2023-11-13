@@ -20,7 +20,7 @@ frontend/coverage
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
-
+frontend/package-lock.json
 # backend
 backend/node_modules
 backend/package-lock.json

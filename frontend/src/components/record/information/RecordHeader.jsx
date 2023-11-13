@@ -75,12 +75,19 @@ const RecordHeader = ({ currentCommand }) => {
         </div>
         <div
           className={`${classes["title"]} ${
+            commandToHighLight.BOPBuccal ? classes["highlighted"] : ""
+          }`}
+        >
+          SUP
+        </div>
+        <div
+          className={`${classes["title"]} ${
             commandToHighLight.MGJ ? classes["highlighted"] : ""
           }`}
         >
           MGJ
         </div>
-        <div className={classes.title}> </div>
+        <div className={classes.gap}> </div>
         {/* lower */}
         <div
           className={`${classes["title"]} ${
@@ -95,6 +102,13 @@ const RecordHeader = ({ currentCommand }) => {
           }`}
         >
           BOP
+        </div>
+        <div
+          className={`${classes["title"]} ${
+            commandToHighLight.BOPLingual ? classes["highlighted"] : ""
+          }`}
+        >
+          SUP
         </div>
         <div
           className={`${classes["title"]} ${
