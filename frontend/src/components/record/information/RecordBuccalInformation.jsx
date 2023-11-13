@@ -12,12 +12,13 @@ const RecordBuccalInformation = ({
   handleSetInformation,
   currentCommand,
 }) => {
+  console.log(currentCommand)
   const pd = buccalInformation.PD;
   const re = buccalInformation.RE;
   const bop = buccalInformation.BOP;
   const sup = buccalInformation.SUP
   const side = buccalInformation.side;
-  // console.log(buccalInformation)
+  console.log(buccalInformation)
 
   const command =
     !!currentCommand && !!currentCommand.command

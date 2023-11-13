@@ -17,7 +17,7 @@ function CheckboxBox({
     quadrant === 1 || quadrant === 4
       ? ["distal", "middle", "mesial"]
       : ["mesial", "middle", "distal"];
-
+  
   return (
     <div
       className={`${classes["direction"]} ${
