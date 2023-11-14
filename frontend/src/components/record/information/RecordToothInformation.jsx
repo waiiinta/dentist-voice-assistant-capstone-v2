@@ -8,22 +8,18 @@ const RecordToothInformation = ({
   id,
   information,
   handleSetInformation,
-  isHighlight
+  isHighlighted
 })=>{
+  // console.log("isHighlighted",isHighlighted)
   return (
     <div className={classes.box}>
       <DropdownMode
         quadrant={quadrant}
         id={id}
         handleSetInformation={handleSetInformation}
-        currentCommand = {isHighlight}
+        isHighlighted = {isHighlighted}
         information={information}
       />
-      {/* <div className={classes.emptyBox}>
-        {information.implant && (
-          <img src={implant} height={20} width={20}/>
-        )}
-      </div> */}
     </div>
   )
 

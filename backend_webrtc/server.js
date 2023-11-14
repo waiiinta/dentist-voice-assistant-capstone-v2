@@ -238,9 +238,11 @@ io.on("connection", async (socket) => {
     ner_call.on("data", (response) => {
       // console.log(response.response);
       let semanticList = response.response;
+      console.log(semanticList)
       let isUpdate = false;
       // console.log("pass here 1")
       semanticList.forEach(async (semantic) => {
+        console.log("this is semantic:",semantic)
         mode = semantic.command;
         // pd_re_bop = ["PDRE", "BOP"];
         // mo_mgj = ["MO", "MGJ"];
@@ -369,6 +371,7 @@ io.on("connection", async (socket) => {
             }
           }
         } else if (mode === "Missing") {
+          console.log(semantic)
           missing_list = semantic.data.missing;
           missing_list.forEach((missing_tooth) => {
             q = missing_tooth.first_zee;
@@ -380,6 +383,7 @@ io.on("connection", async (socket) => {
               sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
           });
         } else if (mode === "Crown") {
+          console.log(semantic.data)
           crown_list = semantic.data.crown;
           crown_list.forEach((crown_tooth) => {
             q = crown_tooth.first_zee;

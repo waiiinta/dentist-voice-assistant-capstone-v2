@@ -59,7 +59,7 @@ const RecordLingualInformation = ({
         mode={"SUP"}
         data={sup}
         handleSetInformation={handleSetInformation}
-        isHighlighted={isBOPHighlighted}
+        isHighlighted={isSUPHighlighted}
       />
       <DropdownSmBox
         quadrant={quadrant}

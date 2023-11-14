@@ -25,6 +25,7 @@ const RecordSection = ({
 
   let highlightCommandBuccalSide = false;
   let highlightCommandLingualSide = false;
+  let highlightFurcation = false
   const command =
     !!currentCommand && !!currentCommand.command
       ? currentCommand.command
@@ -42,6 +43,8 @@ const RecordSection = ({
     highlightCommandBuccalSide = true;
   } else if (command === "MO") {
     highlightCommandLingualSide = true;
+  } else if (command === "FUR"){
+    highlightFurcation = true
   }
 
   const handleClickMissingBox = () => {
@@ -51,6 +54,8 @@ const RecordSection = ({
   const handleClickToothIDDiv = () => {
     handleAddToothMissing(quadrant, information.ID);
   };
+
+  console.log(currentCommand,command,highlightFurcation)
 
   return (
     <div>
@@ -72,7 +77,7 @@ const RecordSection = ({
             id={id}
             furcation={furcationInformation}
             handleSetInformation={handleSetInformation}
-            currentCommand={currentCommand}
+            currentCommand={highlightFurcation? currentCommand:null}
           />
           )}
           {!information.FUR && (

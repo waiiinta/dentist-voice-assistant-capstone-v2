@@ -8,3 +8,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.emptybox{
+  display: flex;
+  /* flex-direction: row; */
+  height: 4vh;
+  width: 2.5vw;
+  gap: 0.2vw;
+  box-sizing: border-box;
+  margin: auto;
+  margin-top: 0.21vw;
+  align-items: bottom;
+  justify-content: center;
+}

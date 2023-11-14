@@ -352,6 +352,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
     rev_available_teeth_dict[e].reverse()
 
   for i in range(len(word_list)):
+    print("this is word:",word_list[i])
     semantic_object = copy.deepcopy(latest_semantic_object)
     
     
@@ -386,9 +387,14 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
 
       # 2.3  Side for 'FUR'
       elif semantic_object['command'] == FUR:
-        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) ==2:
+        print("this word actually pass here")
+        print(semantic_object['data']['zee'])
+        print(len(semantic_object['data']['zee']))
+        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee'])==2:
+          print("pass if")
           semantic_object['data']['position'] = word_list[i]
           semantic_object['data']['payload'] = None
+          print(semantic_object['data'])
     
     # 3. 'Number'
     elif type(word_list[i]) == int:

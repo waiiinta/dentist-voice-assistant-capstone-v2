@@ -35,6 +35,12 @@
   border: 2px #dedede solid;
 }
 
+.checkbox--yellow {
+  border-color: #efaf50;
+  background: #efaf50;
+  border: 2px #dedede solid;
+}
+
 input[type="checkbox"] {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);

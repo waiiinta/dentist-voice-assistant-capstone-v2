@@ -171,6 +171,8 @@ const initiateConnection = async (
     let position = null;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
+    }else if(data.command === "FUR" && data.q && data.i){
+      position = data.position
     }
 
     dispatchCurrentCommand({
@@ -199,7 +201,7 @@ const initiateConnection = async (
       // console.log("autoChangeToothTimer is forced executed!")
     }
 
-    if (!["BOP","SUP"].includes(data.mode)) {
+    if (!["BOP","SUP","FUR"].includes(data.mode)) {
       // [for "PD", "RE", "Missing", "MGJ", "MO" data]
       let spec_id = null;
       /* mapping position for PD, RE */
@@ -233,9 +235,19 @@ const initiateConnection = async (
         spec_id
       );
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
-    } else {
+    }else if(data.mode == "FUR"){
+      handleSetInformation(
+        data.q,
+        data.i,
+        data.side,
+        data.mode,
+        data.target,
+        data.position
+      )
+
+    }else {
       // for "BOP" data[]
-      console.log(data)
+      // console.log(data)
       let positionArray;
       if (data.q === 1 || data.q === 4) {
         positionArray = ["distal", "middle", "mesial"];
@@ -252,7 +264,7 @@ const initiateConnection = async (
           data.target[i],
           positionArray[i]
         );
-        console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
+        // console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
       }
     }
 
