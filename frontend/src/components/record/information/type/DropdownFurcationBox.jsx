@@ -10,13 +10,15 @@ function FurcationDropdownBox({
 	mode,
 	data,
 	handleSetInformation,
-	isHighlighted,
+	// isHighlighted,
+	isPositionHighlighted,
 }) {
 	const spec_id =
 		quadrant === 1 || quadrant === 4
 			? ["distal", "buccal", "lingual", "mesial"]
 			: ["mesial", "buccal", "lingual", "distal"];
-	console.log(isHighlighted)
+	// console.log(isHighlighted)
+	console.log(isPositionHighlighted);
 	return (
 		<div>
 			<div className={classes.direction}>
@@ -29,7 +31,10 @@ function FurcationDropdownBox({
 						data={data[spec_id[1]]}
 						handleSetInformation={handleSetInformation}
 						isHighlighted={
-							isHighlighted
+							(isPositionHighlighted &&
+								!isPositionHighlighted.position) ||
+							(isPositionHighlighted &&
+								isPositionHighlighted.position === spec_id[1])
 						}
 					/>
 				) : (
@@ -45,7 +50,10 @@ function FurcationDropdownBox({
 					data={data[spec_id[0]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
-						isHighlighted
+						(isPositionHighlighted &&
+							!isPositionHighlighted.position) ||
+						(isPositionHighlighted &&
+							isPositionHighlighted.position === spec_id[0])
 					}
 				/>
 				{`${quadrant}${id}` != "14" && `${quadrant}${id}` != "24" ? (
@@ -57,7 +65,10 @@ function FurcationDropdownBox({
 						data={data[spec_id[2]]}
 						handleSetInformation={handleSetInformation}
 						isHighlighted={
-							isHighlighted
+							(isPositionHighlighted &&
+								!isPositionHighlighted.position) ||
+							(isPositionHighlighted &&
+								isPositionHighlighted.position === spec_id[2])
 						}
 					/>
 				) : (
@@ -72,7 +83,10 @@ function FurcationDropdownBox({
 					data={data[spec_id[3]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
-						isHighlighted
+						(isPositionHighlighted &&
+							!isPositionHighlighted.position) ||
+						(isPositionHighlighted &&
+							isPositionHighlighted.position === spec_id[3])
 					}
 				/>
 			</div>

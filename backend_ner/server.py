@@ -186,7 +186,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
 
 
             # print()
-
+            # print(semantics)
             old_is_final = request.is_final
             # Create a dummy response
             if len(semantics) > 0:

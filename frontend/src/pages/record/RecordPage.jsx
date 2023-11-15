@@ -245,7 +245,7 @@ const RecordPage = () => {
       // console.log("missing tooth from latestData", missingToothObj);
       addToothMissing(socket, missingToothObj.q, missingToothObj.i);
     }
-    console.log(information)
+    // console.log(information)
   };
 
   // ========================================================================

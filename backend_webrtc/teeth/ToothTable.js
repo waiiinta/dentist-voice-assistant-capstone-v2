@@ -58,8 +58,9 @@ class ToothTable {
         this.quadrants[q - 1].teeth[i - 1].SUP[side][position] = target;
         break;
       case "FUR":
-        isUpdate = this.quadrants[q-1].teeth[i-1].FUR[side] !== target;
-        this.quadrants[q-1].teeth[i-1].FUR[side] = target;
+        console.log("this in tooth table",this.quadrants[q-1].teeth[i-1].FUR,position)
+        isUpdate = this.quadrants[q-1].teeth[i-1].FUR[position] !== target;
+        this.quadrants[q-1].teeth[i-1].FUR[position] = target;
         break;
 
 

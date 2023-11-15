@@ -39,10 +39,8 @@ class ParserModel:
         '''
         new_semantic_object_list = copy.deepcopy(self.semantic_object_list)
         new_last_pdre_state = copy.deepcopy(self.last_pdre_state)
-        
         word_list = create_result_list(tokens, threshold, self.last_symbol)
         result = create_semantic_object(new_semantic_object_list, word_list, self.available_teeth_dict, new_last_pdre_state)
-
 
         if save:
             self.semantic_object_list = new_semantic_object_list

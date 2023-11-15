@@ -8,17 +8,14 @@ const RecordFurcationInformation = ({
 	handleSetInformation,
 	currentCommand,
 }) => {
-	console.log(currentCommand)
+	// console.log(currentCommand)
 	const command =
 		currentCommand && currentCommand.command
 			? currentCommand.command
 			: null;
 
-	const isHighlighted =
-		!!currentCommand
-			? command == "FUR"
-			: false;
-	console.log(isHighlighted)
+	const isPositionHighlited = currentCommand && command === "FUR"? currentCommand:null
+	// console.log(isHighlighted)
 	return (
 		<div className={classes.direction}>
 			<FurcationDropdownBox
@@ -27,9 +24,7 @@ const RecordFurcationInformation = ({
 				mode={command}
 				data={furcation}
 				handleSetInformation={handleSetInformation}
-				isHighlighted={
-					isHighlighted
-				}
+				isPositionHighlighted={isPositionHighlited}
 			/>
 		</div>
 	);

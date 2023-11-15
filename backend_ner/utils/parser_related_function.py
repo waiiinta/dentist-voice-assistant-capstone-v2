@@ -534,11 +534,13 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
           elif semantic_object['data']['payload'] != None:
-            semantic_object['data']['zee'] = [word_list(i)]
+            semantic_object['data']['zee'] = [word_list[i]]
             semantic_object['data']['position'] = None
             semantic_object['data']['payload'] = None
           elif semantic_object['data']['position'] == None:
-            semantic_object['data']['zee'] = [word_list(i)]
+            semantic_object['data']['zee'] = [word_list[i]]
+            semantic_object['data']['position'] = None
+            semantic_object['data']['payload'] = None
           
       
     # Append semantic object to result list

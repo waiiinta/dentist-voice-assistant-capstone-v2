@@ -166,13 +166,14 @@ const initiateConnection = async (
   // receiving updated command from backend streaming server
   s.on("update_command", async (data) => {
     console.log("update_command", data);
+    console.log(data)
 
     // automatically determine the start position of the tooth for PDRE command (from given tooth's quadrant, id)
     let position = null;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
     }else if(data.command === "FUR" && data.q && data.i){
-      position = data.position
+      position = data.position.toLowerCase()
     }
 
     dispatchCurrentCommand({
