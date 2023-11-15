@@ -43,6 +43,7 @@ class ParserModel:
         word_list = create_result_list(tokens, threshold, self.last_symbol)
         result = create_semantic_object(new_semantic_object_list, word_list, self.available_teeth_dict, new_last_pdre_state)
 
+
         if save:
             self.semantic_object_list = new_semantic_object_list
             self.last_pdre_state = new_last_pdre_state

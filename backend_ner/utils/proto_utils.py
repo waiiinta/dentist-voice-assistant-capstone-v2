@@ -86,12 +86,13 @@ def create_bridge(list_bridge):
         result.append(create_zee(bridge))
     return result
 
-def create_incomplete_semantic(command, tooth, tooth_side):
+def create_incomplete_semantic(command, tooth, tooth_side, position):
     return {
                 "command": command,
                 "data": {
                     "zee": tooth,
                     "tooth_side": tooth_side,
+                    "position": position,
                 },
                 "is_complete": False
             }

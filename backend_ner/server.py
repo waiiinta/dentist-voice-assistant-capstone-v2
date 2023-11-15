@@ -10,7 +10,6 @@ import utils.ner_model_pb2_grpc as ner_model_pb2_grpc
 
 # from transformers import AutoTokenizer
 
-# from utils.model import TokenClassifier
 from utils.model import TokenClassifier
 from utils.parser_model import ParserModel
 from utils.proto_utils import create_ner_response, create_incomplete_semantic
@@ -39,10 +38,9 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
         sentences = []
         old_tooth_list = []
         old_is_final = True
-        old_command, old_tooth, old_tooth_side = None, None, None
+        old_command, old_tooth, old_tooth_side, old_position = None, None, None, None
         parser = ParserModel() # independent parser
         for request in request_iterator:
-            print('in for loop')
             # Concatenate trancripts in the responses
             if(request.add_missing.first_zee != 100 and request.add_missing.second_zee != 100):
                 q, i = request.add_missing.first_zee, request.add_missing.second_zee
@@ -78,15 +76,15 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 old_tooth_list = []
             else:
                 sentences[-1] = sentence
-            # print("word in list:",sentences)
+            print(sentences)
 
             # Predict the class of each token in the sentence
             # predicted_token = self.token_classifier.inference(sentence)
             # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
-            print("At server.py:",semantics)
-            command, tooth, tooth_side, semantics = semantics.values()
+            # print(semantics)
+            command, tooth, tooth_side, position, semantics = semantics.values()
             
             # Create an incomplete semantic for update display to frontend
             # 1.) first we consider that if there is not semantic from the result but the command is not None
@@ -106,13 +104,9 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # ((command == old_command and command != "MGJ" and (tooth is None or tooth_side is None)) or \
             #  (command == old_command and command == "MGJ" and (tooth is None)) or \
             #  (command == old_command and command == "BOP" and (tooth != old_tooth)))): # or tooth != old_tooth or tooth_side != old_tooth_side):
-            #     # print("create incomplete semantic", command, tooth, tooth_side)
-            #     # print("old command", old_command, old_tooth, old_tooth_side)
-            #     update_display = create_incomplete_semantic(command, tooth, tooth_side)
-            #     old_command, old_tooth, old_tooth_side = command, tooth, tooth_side
-            #     if command == "MGJ":
-            #         old_tooth_side = "Not Care"
-            #     semantics.insert(0, update_display)
+            #     pass
+
+
             create_incomplete = False
             # 1. Missing, Crown, Implant 
             if command in ["Missing", "Crown", "Implant"]:
@@ -122,7 +116,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # 2. PDRE, PD, RE
             elif command in ["PDRE", "PD", "RE"]:
                 # PDRE
-                if ((tooth is None) and (tooth_side is None)):
+                if tooth is None and tooth_side is None:
                     create_incomplete = True
                 # PDRE Buccal
                 elif tooth is None:
@@ -132,12 +126,12 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                     create_incomplete = True
                 # PDRE Buccal 18 (not fill payload yet)
                 else:
-                    if ((len(semantics) == 0) or (len(semantics) > 0) and (command != semantics[-1]["command"])):
+                    if len(semantics) == 0 or (len(semantics) > 0 and command != semantics[-1]["command"]):
                         create_incomplete = True
             # 3. BOP, SUP
             elif command in ["BOP", "SUP"]:
                 # BOP
-                if ((tooth is None) and (tooth_side is None)):
+                if tooth is None and tooth_side is None:
                     create_incomplete = True
                 # BOP Buccal
                 elif tooth is None:
@@ -147,19 +141,18 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                     create_incomplete = True
                 else:
                     # BOP Buccal 18 (not fill payload yet)
-                    if ((len(semantics) == 0) or (len(semantics) > 0) and (command != semantics[-1]["command"])):
+                    if len(semantics) == 0 or (len(semantics) > 0 and command != semantics[-1]["command"]):
                         create_incomplete = True
                     # BOP Buccal 18 Distal 16 
                     elif tooth != old_tooth:
                         create_incomplete = True
             # 4. MO
             elif command == "MO":
-                
                 # MO
                 if tooth is None:
                     create_incomplete = True
                 # MO 18
-                elif ((len(semantics) == 0) or (len(semantics) > 0) and (command != semantics[-1]["command"])):
+                elif len(semantics) == 0 or (len(semantics) > 0 and command != semantics[-1]["command"]):
                     create_incomplete = True
                 # MO 18 2 16
                 elif tooth != old_tooth:
@@ -170,7 +163,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 if tooth is None:
                     create_incomplete = True
                 # MGJ 18
-                elif ((len(semantics) == 0) or (len(semantics) > 0) and (command != semantics[-1]["command"])):
+                elif len(semantics) == 0 or (len(semantics) > 0 and command != semantics[-1]["command"]):
                     create_incomplete = True
             # 6.FUR
             elif command == "FUR":
@@ -178,24 +171,26 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 if tooth is None:
                     create_incomplete = True
                 # (FUR 18) & (FUR 18 Distal)
-                elif ((len(semantics) == 0) or (len(semantics) > 0) and (command != semantics[-1]["command"])):
+                elif len(semantics) == 0 or (len(semantics) > 0 and command != semantics[-1]["command"]):
                     create_incomplete = True
                 # (FUR 18 Distal 3 16) & (FUR 18 Distal 3 16 Distal)
                 elif tooth != old_tooth:
                     create_incomplete = True
+                # FUR 18 Distal Buccal
 
 
             if create_incomplete:
-                update_display = create_incomplete_semantic(command, tooth, tooth_side)
-                old_command, old_tooth, old_tooth_side = command, tooth, tooth_side
+                update_display = create_incomplete_semantic(command, tooth, tooth_side, position)
+                old_command, old_tooth, old_tooth_side, old_position = command, tooth, tooth_side, position
                 semantics.insert(0, update_display)
 
+
+            # print()
 
             old_is_final = request.is_final
             # Create a dummy response
             if len(semantics) > 0:
                 response = create_ner_response(semantics)
-                print(response)
                 yield response
 
 address = f"[::]:{config.PORT}"

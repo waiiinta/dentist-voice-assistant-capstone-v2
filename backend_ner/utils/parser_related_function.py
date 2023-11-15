@@ -552,6 +552,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
   command = None
   zee = None
   tooth_side = None
+  position = None
   if len(semantic_object_list) != 0:
     last_s_object = semantic_object_list[len(semantic_object_list)-1]
     command = last_s_object['command']
@@ -571,6 +572,9 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
             else:
               if len(missing_list) >= 2:
                 zee = missing_list[len(missing_list)-2]
+      # Case for 'Furcation'
+      if command == 'FUR':
+        position = last_s_object['data']['position']
             
   # Remove incompleted semantic object from result
   new_result = copy.deepcopy(result)
@@ -603,6 +607,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
   result_dict = {'command': command,
                  'tooth': zee,
                  'tooth_side': tooth_side,
+                 'position': position,
                  'semantic_list': final_result,
                  }
   return result_dict
