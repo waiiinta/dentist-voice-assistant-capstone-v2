@@ -21,7 +21,7 @@ const RecordFurcationInformation = ({
 			<FurcationDropdownBox
 				quadrant={quadrant}
 				id={id}
-				mode={command}
+				mode={"FUR"}
 				data={furcation}
 				handleSetInformation={handleSetInformation}
 				isPositionHighlighted={isPositionHighlited}
