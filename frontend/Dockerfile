@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 5001
 
 RUN npm run build
-# CMD ["serve", "-l", "5001", "-s", "build", "--ssl-cert", "cert.pem", "--ssl-key", "key.pem"]
-CMD ["serve", "-l", "5001", "-s", "build"]
+CMD ["serve", "-l", "5001", "-s", "build", "--ssl-cert", "cert.pem", "--ssl-key", "key.pem"]
+# CMD ["serve", "-l", "5001", "-s", "build"]
