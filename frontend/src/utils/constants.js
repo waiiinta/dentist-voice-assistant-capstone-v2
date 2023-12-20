@@ -207,8 +207,6 @@ const EX_DATA = [
         MGJ: null,
         FUR:{
           mesial:null,
-          buccal:null,
-          lingual:null,
           distal:null
         },
         crown:null,
@@ -401,8 +399,6 @@ const EX_DATA = [
         MGJ: null,
         FUR:{
           mesial:null,
-          buccal:null,
-          lingual:null,
           distal:null
         },
         crown:null,

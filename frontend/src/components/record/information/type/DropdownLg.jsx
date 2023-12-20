@@ -15,7 +15,6 @@ function DropdownLg({
   const handleSelect = (target) => {
     handleSetInformation(quadrant, id, side, mode, target);
   };
-  console.log(mode)
   const MO = (
     <DropdownButton
     className={`${classes["largebox"]} ${isHighlighted ? classes["highlighted"] : ""

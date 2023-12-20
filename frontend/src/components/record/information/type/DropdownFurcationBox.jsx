@@ -10,29 +10,38 @@ function FurcationDropdownBox({
 	mode,
 	data,
 	handleSetInformation,
-	positionToBeHighlighted,
+	// isHighlighted,
+	isPositionHighlighted,
 }) {
 	const spec_id =
 		quadrant === 1 || quadrant === 4
-			? ["distal", "buccal","lingual", "mesial"]
-			: ["mesial", "buccal","lingual", "distal"];
-  // console.log(data)
+			? ["distal", "buccal", "lingual", "mesial"]
+			: ["mesial", "buccal", "lingual", "distal"];
+	// console.log(isHighlighted)
+	console.log(isPositionHighlighted);
 	return (
-		<div >
-      <div className={classes.direction}>
-        <DropdownFurcation
-          quadrant={quadrant}
-					id={id}
-					mode={mode}
-					specific_id={spec_id[1]}
-					data={data[spec_id[1]]}
-					handleSetInformation={handleSetInformation}
-					isHighlighted={
-						positionToBeHighlighted === spec_id[0] ? true : false
-					}
-        />
-      </div>
-      <div className={classes.direction}>
+		<div>
+			<div className={classes.direction}>
+				{`${quadrant}${id}` != "14" && `${quadrant}${id}` != "24" ? (
+					<DropdownFurcation
+						quadrant={quadrant}
+						id={id}
+						mode={mode}
+						specific_id={spec_id[1]}
+						data={data[spec_id[1]]}
+						handleSetInformation={handleSetInformation}
+						isHighlighted={
+							(isPositionHighlighted &&
+								!isPositionHighlighted.position) ||
+							(isPositionHighlighted &&
+								isPositionHighlighted.position === spec_id[1])
+						}
+					/>
+				) : (
+					<div className={classes.emptybox} />
+				)}
+			</div>
+			<div className={classes.direction}>
 				<DropdownFurcation
 					quadrant={quadrant}
 					id={id}
@@ -41,20 +50,31 @@ function FurcationDropdownBox({
 					data={data[spec_id[0]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
-						positionToBeHighlighted === spec_id[0] ? true : false
+						(isPositionHighlighted &&
+							!isPositionHighlighted.position) ||
+						(isPositionHighlighted &&
+							isPositionHighlighted.position === spec_id[0])
 					}
 				/>
-				<DropdownFurcation
-					quadrant={quadrant}
-					id={id}
-					mode={mode}
-					specific_id={spec_id[2]}
-					data={data[spec_id[2]]}
-					handleSetInformation={handleSetInformation}
-					isHighlighted={
-						positionToBeHighlighted === spec_id[1] ? true : false
-					}
-				/>
+				{`${quadrant}${id}` != "14" && `${quadrant}${id}` != "24" ? (
+					<DropdownFurcation
+						quadrant={quadrant}
+						id={id}
+						mode={mode}
+						specific_id={spec_id[2]}
+						data={data[spec_id[2]]}
+						handleSetInformation={handleSetInformation}
+						isHighlighted={
+							(isPositionHighlighted &&
+								!isPositionHighlighted.position) ||
+							(isPositionHighlighted &&
+								isPositionHighlighted.position === spec_id[2])
+						}
+					/>
+				) : (
+					<div className={classes.emptybox} />
+				)}
+
 				<DropdownFurcation
 					quadrant={quadrant}
 					id={id}
@@ -63,7 +83,10 @@ function FurcationDropdownBox({
 					data={data[spec_id[3]]}
 					handleSetInformation={handleSetInformation}
 					isHighlighted={
-						positionToBeHighlighted === spec_id[2] ? true : false
+						(isPositionHighlighted &&
+							!isPositionHighlighted.position) ||
+						(isPositionHighlighted &&
+							isPositionHighlighted.position === spec_id[3])
 					}
 				/>
 			</div>

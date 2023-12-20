@@ -12,6 +12,7 @@ const RecordBuccalInformation = ({
   handleSetInformation,
   currentCommand,
 }) => {
+  // console.log(currentCommand)
   const pd = buccalInformation.PD;
   const re = buccalInformation.RE;
   const bop = buccalInformation.BOP;

@@ -386,7 +386,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
 
       # 2.3  Side for 'FUR'
       elif semantic_object['command'] == FUR:
-        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) ==2:
+        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee'])==2:
           semantic_object['data']['position'] = word_list[i]
           semantic_object['data']['payload'] = None
     
@@ -534,7 +534,11 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
           elif semantic_object['data']['payload'] != None:
-            semantic_object['data']['zee'] = [word_list(i)]
+            semantic_object['data']['zee'] = [word_list[i]]
+            semantic_object['data']['position'] = None
+            semantic_object['data']['payload'] = None
+          elif semantic_object['data']['position'] == None:
+            semantic_object['data']['zee'] = [word_list[i]]
             semantic_object['data']['position'] = None
             semantic_object['data']['payload'] = None
           
@@ -550,6 +554,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
   command = None
   zee = None
   tooth_side = None
+  position = None
   if len(semantic_object_list) != 0:
     last_s_object = semantic_object_list[len(semantic_object_list)-1]
     command = last_s_object['command']
@@ -569,6 +574,9 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
             else:
               if len(missing_list) >= 2:
                 zee = missing_list[len(missing_list)-2]
+      # Case for 'Furcation'
+      if command == 'FUR':
+        position = last_s_object['data']['position']
             
   # Remove incompleted semantic object from result
   new_result = copy.deepcopy(result)
@@ -601,6 +609,7 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
   result_dict = {'command': command,
                  'tooth': zee,
                  'tooth_side': tooth_side,
+                 'position': position,
                  'semantic_list': final_result,
                  }
   return result_dict

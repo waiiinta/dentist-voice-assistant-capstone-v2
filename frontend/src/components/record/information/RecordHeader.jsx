@@ -7,11 +7,17 @@ const RecordHeader = ({ currentCommand }) => {
   const commandToHighLight = {
     PDREBuccal: false,
     PDRELingual: false,
+    PDBuccal: false,
+    PDLingual: false,
+    REBuccal: false,
+    RELingual: false,
     BOPBuccal: false,
     BOPLingual: false,
+    SUPBuccal:false,
+    SUPLingual:false,
     MGJ: command === "MGJ",
     MO: command === "MO",
-    FUR: command === "FUR"
+    FUR: command === "FUR",
   };
 
   if (command === "PDRE") {
@@ -29,6 +35,30 @@ const RecordHeader = ({ currentCommand }) => {
       commandToHighLight.BOPLingual = false;
     } else if (side === "lingual") {
       commandToHighLight.BOPBuccal = false;
+    }
+  } else if (command === "SUP"){
+    commandToHighLight.SUPBuccal = true
+    commandToHighLight.SUPLingual = true
+    if(side === "buccal"){
+      commandToHighLight.SUPLingual = false
+    }else if (side === "lingual"){
+      commandToHighLight.SUPBuccal = false
+    }
+  }else if (command === "PD") {
+    commandToHighLight.PDBuccal = true;
+    commandToHighLight.PDLingual = true;
+    if (side === "buccal") {
+      commandToHighLight.PDLingual = false;
+    } else if (side === "lingual") {
+      commandToHighLight.PDBuccal = false;
+    }
+  }else if (command === "RE") {
+    commandToHighLight.REBuccal = true;
+    commandToHighLight.RELingual = true;
+    if (side === "buccal") {
+      commandToHighLight.RELingual = false;
+    } else if (side === "lingual") {
+      commandToHighLight.REBuccal = false;
     }
   }
 
@@ -55,14 +85,14 @@ const RecordHeader = ({ currentCommand }) => {
         {/* upper */}
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.PDREBuccal ? classes["highlighted"] : ""
+            commandToHighLight.PDREBuccal || commandToHighLight.PDBuccal ? classes["highlighted"] : ""
           }`}
         >
           PD
         </div>
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.PDREBuccal ? classes["highlighted"] : ""
+            commandToHighLight.PDREBuccal || commandToHighLight.REBuccal ? classes["highlighted"] : ""
           }`}
         >
           RE
@@ -76,7 +106,7 @@ const RecordHeader = ({ currentCommand }) => {
         </div>
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.BOPBuccal ? classes["highlighted"] : ""
+            commandToHighLight.SUPBuccal ? classes["highlighted"] : ""
           }`}
         >
           SUP
@@ -114,21 +144,21 @@ const RecordHeader = ({ currentCommand }) => {
         </div>
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.BOPLingual ? classes["highlighted"] : ""
+            commandToHighLight.SUPLingual ? classes["highlighted"] : ""
           }`}
         >
           SUP
         </div>
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.PDRELingual ? classes["highlighted"] : ""
+            commandToHighLight.PDRELingual || commandToHighLight.PDLingual ? classes["highlighted"] : ""
           }`}
         >
           PD
         </div>
         <div
           className={`${classes["title"]} ${
-            commandToHighLight.PDRELingual ? classes["highlighted"] : ""
+            commandToHighLight.PDRELingual || commandToHighLight.RELingual ? classes["highlighted"] : ""
           }`}
         >
           RE

@@ -166,11 +166,14 @@ const initiateConnection = async (
   // receiving updated command from backend streaming server
   s.on("update_command", async (data) => {
     console.log("update_command", data);
+    console.log(data)
 
     // automatically determine the start position of the tooth for PDRE command (from given tooth's quadrant, id)
     let position = null;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
+    }else if(data.command === "FUR" && data.q && data.i){
+      position = data.position.toLowerCase()
     }
 
     dispatchCurrentCommand({
@@ -199,7 +202,7 @@ const initiateConnection = async (
       // console.log("autoChangeToothTimer is forced executed!")
     }
 
-    if (data.mode !== "BOP") {
+    if (!["BOP","SUP","FUR"].includes(data.mode)) {
       // [for "PD", "RE", "Missing", "MGJ", "MO" data]
       let spec_id = null;
       /* mapping position for PD, RE */
@@ -233,8 +236,19 @@ const initiateConnection = async (
         spec_id
       );
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
-    } else {
+    }else if(data.mode == "FUR"){
+      handleSetInformation(
+        data.q,
+        data.i,
+        data.side,
+        data.mode,
+        data.target,
+        data.position
+      )
+
+    }else {
       // for "BOP" data[]
+      // console.log(data)
       let positionArray;
       if (data.q === 1 || data.q === 4) {
         positionArray = ["distal", "middle", "mesial"];

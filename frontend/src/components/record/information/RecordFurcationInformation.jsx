@@ -1,5 +1,5 @@
 import FurcationDropdownBox from "./type/DropdownFurcationBox";
-import classes from "./RecordFurcationInformation.module.css"
+import classes from "./RecordFurcationInformation.module.css";
 
 const RecordFurcationInformation = ({
 	quadrant,
@@ -8,30 +8,26 @@ const RecordFurcationInformation = ({
 	handleSetInformation,
 	currentCommand,
 }) => {
+	// console.log(currentCommand)
 	const command =
 		currentCommand && currentCommand.command
 			? currentCommand.command
 			: null;
 
-  const positionToBeHighlighted =
-      !!currentCommand && !!currentCommand.position
-        ? currentCommand.position
-        : null;
-
+	const isPositionHighlited = currentCommand && command === "FUR"? currentCommand:null
+	// console.log(isHighlighted)
 	return (
 		<div className={classes.direction}>
 			<FurcationDropdownBox
-        quadrant={quadrant}
-        id={id}
-        mode={"FUR"}
-        data={furcation}
-        handleSetInformation={handleSetInformation}
-        positionToBeHighlighted={
-          command == "FUR"? positionToBeHighlighted : null
-        }
-      />
+				quadrant={quadrant}
+				id={id}
+				mode={"FUR"}
+				data={furcation}
+				handleSetInformation={handleSetInformation}
+				isPositionHighlighted={isPositionHighlited}
+			/>
 		</div>
 	);
 };
 
-export default RecordFurcationInformation
+export default RecordFurcationInformation;
