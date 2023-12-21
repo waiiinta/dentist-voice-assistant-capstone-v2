@@ -38,7 +38,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
         sentences = []
         old_tooth_list = []
         old_is_final = True
-        old_command, old_tooth, old_tooth_side, old_position = None, None, None, None
+        old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = None, None, None, None, None
         parser = ParserModel() # independent parser
         for request in request_iterator:
             # Concatenate trancripts in the responses
@@ -83,9 +83,11 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
-            # print(semantics)
-            command, tooth, tooth_side, position, semantics = semantics.values()
-            
+            print(parser.semantic_object_list)
+            print(parser.completed_semantic_object)
+            command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
+            print(tooth)
+            print(bridge_end)
             # Create an incomplete semantic for update display to frontend
             # 1.) first we consider that if there is not semantic from the result but the command is not None
             # then create incomplete semantic
@@ -177,11 +179,19 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 elif tooth != old_tooth:
                     create_incomplete = True
                 # FUR 18 Distal Buccal
+            # 7.bridge
+            elif command == "Bridge":
+                # Bridge
+                if tooth is None:
+                    create_incomplete = True
+                # Bridge 14 (Haven't specify another zee of bridge crown)
+                elif bridge_end is None:
+                    create_incomplete = True
 
 
             if create_incomplete:
                 update_display = create_incomplete_semantic(command, tooth, tooth_side, position)
-                old_command, old_tooth, old_tooth_side, old_position = command, tooth, tooth_side, position
+                old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = command, tooth, tooth_side, position, bridge_end
                 semantics.insert(0, update_display)
 
 

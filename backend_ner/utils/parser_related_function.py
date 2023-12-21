@@ -12,6 +12,7 @@ SUP = 'SUP'
 MGJ = 'MGJ'
 MO = 'MO'
 FUR = 'FUR'
+UNDO = 'Undo'
 SYMBOL = 'Symbol'
 BUCCAL = 'Buccal'
 MESIAL = 'Mesial'
@@ -38,6 +39,7 @@ command_mapper = {
                   BOP: ['บีโอพี', 'บีโอที', 'บีโอพีย', 'บรีดดิ้ง'],
                   SUP: ['ซับปูเรชั่น', 'ซุปปูเรชั่น'],
                   FUR: ['เฟอร์เคชั่น'],
+                  UNDO: ['อันดู', 'อันโด']
                   }
 
 side_mapper = {'บัคเคิล': BUCCAL, 'บัคคอล': BUCCAL, 'บัคคัร': BUCCAL, 'บักคัล': BUCCAL,
@@ -323,7 +325,12 @@ def remove_zee_from_available_teeth_dict(zee, available_teeth_dict):
     flag = False 
   return available_teeth_dict, flag
 
-def create_semantic_object(semantic_object_list, word_list, available_teeth_dict, last_pdre_state):
+def create_undo_semantic(latest_semantic_object):
+  semantic_object = {'command': 'Undo'}
+  semantic_object['object'] = latest_semantic_object
+  return semantic_object
+
+def create_semantic_object(semantic_object_list, completed_semantic_object, word_list, available_teeth_dict, last_pdre_state):
   # INPUT:  semantic_object_list: semantic object result list
   #         word_list: list of processed word from token classification model
   #         available_teeth_dict: list of available teeth in each quadrant
@@ -358,7 +365,11 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
     # 1. command -> Append new empty semantic object in result list
     if word_list[i] in [MISSING, CROWN, IMPLANT, BRIDGE,
                         PDRE, PD, RE, MGJ, BOP, SUP, MO, FUR]:
-      semantic_object = copy.deepcopy(create_empty_semantic_object(word_list[i]))   
+      semantic_object = copy.deepcopy(create_empty_semantic_object(word_list[i])) 
+
+    elif word_list[i] == UNDO:
+      if len(completed_semantic_object) > 0:
+        semantic_object = copy.deepcopy(create_undo_semantic(completed_semantic_object[-1]))  
     
     # 2. 'Side'
     elif word_list[i] in [BUCCAL, MESIAL, DISTAL, LINGUAL, ALL]:
@@ -534,13 +545,11 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
           elif semantic_object['data']['payload'] != None:
-            semantic_object['data']['zee'] = [word_list[i]]
+            semantic_object['data']['zee'] = [word_list(i)]
             semantic_object['data']['position'] = None
             semantic_object['data']['payload'] = None
           elif semantic_object['data']['position'] == None:
-            semantic_object['data']['zee'] = [word_list[i]]
-            semantic_object['data']['position'] = None
-            semantic_object['data']['payload'] = None
+            semantic_object['data']['zee'] = [word_list(i)]
           
       
     # Append semantic object to result list
@@ -550,11 +559,12 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
       result.append(semantic_object)
     latest_semantic_object = copy.deepcopy(semantic_object)
   
-  # get 'command', 'zee', 'tooth_side' for result_dict
+# get 'command', 'zee', 'tooth_side' for result_dict; the 'command', 'zee', 'tooth_side' of the last semantic object
   command = None
   zee = None
   tooth_side = None
   position = None
+  bridge_end = None
   if len(semantic_object_list) != 0:
     last_s_object = semantic_object_list[len(semantic_object_list)-1]
     command = last_s_object['command']
@@ -571,12 +581,20 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           if len(missing_list)!=0:
             if None not in missing_list[len(missing_list)-1]:
               zee = missing_list[len(missing_list)-1]
-            else:
-              if len(missing_list) >= 2:
-                zee = missing_list[len(missing_list)-2]
       # Case for 'Furcation'
       if command == 'FUR':
         position = last_s_object['data']['position']
+      
+      
+      # Case for 'Bridge'
+      elif command == 'Bridge':
+        bridge_list = last_s_object['data']['bridge']
+        if len(bridge_list) != 0:
+          if None not in bridge_list[len(bridge_list)-1][0]:
+            zee = bridge_list[len(bridge_list)-1][0]
+            if bridge_list[len(bridge_list)-1][1] != None:
+              if None not in bridge_list[len(bridge_list)-1][1]:
+                bridge_end = bridge_list[len(bridge_list)-1][1]
             
   # Remove incompleted semantic object from result
   new_result = copy.deepcopy(result)
@@ -595,6 +613,15 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
           for e in result[i]['data'][each_cmd]:
             if None in e:
               new_result.remove(result[i])
+      # "Bridge"
+      if 'bridge' in result[i]['data'].keys():
+        for _ , z in result[i]['data']['bridge']:
+          # [[1, None], None] or [[1, 2], None]
+          if z == None:
+            new_result.remove(result[i])
+          # [[1, 2], [1, None]]
+          elif None in z:
+            new_result.remove(result[i])
 
   ## BOP,SUP special
   final_result = copy.deepcopy(new_result)
@@ -606,10 +633,19 @@ def create_semantic_object(semantic_object_list, word_list, available_teeth_dict
       else:
         final_result.remove(new_result[k])
   
+  ## Remove undo object from completed_semantic_object
+  for obj in final_result:
+    if obj['command'] in [UNDO] and len(completed_semantic_object) > 0:
+      completed_semantic_object.pop()
+    else:
+      completed_semantic_object.append(obj)
+
+  
   result_dict = {'command': command,
                  'tooth': zee,
                  'tooth_side': tooth_side,
                  'position': position,
+                 'bridge_end': bridge_end,
                  'semantic_list': final_result,
                  }
   return result_dict
