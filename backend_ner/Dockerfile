@@ -12,4 +12,4 @@ RUN gdown 15xjAegzT-AWGlyqgguPssP_tu7-0CQw6 -O ./model/onnx_model-quantized.onnx
 
 EXPOSE 50052
 
-CMD ["python", "server.py"]
+CMD ["python","-u","server.py"]

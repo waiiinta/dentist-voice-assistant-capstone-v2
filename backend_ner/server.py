@@ -40,6 +40,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
         old_is_final = True
         old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = None, None, None, None, None
         parser = ParserModel() # independent parser
+        print("test")
         for request in request_iterator:
             # Concatenate trancripts in the responses
             if(request.add_missing.first_zee != 100 and request.add_missing.second_zee != 100):
@@ -52,6 +53,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 continue
 
             sentence = ""
+            print("test2")
             for transcript in request.results:
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
