@@ -31,21 +31,21 @@ const port = process.env.SERVER_PORT || 3000;
 const env = process.env.NODE_ENV?  process.env.NODE_ENV : 'development';
 console.log(`Starting Backend Server in ${env} mode...`)
 let server
-// if (env == "development") {
+if (env == "development") {
   server = app.listen(port, () => { });
-// } else{
-//   server = https
-//     .createServer(
-//       {
-//         key: fs.readFileSync("key.pem"),
-//         cert: fs.readFileSync("cert.pem"),
-//       },
-//       app
-//     )
-//     .listen(port, () => {
-//       console.log(`server is runing at port ${port}`)
-//     });
-// }
+} else{
+  server = https
+    .createServer(
+      {
+        key: fs.readFileSync("key.pem"),
+        cert: fs.readFileSync("cert.pem"),
+      },
+      app
+    )
+    .listen(port, () => {
+      console.log(`server is runing at port ${port}`)
+    });
+}
 
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
