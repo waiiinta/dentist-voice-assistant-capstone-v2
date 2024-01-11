@@ -1,9 +1,0 @@
-diff a/backend_ner/server.py b/backend_ner/server.py	(rejected hunks)
-@@ -10,7 +10,6 @@
- 
- # from transformers import AutoTokenizer
- 
--# from utils.model import TokenClassifier
- from utils.model import TokenClassifier
- from utils.parser_model import ParserModel
- from utils.proto_utils import create_ner_response, create_incomplete_semantic
