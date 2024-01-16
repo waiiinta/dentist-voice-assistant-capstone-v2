@@ -1,6 +1,7 @@
 import DropdownLg from "./type/DropdownLg";
 import DropdownSmBox from "./type/DropdownSmBox";
 import CheckboxBox from "./type/CheckboxBox";
+import React from "react";
 
 import classes from "./RecordLingualInformation.module.css";
 

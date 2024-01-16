@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../store/auth-context";
+import React from "react";
 
 export const LoggedOutRoute = ({ children }) => {
   const authCtx = useContext(AuthContext);

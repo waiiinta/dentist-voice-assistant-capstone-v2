@@ -11,6 +11,7 @@ import {
   PASSWORD_MAX_LENGTH,
 } from "../../utils/constants";
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import React from "react";
 
 import classes from "./AccountEditForm.module.css";
 

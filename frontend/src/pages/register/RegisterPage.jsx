@@ -5,6 +5,7 @@ import RegisterForm from "../../components/register/RegisterForm";
 import Modal from "../../components/ui/Modal";
 import { userRegisterAPIHandler } from "../../utils/userAPIHandler";
 import NavBar from "../../components/ui/NavBar";
+import React from "react";
 
 import classes from "./RegisterPage.module.css";
 

@@ -12,6 +12,8 @@ import ErrorPage from "./pages/error/ErrorPage";
 import { LoggedInRoute } from "./components/routes/LoggedInRoute";
 import { LoggedOutRoute } from "./components/routes/LoggedOutRoute";
 import { SUPPRESS_LOG_PRODUCTION } from "./utils/constants";
+import React from "react";
+
 
 function App() {
   // Disable console.log in production environment ==================================================

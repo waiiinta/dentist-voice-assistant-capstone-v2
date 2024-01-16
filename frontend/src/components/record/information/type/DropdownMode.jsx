@@ -3,6 +3,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import crown from "../../../../images/crown.png";
 import classes from "./DropdownMode.module.css";
 import implant from "../../../../images/implant.png";
+import React from "react";
 
 function DropdownMode({
 	quadrant,

@@ -1,6 +1,7 @@
 import DropdownMode from "./type/DropdownMode";
 import classes from "./RecordToothInformation.module.css"
 import implant from "../../../images/implant.png"
+import React from "react";
 
 
 const RecordToothInformation = ({

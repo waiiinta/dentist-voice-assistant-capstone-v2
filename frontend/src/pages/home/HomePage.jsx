@@ -1,13 +1,14 @@
 import classes from "./HomePage.module.css";
 import NavBar from "../../components/ui/NavBar";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext, useEffect, Fragment } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { fetchUserInfoAPIHandler } from "../../utils/userAPIHandler";
 import { fetchUserLatestRecordAPIHandler } from "../../utils/recordAPIHandler";
 import AuthContext from "../../store/auth-context";
 import InputModal from "../../components/ui/InputModal";
 import Modal from "../../components/ui/Modal";
 import { MAXIMUM_TIME_TO_RETRIEVE_FINISHED_RECORD } from "../../utils/constants";
+
 
 const HomePage = () => {
   const navigate = useNavigate();

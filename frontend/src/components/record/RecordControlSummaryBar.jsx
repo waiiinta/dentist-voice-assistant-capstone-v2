@@ -1,6 +1,8 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Navbar from "react-bootstrap/Navbar";
 import classes from "./RecordControlBar.module.css";
+import React from "react";
+
 
 function RecordControlBar(props) {
   return (

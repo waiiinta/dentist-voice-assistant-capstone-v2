@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classes from "./Checkbox.module.css";
+import React from "react";
 
 function Checkbox({
   quadrant,
