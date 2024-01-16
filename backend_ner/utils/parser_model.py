@@ -3,8 +3,9 @@ import re
 import copy
 
 class ParserModel:
-    def __init__(self):
+    def __init__(self):        
         self.semantic_object_list = []
+        self.completed_semantic_object = []
         self.last_pdre_state = {'command': None}
         self.available_teeth_dict = {
             1: [[1, x] for x in range(8, 0, -1)], 
@@ -38,12 +39,16 @@ class ParserModel:
             - threshold: CER threshold
         '''
         new_semantic_object_list = copy.deepcopy(self.semantic_object_list)
+        new_completed_semantic_object = copy.deepcopy(self.completed_semantic_object)
         new_last_pdre_state = copy.deepcopy(self.last_pdre_state)
+        
         word_list = create_result_list(tokens, threshold, self.last_symbol)
-        result = create_semantic_object(new_semantic_object_list, word_list, self.available_teeth_dict, new_last_pdre_state)
+        result = create_semantic_object(new_semantic_object_list, new_completed_semantic_object, word_list, self.available_teeth_dict, new_last_pdre_state)
+
 
         if save:
             self.semantic_object_list = new_semantic_object_list
+            self.completed_semantic_object = new_completed_semantic_object
             self.last_pdre_state = new_last_pdre_state
             self.last_symbol = False
 

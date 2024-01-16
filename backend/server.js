@@ -12,6 +12,7 @@ process.on('uncaughtException', err => {
 
 dotenv.config();
 const app = require('./app');
+const { prototype } = require("node-blob");
 
 // Connect MongoDB
 console.log(process.env.DATABASE_LOCAL)
@@ -32,7 +33,9 @@ const env = process.env.NODE_ENV?  process.env.NODE_ENV : 'development';
 console.log(`Starting Backend Server in ${env} mode...`)
 let server
 if (env == "development") {
-  server = app.listen(port, () => { });
+  server = app.listen(port, () => {
+    console.log(`server is runing at port ${port}`)
+  });
 } else{
   server = https
     .createServer(
