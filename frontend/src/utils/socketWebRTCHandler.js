@@ -7,9 +7,11 @@ import {
 } from "../utils/constants";
 import { getToothStartPosition } from "./toothLogic";
 import { playConnectionSound } from "./soundPlayerHandler";
+import voiceFeedbackHandler from "./voiceFeedbackHandler";
 
 /* Import modules for using sockets */
 import io from "socket.io-client";
+
 
 const getAudioTrackAndAddToTheConnection = async (
   peerConnection,
@@ -235,6 +237,7 @@ const initiateConnection = async (
         data.target,
         spec_id
       );
+      voiceFeedbackHandler(data)
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
     }else if(data.mode == "FUR"){
       handleSetInformation(
