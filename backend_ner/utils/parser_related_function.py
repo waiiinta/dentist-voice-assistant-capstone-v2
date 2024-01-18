@@ -425,50 +425,87 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         elif len(semantic_object['data'][cmd_name]) != 0 and semantic_object['data'][cmd_name][len(semantic_object['data'][cmd_name])-1][1] != None:
           semantic_object['data'][cmd_name].append([word_list[i], None])
   
-      #Add-ons Number for 'Bridge
+      #Add-ons Number for 'Bridge'
       elif semantic_object['command'] == BRIDGE:
         # bridge = []
         if len(semantic_object['data']['bridge']) == 0:
-          semantic_object['data']['bridge'].append([[word_list[i], None], None])
-        # last element in bridge = [[1, None], None] or [[1, 2], None]
-        elif semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1] == None:
-          # last element in bridge = [[1, None], None]
-          if semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][0][1] == None:
-            semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][0][1] = word_list[i]
-          # last element in bridge = [[1, 2], None]
+          semantic_object['data']['bridge'].append([[word_list[i], None]])
+
+        # last element in bridge = [[1,None]] --> [[1,2]]
+        elif len(semantic_object['data']['bridge'][-1]) == 1 and None in semantic_object['data']['bridge'][-1][0]:
+          semantic_object['data']['bridge'][-1][0][1] = word_list[i]
+        # last element in bridge = [[1,2], None] --> [[1,2], [1,None]]
+        elif semantic_object['data']['bridge'][-1][1] == None:
+          semantic_object['data']['bridge'][-1][1] = [word_list[i], None]
+        # last element in brdige = [[1,2], [1,None]] --> [[1,2], [1,4]] This case has to remove all gap from available_teeth_dict
+        elif None in semantic_object['data']['bridge'][-1][1]:
+          semantic_object['data']['bridge'][-1][1][1] = word_list[i]
+          # Next step is to remove all gap tooth from available_teeth_dict
+          edge = semantic_object['data']['bridge'][-1]
+          gap = []
+          # Bridge Edge are not on the same quadrant
+          if edge[0][0] != edge[1][0]:
+            tooth_idx = edge[0][1]
+            while tooth_idx != 1:
+              tooth_idx -= 1
+              gap.append([edge[0][0], tooth_idx])
+            tooth_idx = edge[1][1]
+            while tooth_idx != 1:
+              tooth_idx -= 1
+              gap.append([edge[1][0], tooth_idx])
+          # Bridge Edge are on the same quadrant
           else:
-            semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1] = [word_list[i], None]
+            greater_idx = max(edge[0][1], edge[1][1])
+            less_idx = min(edge[0][1], edge[1][1])
+            for i in range(less_idx+1, greater_idx):
+              gap.append([edge[0][0], i])
+          for tooth in gap:
+            available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
+          first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+          last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+        # last element in bridge = [[1,2], [1,4]] --> [[2, None]]
+        elif None not in semantic_object['data']['bridge'][-1][1]:
+          semantic_object['data']['bridge'].append([[word_list[i], None]])
+        
+        # # last element in bridge = [[1, None], None] or [[1, 2], None]
+        # elif semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1] == None:
+        #   # last element in bridge = [[1, None], None]
+        #   if semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][0][1] == None:
+        #     semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][0][1] = word_list[i]
+        #   # last element in bridge = [[1, 2], None]
+        #   else:
+        #     semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1] = [word_list[i], None]
         # last element in bridge = [[1, 2], [1, None]] or [[1, 2], [1, 3]]
-        else:
-          # last element in bridge = [[1, 2], [1, None]]
-          if semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1][1] == None:
-            semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1][1] = word_list[i]
+        # else:
+        #   # last element in bridge = [[1, 2], [1, None]]
+        #   if semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1][1] == None:
+            # semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1][1][1] = word_list[i]
             # Remove all bridge gap from available_teeth_dict
-            bridge_crown = semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1]
-            gap = []
-            # Bridge Crown are not on the same quadrant
-            if bridge_crown[0][0] != bridge_crown[1][0]:
-              tooth_idx = bridge_crown[0][1]
-              while tooth_idx != 1:
-                tooth_idx -= 1
-                gap.append([bridge_crown[0][0], tooth_idx])
-              tooth_idx - bridge_crown[1][1]
-              while tooth_idx != 1:
-                tooth_idx -= 1
-                gap.append([bridge_crown[1][0], tooth_idx])
-            # Bridge are on the same quadrant
-            else:
-              greater_idx = max(bridge_crown[0][1], bridge_crown[1][1])
-              less_idx = min(bridge_crown[0][1], bridge_crown[1][1])
-              for i in range(less_idx+1, greater_idx):
-                gap.append([bridge_crown[0][0], i])
-            for tooth in gap:
-              available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
-            first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
-            last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
-          # last element in bridge = [[1, 2], [1, 3]]
-          else:
-            semantic_object['data']['bridge'].append([[word_list[i], None], None])
+            # bridge_crown = semantic_object['data']['bridge'][len(semantic_object['data']['bridge'])-1]
+            # gap = []
+            # # Bridge Crown are not on the same quadrant
+            # if bridge_crown[0][0] != bridge_crown[1][0]:
+            #   tooth_idx = bridge_crown[0][1]
+            #   while tooth_idx != 1:
+            #     tooth_idx -= 1
+            #     gap.append([bridge_crown[0][0], tooth_idx])
+            #   tooth_idx - bridge_crown[1][1]
+            #   while tooth_idx != 1:
+            #     tooth_idx -= 1
+            #     gap.append([bridge_crown[1][0], tooth_idx])
+            # # Bridge are on the same quadrant
+            # else:
+            #   greater_idx = max(bridge_crown[0][1], bridge_crown[1][1])
+            #   less_idx = min(bridge_crown[0][1], bridge_crown[1][1])
+            #   for i in range(less_idx+1, greater_idx):
+                # gap.append([bridge_crown[0][0], i])
+            # for tooth in gap:
+            #   available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
+            # first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+            # last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+          # # last element in bridge = [[1, 2], [1, 3]]
+          # else:
+          #   semantic_object['data']['bridge'].append([[word_list[i], None], None])
             
 
         
@@ -551,7 +588,14 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             semantic_object['data']['payload'] = None
           elif semantic_object['data']['position'] == None:
             semantic_object['data']['zee'] = [word_list(i)]
-          
+        
+    # 4. 'To' For Bridge command
+    elif word_list[i] == TO:
+      if semantic_object['command'] == BRIDGE:
+        if len(semantic_object['data']['bridge']) > 0:
+          # last element in bridge = [[1, 2]]
+          if len(semantic_object['data']['bridge'][-1]) == 1 and None not in semantic_object['data']['bridge'][-1][0]:
+            semantic_object['data']['bridge'][-1].append(None) # last element in bridge becomes = [[1, 2], None]
       
     # Append semantic object to result list
     # if semantic got updated -> append to the result
@@ -591,11 +635,12 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
       elif command == 'Bridge':
         bridge_list = last_s_object['data']['bridge']
         if len(bridge_list) != 0:
-          if None not in bridge_list[len(bridge_list)-1][0]:
-            zee = bridge_list[len(bridge_list)-1][0]
-            if bridge_list[len(bridge_list)-1][1] != None:
-              if None not in bridge_list[len(bridge_list)-1][1]:
-                bridge_end = bridge_list[len(bridge_list)-1][1]
+          if None not in bridge_list[-1][0]:
+            zee = bridge_list[-1][0]
+            if len(bridge_list[-1]) == 2:
+              if bridge_list[-1][1] != None:
+                if None not in bridge_list[-1][1]:
+                  bridge_end = bridge_list[-1][1]
             
   # Remove incompleted semantic object from result
   new_result = copy.deepcopy(result)
@@ -616,13 +661,18 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
               new_result.remove(result[i])
       # "Bridge"
       if 'bridge' in result[i]['data'].keys():
-        for _ , z in result[i]['data']['bridge']:
-          # [[1, None], None] or [[1, 2], None]
-          if z == None:
+        for z in result[i]['data']['bridge']:
+          # [[1, None]] or [[1, 2]]
+          if len(z) == 1:
             new_result.remove(result[i])
-          # [[1, 2], [1, None]]
-          elif None in z:
-            new_result.remove(result[i])
+          elif len(z) == 2:
+            # [[1, 2], None]
+            if z[1] == None:
+              new_result.remove(result[i])
+            # [[1, 2], [1, None]]
+            elif None in z[1]:
+              new_result.remove(result[i])
+
 
   ## BOP,SUP special
   final_result = copy.deepcopy(new_result)
