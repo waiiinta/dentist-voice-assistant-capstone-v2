@@ -43,7 +43,7 @@ const RecordBuccalInformation = ({
         data={pd}
         handleSetInformation={handleSetInformation}
         positionToBeHighlighted={
-          command === "PDRE" ? positionToBeHighlighted : null
+          command === "PDRE" || command === "PD" ? positionToBeHighlighted : null
         }
       />
       <DropdownSmBox
@@ -54,7 +54,7 @@ const RecordBuccalInformation = ({
         data={re}
         handleSetInformation={handleSetInformation}
         positionToBeHighlighted={
-          command === "PDRE" ? positionToBeHighlighted : null
+          command === "PDRE"|| command === "RE" ? positionToBeHighlighted : null
         }
       />
       <CheckboxBox

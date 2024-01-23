@@ -30,7 +30,7 @@ const RecordSection = ({
     !!currentCommand && !!currentCommand.command
       ? currentCommand.command
       : null;
-  if (command === "PDRE" || command == "BOP" || command =="SUP" ) {
+  if (["PDRE","PD","RE","BOP","SUP"].includes(command) ) {
     const side = !!currentCommand.side
       ? currentCommand.side.toLowerCase()
       : null;

@@ -250,7 +250,7 @@ io.on("connection", async (socket) => {
         side_not_depend = ["MO", "MGJ", "FUR"];
 
         // console.log(semantic);
-        if (!semantic.is_complete) {
+        if (!semantic.is_complete || mode == "Missing") {
           q = null;
           i = null;
           if (!(semantic.data.zee === null)) {
