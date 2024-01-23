@@ -1,6 +1,6 @@
 // Production
 const SUPPRESS_LOG_PRODUCTION = true;
-process.env.NODE_ENV = "development"
+// process.env.NODE_ENV = "development"
 // Backend Streaming URL
 const URL_BACKEND = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_IP}:${process.env.REACT_APP_BACKEND_PORT}`;
 const URL_BACKEND_STREAMING = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_STREAMING_IP}:${process.env.REACT_APP_BACKEND_STREAMING_PORT}`;

@@ -3,7 +3,7 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
 	let audio_path_list = [];
   let audio_list = []
   
-	if (is_finish) {
+	if (data.is_finish) {
 		audio_path_list.push(String(mode) + ".mp3");
 		audio_path_list.push(String(q) + ".mp3");
 		audio_path_list.push(String(i) + ".mp3");

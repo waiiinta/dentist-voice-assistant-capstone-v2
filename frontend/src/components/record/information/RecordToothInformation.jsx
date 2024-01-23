@@ -1,6 +1,8 @@
 import DropdownMode from "./type/DropdownMode";
 import classes from "./RecordToothInformation.module.css"
 import implant from "../../../images/implant.png"
+import { useEffect, useState } from "react";
+import BridgeModal from "./type/BridgeModal";
 
 
 const RecordToothInformation = ({
@@ -11,6 +13,7 @@ const RecordToothInformation = ({
   isHighlighted
 })=>{
   // console.log("isHighlighted",isHighlighted)
+
   return (
     <div className={classes.box}>
       <DropdownMode

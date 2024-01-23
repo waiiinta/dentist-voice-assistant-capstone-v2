@@ -25,6 +25,8 @@ frontend/package-lock.json
 backend/node_modules
 backend/package-lock.json
 backend/.env
+backend/cert.pem
+backend/key.pem
 
 # backend_webrtc
 backend_webrtc/node_modules
@@ -45,8 +47,8 @@ backend_ner/utils/__pycache__
 db/*
 
 # public and private key of backend server (for https)
-cert.pem
-csr.pem
-key.pem
+*/cert.pem
+*/csr.pem
+*/key.pem
 
 *.env
