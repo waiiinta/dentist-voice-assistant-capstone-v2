@@ -40,7 +40,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
         old_is_final = True
         old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = None, None, None, None, None
         parser = ParserModel() # independent parser
-        print("test")
+        # print("test")
         for request in request_iterator:
             # Concatenate trancripts in the responses
             if(request.add_missing.first_zee != 100 and request.add_missing.second_zee != 100):
@@ -53,14 +53,14 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 continue
 
             sentence = ""
-            print("test2")
+            # print("test2")
             for transcript in request.results:
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
                 # which has low confidence. 
-                for word in transcript.word_timestamps:
-                    print("Word", word.word)
-                    print("Confidence", word.confidence)
+                # for word in transcript.word_timestamps:
+                    # print("Word", word.word)
+                    # print("Confidence", word.confidence)
                 if len(transcript.word_timestamps) == 1 and (transcript.word_timestamps[0].word in ERROR_WORD and transcript.word_timestamps[0].confidence < 0.4) or\
                     transcript.word_timestamps[0].word in NUMBER and transcript.word_timestamps[0].confidence < 0.1: #transcript.word_timestamps[0].word == "สอง" and\
                     continue
@@ -78,18 +78,18 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 old_tooth_list = []
             else:
                 sentences[-1] = sentence
-            print(sentences)
+            # print(sentences)
 
             # Predict the class of each token in the sentence
             # predicted_token = self.token_classifier.inference(sentence)
             # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
-            print(parser.semantic_object_list)
-            print(parser.completed_semantic_object)
+            # print(parser.semantic_object_list)
+            # print(parser.completed_semantic_object)
             command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
-            print(tooth)
-            print(bridge_end)
+            # print(tooth)
+            # print(bridge_end)
             # Create an incomplete semantic for update display to frontend
             # 1.) first we consider that if there is not semantic from the result but the command is not None
             # then create incomplete semantic
@@ -198,7 +198,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
 
 
             # print()
-            # print(semantics)
+            print(semantics)
             old_is_final = request.is_final
             # Create a dummy response
             if len(semantics) > 0:

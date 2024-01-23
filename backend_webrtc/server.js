@@ -242,20 +242,28 @@ io.on("connection", async (socket) => {
       let isUpdate = false;
       // console.log("pass here 1")
       semanticList.forEach(async (semantic) => {
-        console.log("this is semantic:",semantic)
+        // console.log("this is semantic:",semantic)
         mode = semantic.command;
         // pd_re_bop = ["PDRE", "BOP"];
         // mo_mgj = ["MO", "MGJ"];
         side_depend = ["PDRE", "PD", "RE", "BOP", "SUP"];
         side_not_depend = ["MO", "MGJ", "FUR"];
 
-        // console.log(semantic);
-        if (!semantic.is_complete || mode == "Missing") {
+        // console.log(semantic.data);
+        if (!semantic.is_complete || mode === "Missing") {
+          
           q = null;
           i = null;
           if (!(semantic.data.zee === null)) {
             q = semantic.data.zee.first_zee;
             i = semantic.data.zee.second_zee;
+          }else if(mode === "Missing" && semantic.data.missing.length != 0){
+            let missing = semantic.data.missing
+            // console.log(missing)
+            // console.log(missing[missing.length - 1])
+            q = missing[missing.length - 1].first_zee
+            i = missing[missing.length - 1].second_zee
+
           }
           tooth_side = semantic.data.tooth_side;
 
@@ -265,6 +273,7 @@ io.on("connection", async (socket) => {
             !(i === old_i) ||
             !(tooth_side === old_side)
           ) {
+            // console.log("pass here")
             sendUpdateDisplayToFrontEnd(socket, mode, q, i, tooth_side);
             // Clear the ToothValue when start a command to handle the repeat tooth value problem.
             // if ([mode === "PDRE"] && !!q && !!i && !!tooth_side) {
@@ -279,9 +288,12 @@ io.on("connection", async (socket) => {
           old_q = q;
           old_i = i;
           old_side = tooth_side;
-          return;
+          if(mode != "Missing" || semantic.data.missing.length == 0){
+            console.log("pass")
+            return;
+          }
         }
-        // console.log("pass here 2")
+        console.log(mode === "Missing")
         // if (pd_re_bop.includes(mode)) {
         if (side_depend.includes(mode)){
           side = semantic.data.tooth_side.toLowerCase();
@@ -371,19 +383,19 @@ io.on("connection", async (socket) => {
             }
           }
         } else if (mode === "Missing") {
-          console.log(semantic)
+          console.log("missing",semantic)
           missing_list = semantic.data.missing;
           missing_list.forEach((missing_tooth) => {
             q = missing_tooth.first_zee;
             i = missing_tooth.second_zee;
             target = true;
 
-            // console.log(mode, q, i, '-->', target)
+            console.log(mode, q, i, '-->', target)
             if (toothTable.updateValue(q, i, mode, target))
               sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
           });
         } else if (mode === "Crown") {
-          console.log(semantic.data)
+          // console.log(semantic.data)
           crown_list = semantic.data.crown;
           crown_list.forEach((crown_tooth) => {
             q = crown_tooth.first_zee;

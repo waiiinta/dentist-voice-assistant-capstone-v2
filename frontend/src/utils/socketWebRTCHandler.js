@@ -174,8 +174,9 @@ const initiateConnection = async (
     let position = null;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
-    }else if(data.command === "FUR" && data.q && data.i){
-      position = data.position.toLowerCase()
+    }else if(data.command === "FUR" && data.q && data.i && ((data.q == 1 && data.i == 4)) || (data.q == 2 && data.i == 4) || ([8,7,6].includes(data.i) && [1,2,3,4].includes(data.q))){
+      console.log(data)
+      // position = data.position.toLowerCase()
     }
 
     dispatchCurrentCommand({
