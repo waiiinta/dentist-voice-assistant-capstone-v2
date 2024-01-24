@@ -238,6 +238,7 @@ io.on("connection", async (socket) => {
     ner_call.on("data", (response) => {
       // console.log(response.response);
       let semanticList = response.response;
+      console.log(response)
       console.log(semanticList)
       let isUpdate = false;
       // console.log("pass here 1")
@@ -250,7 +251,7 @@ io.on("connection", async (socket) => {
         side_not_depend = ["MO", "MGJ", "FUR"];
 
         // console.log(semantic.data);
-        if (!semantic.is_complete || mode === "Missing") {
+        if ((!semantic.is_complete ) || mode === "Missing") {
           
           q = null;
           i = null;
@@ -259,8 +260,7 @@ io.on("connection", async (socket) => {
             i = semantic.data.zee.second_zee;
           }else if(mode === "Missing" && semantic.data.missing.length != 0){
             let missing = semantic.data.missing
-            // console.log(missing)
-            // console.log(missing[missing.length - 1])
+
             q = missing[missing.length - 1].first_zee
             i = missing[missing.length - 1].second_zee
 

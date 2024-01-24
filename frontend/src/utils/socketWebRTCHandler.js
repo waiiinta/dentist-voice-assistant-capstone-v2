@@ -238,7 +238,7 @@ const initiateConnection = async (
         data.target,
         spec_id
       );
-      voiceFeedbackHandler(data)
+      
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
     }else if(data.mode == "FUR"){
       handleSetInformation(
@@ -272,6 +272,8 @@ const initiateConnection = async (
         // console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
       }
     }
+    console.log(data.target)
+    voiceFeedbackHandler(data)
 
     // shift the cursor to the next tooth available (PDRE, MGJ command) when receiving
     // 'next_tooth' field

@@ -58,9 +58,9 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
                 # which has low confidence. 
-                # for word in transcript.word_timestamps:
-                    # print("Word", word.word)
-                    # print("Confidence", word.confidence)
+                for word in transcript.word_timestamps:
+                    print("Word", word.word)
+                    print("Confidence", word.confidence)
                 if len(transcript.word_timestamps) == 1 and (transcript.word_timestamps[0].word in ERROR_WORD and transcript.word_timestamps[0].confidence < 0.4) or\
                     transcript.word_timestamps[0].word in NUMBER and transcript.word_timestamps[0].confidence < 0.1: #transcript.word_timestamps[0].word == "สอง" and\
                     continue
@@ -198,11 +198,12 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
 
 
             # print()
-            print(semantics)
+            # print(semantics)
             old_is_final = request.is_final
             # Create a dummy response
             if len(semantics) > 0:
                 response = create_ner_response(semantics)
+                print(response)
                 yield response
 
 address = f"[::]:{config.PORT}"
