@@ -100,7 +100,10 @@ def create_bridge(list_bridge):
     
     result = []
     for bridge in list_bridge:
+        print(bridge[0])
+        print(bridge[1])
         result.append([create_zee(bridge[0]), create_zee(bridge[1])])
+        print(result)
     return result
 
 def create_incomplete_semantic(command, tooth, tooth_side, position):

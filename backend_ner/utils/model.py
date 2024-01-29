@@ -108,4 +108,5 @@ class TokenClassifier:
                 token_label_list.append([token, "Undo"])
             elif token in ['ถึง']:
                 token_label_list.append([token, "To"])
+        print(token_label_list)
         return token_label_list
