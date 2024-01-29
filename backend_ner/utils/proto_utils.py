@@ -1,7 +1,8 @@
-from utils.ner_model_pb2 import NERResponse, Zee, CommandData, SemanticCommand, CommandUndo
+from utils.ner_model_pb2 import NERResponse, Zee, CommandData, SemanticCommand, CommandUndo, BridgeZee
 
 def create_ner_response(semantics):
     response = []
+    print('pass one')
     for semantic in semantics:
         command = semantic.get("command", None)
         # if command == "BOP":
@@ -34,6 +35,7 @@ def create_ner_response(semantics):
                         is_number_PD = semantic.get("object", dict()).get("data", dict()).get("is_number_PD", None),
                     )
         else:
+            print('pass two')
             data = CommandData(
                         zee = create_zee(semantic.get("data", dict()).get("zee", None)),
                         tooth_side = semantic.get("data", dict()).get("tooth_side", None),
@@ -45,12 +47,14 @@ def create_ner_response(semantics):
                         implant = create_implant(semantic.get("data", dict()).get("implant", None)),
                         bridge = create_bridge(semantic.get("data", dict()).get("bridge", None)),
                     )
+            print(data)
         is_complete = semantic.get("is_complete", True)
         if command in ["Undo"]:
             semantic_command = SemanticCommand(command=command, data=None, undo=data, is_complete=is_complete)
         else:
             semantic_command = SemanticCommand(command=command, data=data, undo=None, is_complete=is_complete)
         response.append(semantic_command)
+        print(response)
     return NERResponse(response=response)
 
 def create_zee(list_zee):
@@ -102,7 +106,7 @@ def create_bridge(list_bridge):
     for bridge in list_bridge:
         print(bridge[0])
         print(bridge[1])
-        result.append([create_zee(bridge[0]), create_zee(bridge[1])])
+        result.append(BridgeZee(bridge=[create_zee(bridge[0]), create_zee(bridge[1])]))
         print(result)
     return result
 

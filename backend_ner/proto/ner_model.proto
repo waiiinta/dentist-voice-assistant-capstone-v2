@@ -27,7 +27,11 @@ message CommandData {
 
     repeated Zee crown = 8;
     repeated Zee implant = 9;
-    repeated Zee bridge = 10;
+    repeated BridgeZee bridge = 10;
+}
+
+message BridgeZee {
+  repeated Zee bridge = 1;
 }
 
 message CommandUndo {
