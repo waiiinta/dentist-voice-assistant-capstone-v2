@@ -21,6 +21,10 @@ import PD from "../sounds/PD.mp3"
 import RE from "../sounds/RE.mp3"
 import SUP from "../sounds/SUP.mp3"
 import Undo from "../sounds/Undo.mp3"
+import Buccal from "../sounds/Buccal.mp3"
+import Lingual from "../sounds/Lingual.mp3"
+import Distal from "../sounds/Distal.mp3"
+import Mesial from "../sounds/Mesial.mp3"
 
 const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
   // for(let i = 0 ;i < 2; i++){
@@ -62,10 +66,13 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
   //   // setInterval(playAudio(audio,volume,loop),5000)
   // }
   
-  let { q, i, side, mode, spec_id, target } = data;
+  let { q, i, side, mode, position, target } = data;
   let audio_path_list = [];
   let audio_list = [];
   console.log(data)
+  if(["PDRE","PD","RE","FUR","BOP","SUP"].includes(mode)){
+    return
+  }
   if (data.target) {
     audio_path_list.push(String(mode));
     audio_path_list.push(String(q));
@@ -73,8 +80,8 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
     if (side) {
       audio_path_list.push(String(side));
     }
-    if (spec_id) {
-      audio_path_list.push(String(spec_id));
+    if (position) {
+      audio_path_list.push(String(position));
     }
     if (target) {
       audio_path_list.push(String(target));
@@ -106,7 +113,11 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
         case "Crown" : audio_file = Crown; break
         case "Implant" : audio_file = Implant; break
         case "Bridge" : audio_file = Bridge; break
-        case "Undo" : audio_file = Undo; break
+        case "Undo" : audio_file = Undo; 
+        case "Buccal" : audio_file = Buccal
+        case "Lingual" : audio_file = Lingual
+        case "Distal" : audio_file = Distal
+        case "Mesial" : audio_file = Mesial
       }
       let audio = new Audio(audio_file);
       audio_list.push(audio);
