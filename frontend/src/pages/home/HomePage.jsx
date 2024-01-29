@@ -243,7 +243,7 @@ const HomePage = () => {
           </div>
           <div>
             <h1 className={classes.header}>
-              Dentist Voice-Controlled Assistant
+              Dentist Voice-Controlled Assistant V2
             </h1>
             <p className={classes.information}>
               This is a dentist assistance web-application developed by a group
