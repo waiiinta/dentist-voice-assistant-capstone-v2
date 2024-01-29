@@ -133,6 +133,8 @@ def create_result_list(sentence_list, threshold, have_symbol):
       elif entity == 'Side':
         nearest_side = get_nearest_word(word, side_mapper, threshold)
         result.append(nearest_side)
+    elif entity == 'To':
+      result.append(TO)
     else:
       print("Remove unwanted entity for word '"+word+"'.")
   # Remove ''
@@ -591,10 +593,14 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         
     # 4. 'To' For Bridge command
     elif word_list[i] == TO:
+      print('pass 1')
       if semantic_object['command'] == BRIDGE:
+        print('pass 2')
         if len(semantic_object['data']['bridge']) > 0:
+          print('pass 3')
           # last element in bridge = [[1, 2]]
           if len(semantic_object['data']['bridge'][-1]) == 1 and None not in semantic_object['data']['bridge'][-1][0]:
+            print('pass 4')
             semantic_object['data']['bridge'][-1].append(None) # last element in bridge becomes = [[1, 2], None]
       
     # Append semantic object to result list
