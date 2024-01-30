@@ -79,6 +79,7 @@ io.on("connection", async (socket) => {
   let old_q = null;
   let old_i = null;
   let old_side = "";
+  let old_position = ""
   let toothTable = new ToothTable();
 
   console.log(
@@ -266,15 +267,17 @@ io.on("connection", async (socket) => {
 
           }
           tooth_side = semantic.data.tooth_side;
+          position = semantic.data.position
 
           if (
             !(old_command === mode) ||
             !(q === old_q) ||
             !(i === old_i) ||
-            !(tooth_side === old_side)
+            !(tooth_side === old_side)||
+            !(old_position === position)
           ) {
             // console.log("pass here")
-            sendUpdateDisplayToFrontEnd(socket, mode, q, i, tooth_side);
+            sendUpdateDisplayToFrontEnd(socket, mode, q, i, tooth_side,position);
             // Clear the ToothValue when start a command to handle the repeat tooth value problem.
             // if ([mode === "PDRE"] && !!q && !!i && !!tooth_side) {
             if (["PDRE", "PD", "RE"].includes(mode) && !!q && !!i && !!tooth_side) {
@@ -288,6 +291,7 @@ io.on("connection", async (socket) => {
           old_q = q;
           old_i = i;
           old_side = tooth_side;
+          old_position = position
           if(mode != "Missing" || semantic.data.missing.length == 0){
             console.log("pass")
             return;
@@ -484,8 +488,8 @@ const sendUpdateToothTableDataToFrontEnd = (
   socket.emit("data", data);
 };
 
-const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side) => {
-  data = { command, q, i, tooth_side };
+const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side,position = null) => {
+  data = { command, q, i, tooth_side,position };
   // console.log("update_command", data);
   socket.emit("update_command", data);
 };

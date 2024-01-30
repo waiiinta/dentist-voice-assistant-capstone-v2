@@ -31,7 +31,7 @@ message CommandData {
 }
 
 message BridgeZee {
-  repeated Zee bridge = 1;
+  repeated Zee zee = 1;
 }
 
 message CommandUndo {

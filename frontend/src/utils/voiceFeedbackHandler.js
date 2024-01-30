@@ -67,26 +67,53 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
   // }
   
   let { q, i, side, mode, position, target } = data;
+  let spec_id = []
+  switch(q){
+    case 1 : spec_id = ["distal","buccal","mesial"];break
+    case 2 : spec_id = ["mesial","buccal","distal"];break
+    case 3 : spec_id = ["mesial","lingual","distal"];break
+    case 4 : spec_id = ["distal","lingual","mesial"];break
+  }
   let audio_path_list = [];
   let audio_list = [];
   console.log(data)
-  if(["PDRE","PD","RE","FUR","BOP","SUP"].includes(mode)){
+  let run = false
+  if(["BOP","SUP"].includes(mode)){
+    for(let i = 0;i < target.length ;i++){
+      if(target[i]){
+        run = true
+      }
+    }
+  }else{
+    run = target? true:false
+  }
+  if(["PDRE","PD","RE","Bridge"].includes(mode)){
     return
   }
-  if (data.target) {
+  if (run) {
     audio_path_list.push(String(mode));
-    audio_path_list.push(String(q));
-    audio_path_list.push(String(i));
     if (side) {
       audio_path_list.push(String(side));
     }
+    audio_path_list.push(String(q));
+    audio_path_list.push(String(i));
     if (position) {
       audio_path_list.push(String(position));
     }
     if (target) {
-      audio_path_list.push(String(target));
+      if(Array.isArray(target)){
+        for(let i = 0;i < target.length;i++){
+          if(target[i]){
+            audio_path_list.push(String(spec_id[i]))
+          }
+        }
+      }
+      else{
+        audio_path_list.push(String(target));
+      }
     }
 
+    console.log("path",audio_path_list)
     for (let i = 0; i < audio_path_list.length; i++) {
       let name = audio_path_list[i]
       let audio_file
@@ -113,11 +140,11 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
         case "Crown" : audio_file = Crown; break
         case "Implant" : audio_file = Implant; break
         case "Bridge" : audio_file = Bridge; break
-        case "Undo" : audio_file = Undo; 
-        case "Buccal" : audio_file = Buccal
-        case "Lingual" : audio_file = Lingual
-        case "Distal" : audio_file = Distal
-        case "Mesial" : audio_file = Mesial
+        case "Undo" : audio_file = Undo;break
+        case "buccal" : audio_file = Buccal; break
+        case "lingual" : audio_file = Lingual; break
+        case "distal" : audio_file = Distal; break
+        case "mesial" : audio_file = Mesial; break
       }
       let audio = new Audio(audio_file);
       audio_list.push(audio);
