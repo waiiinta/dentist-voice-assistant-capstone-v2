@@ -9,7 +9,7 @@ exports.teethInformationHandler = (
   bridge_edge = false
 ) => {
   // console.log(obj);
-  // console.log(q,i,side,mode,target,spec_id,bridge_edge);
+  console.log(q,i,side,mode,target,spec_id,);
   if (obj.quadrant === q) {
     obj.idxArray.map((data) => {
       if (data.ID === i) {
@@ -31,11 +31,22 @@ exports.teethInformationHandler = (
           });
 
           return newRE;
-        } else if (mode === "BOP") {
+        }else if(mode === "PDRE"){
+          const newPDRE = data.depended_side_data.map((checkSide) => {
+            if (checkSide.side === side) {
+              checkSide.PD[spec_id] = target
+              checkSide.RE[spec_id] = target;
+            }
+            return checkSide;
+          });
+          return newPDRE
+        } 
+        else if (mode === "BOP") {
           const newBOP = data.depended_side_data.map((checkSide) => {
             if (checkSide.side === side) {
               checkSide.BOP[spec_id] = target;
             }
+            console.log(target,checkSide)
             return checkSide;
           });
           
@@ -103,7 +114,6 @@ exports.teethInformationHandler = (
       return data;
     });
   }
-  console.log(obj);
   return obj;
 };
 var rand = function (min, max) {
