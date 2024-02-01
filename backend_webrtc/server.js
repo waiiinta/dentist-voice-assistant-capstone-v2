@@ -494,6 +494,6 @@ const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side,position 
   socket.emit("update_command", data);
 };
 
-server.listen(process.env.SERVER_PORT, () => {
-  console.log(`listening on *:${process.env.SERVER_PORT}`);
+server.listen(process.env.WRTC_SERVER_PORT, () => {
+  console.log(`listening on *:${process.env.WRTC_SERVER_PORT}`);
 });

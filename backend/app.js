@@ -9,7 +9,7 @@ const recordRouter = require("./routes/recordRoutes");
 
 const corsOptions = {
   // origin: [
-  //   `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.FRONTEND_IP}:${process.env.FRONTEND_PORT}`,
+  //   `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.FRONTEND_IP}:${process.env.PORT}`,
   //   `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.BACKEND_WEB_RTC_IP}:${process.env.BACKEND_WEB_RTC_PORT}`,
   // ],
   origin : '*',
