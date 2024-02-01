@@ -252,22 +252,29 @@ io.on("connection", async (socket) => {
         side_not_depend = ["MO", "MGJ", "FUR"];
 
         // console.log(semantic.data);
-        if ((!semantic.is_complete ) || mode === "Missing") {
+        if ((!semantic.is_complete ) || ["Missing","Undo"].includes(mode)) {
           
           q = null;
           i = null;
-          if (!(semantic.data.zee === null)) {
+          if (mode != "Undo" && !(semantic.data.zee === null)) {
             q = semantic.data.zee.first_zee;
             i = semantic.data.zee.second_zee;
+            
           }else if(mode === "Missing" && semantic.data.missing.length != 0){
             let missing = semantic.data.missing
 
             q = missing[missing.length - 1].first_zee
             i = missing[missing.length - 1].second_zee
+            tooth_side = semantic.data.tooth_side;
+            position = semantic.data.position
 
+          }else if(mode === "Undo"){
+            let sem = semantic.undo
+            q = sem.zee.first_zee
+            i = sem.zee.second_zee
           }
-          tooth_side = semantic.data.tooth_side;
-          position = semantic.data.position
+          tooth_side = semantic.data? semantic.data.tooth_side : null;
+          position = semantic.data? semantic.data.position : null
 
           if (
             !(old_command === mode) ||
@@ -292,8 +299,8 @@ io.on("connection", async (socket) => {
           old_i = i;
           old_side = tooth_side;
           old_position = position
-          if(mode != "Missing" || semantic.data.missing.length == 0){
-            console.log("pass")
+          let missing_length = semantic.data? semantic.data.missing.length : 0
+          if(!["Missing","Undo"].includes(mode) || (missing_length == 0 && mode === "Missing")){
             return;
           }
         }
@@ -454,6 +461,8 @@ io.on("connection", async (socket) => {
           target = true;
           side = semantic.undo.tooth_side.toLowerCase();
           position = semantic.undo.position.toLowerCase();
+          undo_mode = semantic.undo.command
+          console.log(semantic.undo.command)
           sendUpdateToothTableDataToFrontEnd(
             socket, 
             q, 
@@ -462,6 +471,10 @@ io.on("connection", async (socket) => {
             target,
             side,
             position,
+            null,
+            null,
+            null,
+            undo_mode
           );
         }
         // toothTable.showPDREValue();
@@ -484,9 +497,10 @@ const sendUpdateToothTableDataToFrontEnd = (
   position = null,
   next_tooth = null,
   q2 = null,
-  i2 = null
+  i2 = null,
+  undo_mode = null,
 ) => {
-  data = { q, i, mode, target, side, position, next_tooth, q2, i2 };
+  data = { q, i, mode, target, side, position, next_tooth, q2, i2,undo_mode };
   // console.log("data", data);
   socket.emit("data", data);
 };

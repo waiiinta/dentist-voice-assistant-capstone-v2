@@ -12,7 +12,6 @@ import voiceFeedbackHandler from "./voiceFeedbackHandler";
 /* Import modules for using sockets */
 import io from "socket.io-client";
 
-
 const getAudioTrackAndAddToTheConnection = async (
   peerConnection,
   localStream,
@@ -76,7 +75,7 @@ const initiateConnection = async (
 
   /* 1) initiate RTCPeerConnectionObject and socket object */
   // console.log("test")
-  console.log(userId)
+  console.log(userId);
   const pc = new RTCPeerConnection(RTC_CONFIG);
   const s = io.connect(URL_BACKEND_STREAMING, {
     reconnectionAttempts: SOCKET_RECONNECTION_ATTEMPTS,
@@ -160,7 +159,6 @@ const initiateConnection = async (
   });
   // console.log("test2")
 
-
   // 2.2) events for SDP Exchange
   setUpEventForSDPExchangeBetweenPeerConnectionsViaSocket(s, pc);
 
@@ -173,9 +171,17 @@ const initiateConnection = async (
     let position = data.position;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
-    }else if(data.command === "FUR" && data.q && data.i && ((data.q == 1 && data.i == 4)) || (data.q == 2 && data.i == 4) || ([8,7,6].includes(data.i) && [1,2,3,4].includes(data.q))){
-      console.log(data)
-      position = position? position.toLowerCase() : null
+    } else if (
+      (data.command === "FUR" &&
+        data.q &&
+        data.i &&
+        data.q == 1 &&
+        data.i == 4) ||
+      (data.q == 2 && data.i == 4) ||
+      ([8, 7, 6].includes(data.i) && [1, 2, 3, 4].includes(data.q))
+    ) {
+      console.log(data);
+      position = position ? position.toLowerCase() : null;
     }
 
     dispatchCurrentCommand({
@@ -204,7 +210,7 @@ const initiateConnection = async (
       // console.log("autoChangeToothTimer is forced executed!")
     }
 
-    if (!["BOP","SUP","FUR"].includes(data.mode)) {
+    if (!["BOP", "SUP", "FUR", "Bridge", "Undo"].includes(data.mode)) {
       // [for "PD", "RE", "Missing", "MGJ", "MO" data]
       let spec_id = null;
       /* mapping position for PD, RE */
@@ -237,9 +243,9 @@ const initiateConnection = async (
         data.target,
         spec_id
       );
-      
+
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
-    }else if(data.mode == "FUR"){
+    } else if (data.mode == "FUR") {
       handleSetInformation(
         data.q,
         data.i,
@@ -247,9 +253,82 @@ const initiateConnection = async (
         data.mode,
         data.target,
         data.position
-      )
+      );
+    } else if (data.mode == "Bridge") {
+      console.log("pass");
+      let start = data.i < data.i2 ? data.i : data.i2;
+      let end = data.i2 > data.i ? data.i2 : data.i;
+      console.log(start, end);
+      for (let j = start; j <= end; j++) {
+        let edge = false;
+        if (j == start || j == end) edge = true;
+        await handleSetInformation(
+          data.q,
+          j,
+          data.side,
+          data.mode,
+          data.target,
+          NaN,
+          edge
+        );
+      }
+    } else if (data.mode == "Undo") {
+      let mode = data.undo_mode
+      if (["BOP", "SUP"].includes(mode)) {
+        let positionArray;
+        if (data.q === 1 || data.q === 4) {
+          positionArray = ["distal", "middle", "mesial"];
+        } else if (data.q === 2 || data.q === 3) {
+          positionArray = ["mesial", "middle", "distal"];
+        }
 
-    }else {
+        for (let i = 0; i < 3; i++) {
+          console.log(
+            data.q,
+            data.i,
+            data.side,
+            mode,
+            false,
+            positionArray[i]
+          );
+          handleSetInformation(
+            data.q,
+            data.i,
+            data.side,
+            data.undo_mode,
+            false,
+            positionArray[i]
+          );
+        }
+      }else if(["MGJ","MO","PDRE","PD","RE"].includes(mode)){
+        let spec_id = null;
+        /* mapping position for PD, RE */
+        if (["PDRE","RE","PD"].includes(mode)) {
+          if (data.position === "buccal" || data.position === "lingual") {
+            spec_id = "middle";
+          } else {
+            spec_id = data.position;
+          }
+        }
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          mode,
+          null,
+          spec_id
+        )
+      }else if(["FUR"].includes(mode)){
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          mode,
+          null,
+          data.position
+        )
+      }
+    } else {
       // for "BOP" data[]
       // console.log(data)
       let positionArray;
@@ -268,11 +347,9 @@ const initiateConnection = async (
           data.target[i],
           positionArray[i]
         );
-        // console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
       }
     }
-    console.log(data.target)
-    voiceFeedbackHandler(data)
+    voiceFeedbackHandler(data);
 
     // shift the cursor to the next tooth available (PDRE, MGJ command) when receiving
     // 'next_tooth' field
