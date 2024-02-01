@@ -106,7 +106,7 @@ def create_bridge(list_bridge):
     for bridge in list_bridge:
         print(bridge[0])
         print(bridge[1])
-        result.append(BridgeZee(bridge=[create_zee(bridge[0]), create_zee(bridge[1])]))
+        result.append(BridgeZee(zee=[create_zee(bridge[0]), create_zee(bridge[1])]))
         print(result)
     return result
 

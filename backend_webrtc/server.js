@@ -423,11 +423,14 @@ io.on("connection", async (socket) => {
           });
         } else if (mode === "Bridge") {
           bridge_list = semantic.data.bridge;
+          console.log(bridge_list)
           bridge_list.forEach((bridge_tooth) => {
-            q = bridge_tooth[0].first_zee;
-            i = bridge_tooth[0].second_zee;
-            q2 = bridge_tooth[1].first_zee;
-            i2 = bridge_tooth[1].second_zee;
+            console.log(bridge_tooth)
+            let bridges = bridge_tooth.zee
+            q = bridges[0].first_zee;
+            i = bridges[0].second_zee;
+            q2 = bridges[1].first_zee;
+            i2 = bridges[1].second_zee;
             target = true;
 
             // console.log(mode, q, i, '-->', target)
@@ -494,6 +497,6 @@ const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side,position 
   socket.emit("update_command", data);
 };
 
-server.listen(process.env.SERVER_PORT, () => {
-  console.log(`listening on *:${process.env.SERVER_PORT}`);
+server.listen(process.env.WRTC_SERVER_PORT, () => {
+  console.log(`listening on *:${process.env.WRTC_SERVER_PORT}`);
 });
