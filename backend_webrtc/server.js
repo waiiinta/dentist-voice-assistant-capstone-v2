@@ -91,15 +91,15 @@ io.on("connection", async (socket) => {
 
   // Connect to gRPC Gowajee Streaming Backend
   let gowajee_stub = new speech2text_protoc.GowajeeSpeechToText(
-    // `localhost:${process.env.GOWAJEE_PORT}`,
-    `${process.env.GOWAJEE_IP}:${process.env.GOWAJEE_PORT}`,
+    `dns:gowajee:${process.env.GOWAJEE_PORT}`,
+    // `${process.env.GOWAJEE_IP}:${process.env.GOWAJEE_PORT}`,
     grpc.credentials.createInsecure()
   );
 
   // Connect to NER Backend
   let ner_stub = new ner_protoc.NERBackend(
-    // `localhost:${process.env.NER_BACKEND_PORT}`,
-    `${process.env.NER_BACKEND_IP}:${process.env.NER_BACKEND_PORT}`,
+    `dns:backend_ner:${process.env.NER_BACKEND_PORT}`,
+    // `${process.env.NER_BACKEND_IP}:${process.env.NER_BACKEND_PORT}`,
     grpc.credentials.createInsecure()
   );
 
@@ -231,9 +231,9 @@ io.on("connection", async (socket) => {
       ner_request.version = response.version;
       ner_request.duration = response.duration;
       ner_call.write(ner_request);
-    }).once('error', () => {
-      console.log("end grpc streaming");
-      console.log("gowajee pung kuy")
+    }).once('error', (error) => {
+      console.log("end grpc streaming : GOWAJEE");
+      console.log(error)
     });
 
     ner_call.on("data", (response) => {
@@ -480,9 +480,9 @@ io.on("connection", async (socket) => {
         // toothTable.showPDREValue();
         // console.log("pass here 3")
       });
-    }).once('error', () => {
-      console.log("end grpc streaming");
-      console.log("ner pung again")
+    }).once('error', (error) => {
+      console.log("end grpc streaming : NER");
+      console.log(error)
     });;
   };
 });
