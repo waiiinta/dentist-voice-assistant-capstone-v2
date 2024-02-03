@@ -91,15 +91,15 @@ io.on("connection", async (socket) => {
 
   // Connect to gRPC Gowajee Streaming Backend
   let gowajee_stub = new speech2text_protoc.GowajeeSpeechToText(
-    `dns:gowajee:${process.env.GOWAJEE_PORT}`,
-    // `${process.env.GOWAJEE_IP}:${process.env.GOWAJEE_PORT}`,
+    // `dns:gowajee:${process.env.GOWAJEE_PORT}`,
+    `${process.env.GOWAJEE_IP}:${process.env.GOWAJEE_PORT}`,
     grpc.credentials.createInsecure()
   );
 
   // Connect to NER Backend
   let ner_stub = new ner_protoc.NERBackend(
-    `dns:backend_ner:${process.env.NER_BACKEND_PORT}`,
-    // `${process.env.NER_BACKEND_IP}:${process.env.NER_BACKEND_PORT}`,
+    // `dns:backend_ner:${process.env.NER_BACKEND_PORT}`,
+    `${process.env.NER_BACKEND_IP}:${process.env.NER_BACKEND_PORT}`,
     grpc.credentials.createInsecure()
   );
 
