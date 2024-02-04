@@ -66,7 +66,8 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
   //   // setInterval(playAudio(audio,volume,loop),5000)
   // }
   
-  let { q, i, side, mode, position, target,undo_mode,i2,q2 } = data;
+  let { q, i, side, mode, position, target,undo_mode,i2,q2,is_pdre } = data;
+  console.log(data)
   let spec_id = []
   switch(q){
     case 1 : spec_id = ["distal","buccal","mesial"];break
@@ -88,7 +89,9 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
     run = target? true:false
   }
   if(["PDRE","PD","RE"].includes(mode)){
-    return
+    if(is_pdre){
+      mode = "PDRE"
+    }
   }
   if (run) {
     audio_path_list.push(String(mode));
@@ -114,8 +117,10 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
             audio_path_list.push(String(spec_id[i]))
           }
         }
-      }
-      else{
+      }else if(is_pdre){
+        audio_path_list.push(target["PD"])
+        audio_path_list.push(target["RE"])
+      }else{
         audio_path_list.push(String(target));
       }
     }

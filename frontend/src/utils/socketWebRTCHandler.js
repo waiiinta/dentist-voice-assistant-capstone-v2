@@ -197,6 +197,7 @@ const initiateConnection = async (
   });
 
   // receiving recorded data from backend streaming server
+  let pdre_value = {}
   s.on("data", async (data) => {
     console.log("data", data);
 
@@ -215,6 +216,10 @@ const initiateConnection = async (
       let spec_id = null;
       /* mapping position for PD, RE */
       if (data.mode === "PD" || data.mode === "RE") {
+        if(data.is_pdre){
+          pdre_value[data.mode] = data.target
+        }
+        console.log(pdre_value)
         if (data.position === "buccal" || data.position === "lingual") {
           spec_id = "middle";
         } else {
@@ -327,6 +332,14 @@ const initiateConnection = async (
           null,
           data.position
         )
+      }else if(["Missing","Crown","Implant"].includes(mode)){
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          data.undo_mode,
+          false,
+        )
       }
     } else {
       // for "BOP" data[]
@@ -349,7 +362,16 @@ const initiateConnection = async (
         );
       }
     }
-    voiceFeedbackHandler(data);
+    if(!data.is_pdre || data.mode != "PD"){
+      if(data.is_pdre){
+        data.target = pdre_value
+        data.mode = "PDRE"
+        pdre_value = {}
+        console.log(typeof(pdre_value))
+        console.log(pdre_value)
+      }
+      voiceFeedbackHandler(data);
+    }
 
     // shift the cursor to the next tooth available (PDRE, MGJ command) when receiving
     // 'next_tooth' field

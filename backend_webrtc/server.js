@@ -304,6 +304,7 @@ io.on("connection", async (socket) => {
             return;
           }
         }
+        let is_pdre = false
         console.log(mode === "Missing")
         // if (pd_re_bop.includes(mode)) {
         if (side_depend.includes(mode)){
@@ -315,6 +316,7 @@ io.on("connection", async (socket) => {
           if (mode === "PDRE") {
             target = semantic.data.payload;
             mode = semantic.data.is_number_PD ? "PD" : "RE";
+            is_pdre = true
           }
           else if (mode === "PD"){
             target = semantic.data.payload;
@@ -352,7 +354,11 @@ io.on("connection", async (socket) => {
               target,
               side,
               position,
-              next_tooth
+              next_tooth,
+              null,
+              null,
+              null,
+              is_pdre
             );
             if (next_tooth) {
               toothTable.clearToothValue(
@@ -372,12 +378,12 @@ io.on("connection", async (socket) => {
           // console.log(mode, q, i, '-->', target)
           let next_tooth = null;
           let position = null;
-          if (toothTable.updateValue(q, i, mode, target)) {
+          if (mode === "FUR"){
+            position = semantic.data.position.toLowerCase();
+          }
+          if (toothTable.updateValue(q, i, mode, target,null,position)) {
             if (mode === "MGJ") {
               next_tooth = toothTable.findNextAvailableTooth(q, i, "buccal");
-            }
-            else if (mode === "FUR"){
-              position = semantic.data.position.toLowerCase();
             }
             sendUpdateToothTableDataToFrontEnd(
               socket,
@@ -499,8 +505,9 @@ const sendUpdateToothTableDataToFrontEnd = (
   q2 = null,
   i2 = null,
   undo_mode = null,
+  is_pdre = null
 ) => {
-  data = { q, i, mode, target, side, position, next_tooth, q2, i2,undo_mode };
+  data = { q, i, mode, target, side, position, next_tooth, q2, i2,undo_mode,is_pdre };
   // console.log("data", data);
   socket.emit("data", data);
 };
