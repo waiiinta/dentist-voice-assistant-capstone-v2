@@ -123,8 +123,8 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
           }
         }
       }else if(is_pdre){
-        audio_path_list.push(target["PD"])
-        audio_path_list.push(target["RE"])
+        audio_path_list.push(String(target["PD"]))
+        audio_path_list.push(String(target["RE"]))
       }else{
         audio_path_list.push(String(target));
       }
