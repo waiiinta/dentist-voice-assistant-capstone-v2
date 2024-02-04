@@ -1,3 +1,8 @@
+import m_five from "../sounds/-5.mp3"
+import m_four from "../sounds/-4.mp3"
+import m_three from "../sounds/-3.mp3"
+import m_two from "../sounds/-2.mp3"
+import m_one from "../sounds/-1.mp3"
 import one from "../sounds/1.mp3"
 import two from "../sounds/2.mp3"
 import three from "../sounds/3.mp3"
@@ -130,6 +135,11 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
       let name = audio_path_list[i]
       let audio_file
       switch(name){
+        case "-1" : audio_file = m_one; break
+        case "-2" : audio_file = m_two; break
+        case "-3" : audio_file = m_three; break
+        case "-4" : audio_file = m_four; break
+        case "-5" : audio_file = m_five; break
         case "1" : audio_file = one; break
         case "2" : audio_file = two; break
         case "3" : audio_file = three; break
