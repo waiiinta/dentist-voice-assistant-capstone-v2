@@ -373,6 +373,15 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
     elif word_list[i] == UNDO:
       if len(completed_semantic_object) > 0:
         semantic_object = copy.deepcopy(create_undo_semantic(completed_semantic_object[-1]))  
+        if completed_semantic_object[-1]['command'] == MISSING:
+          missing_tooth = completed_semantic_object[-1]['data']['missing'][-1]
+          available_teeth_dict = append_zee_to_available_teeth_dict(missing_tooth, available_teeth_dict)
+        # elif completed_semantic_object[-1]['command'] == BRIDGE:
+        #   bridge_gap = completed_semantic_object[-1]['data']['bridge'][-1]
+        #   if bridge_gap[0][0] == bridge_gap[1][0]:
+        #     pass
+        #   else:
+        #     pass
     
     # 2. 'Side'
     elif word_list[i] in [BUCCAL, MESIAL, DISTAL, LINGUAL, ALL]:
