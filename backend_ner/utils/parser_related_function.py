@@ -373,15 +373,36 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
     elif word_list[i] == UNDO:
       if len(completed_semantic_object) > 0:
         semantic_object = copy.deepcopy(create_undo_semantic(completed_semantic_object[-1]))  
+        # Append Removed Zee back into the available_teeth_dict
+        # Case Missing
         if completed_semantic_object[-1]['command'] == MISSING:
           missing_tooth = completed_semantic_object[-1]['data']['missing'][-1]
           available_teeth_dict = append_zee_to_available_teeth_dict(missing_tooth, available_teeth_dict)
-        # elif completed_semantic_object[-1]['command'] == BRIDGE:
-        #   bridge_gap = completed_semantic_object[-1]['data']['bridge'][-1]
-        #   if bridge_gap[0][0] == bridge_gap[1][0]:
-        #     pass
-        #   else:
-        #     pass
+          first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+          last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+        # Case Bridge
+        elif completed_semantic_object[-1]['command'] == BRIDGE:
+          bridge_edge = completed_semantic_object[-1]['data']['bridge'][-1]
+          gap = []
+          if bridge_edge[0][0] == bridge_edge[1][0]:
+            greater_idx = max(bridge_edge[0][1], bridge_edge[1][1])
+            less_idx = min(bridge_edge[0][1], bridge_edge[1][1])
+            for i in range(less_idx+1, greater_idx):
+              gap.append([edge[0][0], i])
+          else:
+            tooth_idx = bridge_edge[0][1]
+            while tooth_idx != 1:
+              tooth_idx -= 1
+              gap.append([bridge_edge[0][0], tooth_idx])
+            tooth_idx = bridge_edge[1][1]
+            while tooth_idx != 1:
+              tooth_idx -= 1
+              gap.append([bridge_edge[1][0], tooth_idx])
+          for tooth in gap:
+            available_teeth_dict = append_zee_to_available_teeth_dict(tooth, available_teeth_dict)
+          first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+          last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+
     
     # 2. 'Side'
     elif word_list[i] in [BUCCAL, MESIAL, DISTAL, LINGUAL, ALL]:
