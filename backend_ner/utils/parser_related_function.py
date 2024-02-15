@@ -388,7 +388,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             greater_idx = max(bridge_edge[0][1], bridge_edge[1][1])
             less_idx = min(bridge_edge[0][1], bridge_edge[1][1])
             for i in range(less_idx+1, greater_idx):
-              gap.append([edge[0][0], i])
+              gap.append([bridge_edge[0][0], i])
           else:
             tooth_idx = bridge_edge[0][1]
             while tooth_idx != 1:
