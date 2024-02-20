@@ -1,9 +1,10 @@
 // Production
 const SUPPRESS_LOG_PRODUCTION = true;
-
+// process.env.REACT_APP_NODE_ENV = "development"
 // Backend Streaming URL
-const URL_BACKEND = `${process.env.NODE_ENV === "production" ? "http" : "http"}://${process.env.REACT_APP_BACKEND_IP}:${process.env.REACT_APP_BACKEND_PORT}`;
-const URL_BACKEND_STREAMING = `${process.env.NODE_ENV === "production" ? "http" : "http"}://${process.env.REACT_APP_BACKEND_STREAMING_IP}:${process.env.REACT_APP_BACKEND_STREAMING_PORT}`;
+console.log(process.env.REACT_APP_NODE_ENV)
+const URL_BACKEND = `${process.env.REACT_APP_NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_IP}:${process.env.REACT_APP_BACKEND_PORT}`;
+const URL_BACKEND_STREAMING = `${process.env.REACT_APP_NODE_ENV === "production" ? "https" : "http"}://${process.env.REACT_APP_BACKEND_STREAMING_IP}:${process.env.REACT_APP_BACKEND_STREAMING_PORT}`;
 
 // user fields
 const PASSWORD_MIN_LENGTH = 8;

@@ -91,14 +91,14 @@ io.on("connection", async (socket) => {
 
   // Connect to gRPC Gowajee Streaming Backend
   let gowajee_stub = new speech2text_protoc.GowajeeSpeechToText(
-    // `localhost:${process.env.GOWAJEE_PORT}`,
+    // `dns:gowajee:${process.env.GOWAJEE_PORT}`,
     `${process.env.GOWAJEE_IP}:${process.env.GOWAJEE_PORT}`,
     grpc.credentials.createInsecure()
   );
 
   // Connect to NER Backend
   let ner_stub = new ner_protoc.NERBackend(
-    // `localhost:${process.env.NER_BACKEND_PORT}`,
+    // `dns:backend_ner:${process.env.NER_BACKEND_PORT}`,
     `${process.env.NER_BACKEND_IP}:${process.env.NER_BACKEND_PORT}`,
     grpc.credentials.createInsecure()
   );
@@ -231,15 +231,16 @@ io.on("connection", async (socket) => {
       ner_request.version = response.version;
       ner_request.duration = response.duration;
       ner_call.write(ner_request);
-    }).once('error', () => {
-      console.log("end grpc streaming");
-      console.log("gowajee pung kuy")
+    }).once('error', (error) => {
+      console.log("end grpc streaming : GOWAJEE");
+      console.log(error)
     });
 
     ner_call.on("data", (response) => {
       // console.log(response.response);
       let semanticList = response.response;
-      // console.log(semanticList)
+      console.log(response)
+      console.log(semanticList)
       let isUpdate = false;
       // console.log("pass here 1")
       semanticList.forEach(async (semantic) => {
@@ -250,25 +251,39 @@ io.on("connection", async (socket) => {
         side_depend = ["PDRE", "PD", "RE", "BOP", "SUP"];
         side_not_depend = ["MO", "MGJ", "FUR"];
 
-        // console.log(semantic);
-        if (!semantic.is_complete) {
+        // console.log(semantic.data);
+        if ((!semantic.is_complete ) || ["Missing","Undo"].includes(mode)) {
+          
           q = null;
           i = null;
-          if (!(semantic.data.zee === null)) {
+          if (mode != "Undo" && !(semantic.data.zee === null)) {
             q = semantic.data.zee.first_zee;
             i = semantic.data.zee.second_zee;
+            
+          }else if(mode === "Missing" && semantic.data.missing.length != 0){
+            let missing = semantic.data.missing
+
+            q = missing[missing.length - 1].first_zee
+            i = missing[missing.length - 1].second_zee
+            tooth_side = semantic.data.tooth_side;
+            position = semantic.data.position
+
+          }else if(mode === "Undo"){
+            let sem = semantic.undo
+            q = sem.zee.first_zee
+            i = sem.zee.second_zee
           }
-          tooth_side = await semantic.data.tooth_side;
-          position = await semantic.data.position
-          console.log(position === old_position)
+          tooth_side = semantic.data? semantic.data.tooth_side : null;
+          position = semantic.data? semantic.data.position : null
+
           if (
             !(old_command === mode) ||
             !(q === old_q) ||
             !(i === old_i) ||
-            !(tooth_side === old_side) ||
-            !(position === old_position)
+            !(tooth_side === old_side)||
+            !(old_position === position)
           ) {
-            console.log(mode,q,i,tooth_side,position)
+            // console.log("pass here")
             sendUpdateDisplayToFrontEnd(socket, mode, q, i, tooth_side,position);
             // Clear the ToothValue when start a command to handle the repeat tooth value problem.
             // if ([mode === "PDRE"] && !!q && !!i && !!tooth_side) {
@@ -284,9 +299,13 @@ io.on("connection", async (socket) => {
           old_i = i;
           old_side = tooth_side;
           old_position = position
-          return;
+          let missing_length = semantic.data? semantic.data.missing.length : 0
+          if(!["Missing","Undo"].includes(mode) || (missing_length == 0 && mode === "Missing")){
+            return;
+          }
         }
-        // console.log("pass here 2")
+        let is_pdre = false
+        console.log(mode === "Missing")
         // if (pd_re_bop.includes(mode)) {
         if (side_depend.includes(mode)){
           side = semantic.data.tooth_side.toLowerCase();
@@ -297,6 +316,7 @@ io.on("connection", async (socket) => {
           if (mode === "PDRE") {
             target = semantic.data.payload;
             mode = semantic.data.is_number_PD ? "PD" : "RE";
+            is_pdre = true
           }
           else if (mode === "PD"){
             target = semantic.data.payload;
@@ -334,7 +354,11 @@ io.on("connection", async (socket) => {
               target,
               side,
               position,
-              next_tooth
+              next_tooth,
+              null,
+              null,
+              null,
+              is_pdre
             );
             if (next_tooth) {
               toothTable.clearToothValue(
@@ -354,15 +378,12 @@ io.on("connection", async (socket) => {
           // console.log(mode, q, i, '-->', target)
           let next_tooth = null;
           let position = null;
-          if(mode === "FUR"){
-            position = semantic.data.position
+          if (mode === "FUR"){
+            position = semantic.data.position.toLowerCase();
           }
-          if (toothTable.updateValue(q, i, mode,target,null,position)) {
+          if (toothTable.updateValue(q, i, mode, target,null,position)) {
             if (mode === "MGJ") {
               next_tooth = toothTable.findNextAvailableTooth(q, i, "buccal");
-            }
-            else if (mode === "FUR"){
-              position = semantic.data.position.toLowerCase();
             }
             sendUpdateToothTableDataToFrontEnd(
               socket,
@@ -379,14 +400,14 @@ io.on("connection", async (socket) => {
             }
           }
         } else if (mode === "Missing") {
-          // console.log(semantic)
+          console.log("missing",semantic)
           missing_list = semantic.data.missing;
           missing_list.forEach((missing_tooth) => {
             q = missing_tooth.first_zee;
             i = missing_tooth.second_zee;
             target = true;
 
-            // console.log(mode, q, i, '-->', target)
+            console.log(mode, q, i, '-->', target)
             if (toothTable.updateValue(q, i, mode, target))
               sendUpdateToothTableDataToFrontEnd(socket, q, i, mode, target);
           });
@@ -415,11 +436,14 @@ io.on("connection", async (socket) => {
           });
         } else if (mode === "Bridge") {
           bridge_list = semantic.data.bridge;
+          console.log(bridge_list)
           bridge_list.forEach((bridge_tooth) => {
-            q = bridge_tooth[0].first_zee;
-            i = bridge_tooth[0].second_zee;
-            q2 = bridge_tooth[1].first_zee;
-            i2 = bridge_tooth[1].second_zee;
+            console.log(bridge_tooth)
+            let bridges = bridge_tooth.zee
+            q = bridges[0].first_zee;
+            i = bridges[0].second_zee;
+            q2 = bridges[1].first_zee;
+            i2 = bridges[1].second_zee;
             target = true;
 
             // console.log(mode, q, i, '-->', target)
@@ -437,13 +461,34 @@ io.on("connection", async (socket) => {
                 i2
               );
           });
+        } else if (mode === "Undo"){
+          q = semantic.undo.zee.first_zee;
+          i = semantic.undo.zee.second_zee;
+          target = true;
+          side = semantic.undo.tooth_side.toLowerCase();
+          position = semantic.undo.position.toLowerCase();
+          undo_mode = semantic.undo.command
+          console.log(semantic.undo.command)
+          sendUpdateToothTableDataToFrontEnd(
+            socket, 
+            q, 
+            i, 
+            mode, 
+            target,
+            side,
+            position,
+            null,
+            null,
+            null,
+            undo_mode
+          );
         }
         // toothTable.showPDREValue();
         // console.log("pass here 3")
       });
-    }).once('error', () => {
-      console.log("end grpc streaming");
-      console.log("ner pung again")
+    }).once('error', (error) => {
+      console.log("end grpc streaming : NER");
+      console.log(error)
     });;
   };
 });
@@ -458,19 +503,21 @@ const sendUpdateToothTableDataToFrontEnd = (
   position = null,
   next_tooth = null,
   q2 = null,
-  i2 = null
+  i2 = null,
+  undo_mode = null,
+  is_pdre = null
 ) => {
-  data = { q, i, mode, target, side, position, next_tooth, q2, i2 };
-  console.log("data", data);
+  data = { q, i, mode, target, side, position, next_tooth, q2, i2,undo_mode,is_pdre };
+  // console.log("data", data);
   socket.emit("data", data);
 };
 
-const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side,position) => {
+const sendUpdateDisplayToFrontEnd = (socket, command, q, i, tooth_side,position = null) => {
   data = { command, q, i, tooth_side,position };
   // console.log("update_command", data);
   socket.emit("update_command", data);
 };
 
-server.listen(process.env.SERVER_PORT, () => {
-  console.log(`listening on *:${process.env.SERVER_PORT}`);
+server.listen(process.env.WRTC_SERVER_PORT, () => {
+  console.log(`listening on *:${process.env.WRTC_SERVER_PORT}`);
 });

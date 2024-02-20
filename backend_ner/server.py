@@ -38,9 +38,9 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
         sentences = []
         old_tooth_list = []
         old_is_final = True
-        old_command, old_tooth, old_tooth_side, old_position = None, None, None, None
+        old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = None, None, None, None, None
         parser = ParserModel() # independent parser
-        print("test")
+        # print("test")
         for request in request_iterator:
             # Concatenate trancripts in the responses
             if(request.add_missing.first_zee != 100 and request.add_missing.second_zee != 100):
@@ -53,7 +53,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 continue
 
             sentence = ""
-            print("test2")
+            # print("test2")
             for transcript in request.results:
                 # fix the problem, when the user does not speak, but
                 # gowajee output something. We do not consider the word
@@ -78,16 +78,18 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 old_tooth_list = []
             else:
                 sentences[-1] = sentence
-            print(sentences)
+            # print(sentences)
 
             # Predict the class of each token in the sentence
             # predicted_token = self.token_classifier.inference(sentence)
             # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
-            # print(semantics)
-            command, tooth, tooth_side, position, semantics = semantics.values()
-            
+            # print(parser.semantic_object_list)
+            print(parser.completed_semantic_object)
+            command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
+            # print(tooth)
+            # print(bridge_end)
             # Create an incomplete semantic for update display to frontend
             # 1.) first we consider that if there is not semantic from the result but the command is not None
             # then create incomplete semantic
@@ -179,11 +181,19 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
                 elif tooth != old_tooth:
                     create_incomplete = True
                 # FUR 18 Distal Buccal
+            # 7.bridge
+            elif command == "Bridge":
+                # Bridge
+                if tooth is None:
+                    create_incomplete = True
+                # Bridge 14 (Haven't specify another zee of bridge crown)
+                elif bridge_end is None:
+                    create_incomplete = True
 
 
             if create_incomplete:
                 update_display = create_incomplete_semantic(command, tooth, tooth_side, position)
-                old_command, old_tooth, old_tooth_side, old_position = command, tooth, tooth_side, position
+                old_command, old_tooth, old_tooth_side, old_position, old_bridge_end = command, tooth, tooth_side, position, bridge_end
                 semantics.insert(0, update_display)
 
 
@@ -193,6 +203,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # Create a dummy response
             if len(semantics) > 0:
                 response = create_ner_response(semantics)
+                print("response",response)
                 yield response
 
 address = f"[::]:{config.PORT}"

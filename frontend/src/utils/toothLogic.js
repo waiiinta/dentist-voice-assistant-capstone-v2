@@ -95,8 +95,9 @@ const currentCommandReducer = (prevCommand, action) => {
       /* this action will work when the system receive the RE value of 
         the latest tooth position
       */
+      // console.log(prevCommand)
       if (
-        prevCommand.command !== "PDRE" ||
+        prevCommand.command !== "PDRE" || prevCommand !== "RE" || prevCommand !== "PD" ||
         !!!prevCommand.side ||
         !!!prevCommand.tooth ||
         !!!prevCommand.position ||

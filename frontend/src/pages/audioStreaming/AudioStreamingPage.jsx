@@ -66,10 +66,10 @@ const AudioStreamingPage = () => {
 
   const initiateSocketandClientPeerConnection = async () => {
     /* 1) initiate RTCPeerConnectionObject and socket object */
-    console.log("test3")
+    // console.log("test3")
     const pc = new RTCPeerConnection(RTC_CONFIG);
     const s = await io.connect(URL_BACKEND_STREAMING);
-    console.log("test3")
+    // console.log("test3")
 
     /* 2) set event for socket */
     // receiving answer from backend streaming server
@@ -351,6 +351,8 @@ const AudioStreamingPage = () => {
             <p>%</p>
           </div>
         )}
+
+        <div>test</div>
       </div>
     </Fragment>
   );

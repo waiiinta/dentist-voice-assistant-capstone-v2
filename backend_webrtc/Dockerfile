@@ -5,8 +5,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install -g node-pre-gyp
+RUN npm install --legacy-peer-deps
 RUN npm install wrtc
-RUN npm install
+RUN npm rebuild
 
 COPY . .
 

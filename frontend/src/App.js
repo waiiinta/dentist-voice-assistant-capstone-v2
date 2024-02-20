@@ -17,7 +17,7 @@ import React from "react";
 
 function App() {
   // Disable console.log in production environment ==================================================
-  if (!!process.env.NODE_ENV && process.env.NODE_ENV === "production" && SUPPRESS_LOG_PRODUCTION) {
+  if (!!process.env.REACT_APP_NODE_ENV && process.env.REACT_APP_NODE_ENV === "production" && SUPPRESS_LOG_PRODUCTION) {
     console.log = () => { };
   }
   // ================================================================================================

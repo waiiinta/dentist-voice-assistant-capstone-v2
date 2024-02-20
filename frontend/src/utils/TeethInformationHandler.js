@@ -5,9 +5,11 @@ exports.teethInformationHandler = (
   side = NaN,
   mode,
   target,
-  spec_id = NaN
+  spec_id = NaN,
+  bridge_edge = false
 ) => {
-    // console.log(obj,target,side,mode);
+  // console.log(obj);
+  console.log(q,i,side,mode,target,spec_id,);
   if (obj.quadrant === q) {
     obj.idxArray.map((data) => {
       if (data.ID === i) {
@@ -29,11 +31,22 @@ exports.teethInformationHandler = (
           });
 
           return newRE;
-        } else if (mode === "BOP") {
+        }else if(mode === "PDRE"){
+          const newPDRE = data.depended_side_data.map((checkSide) => {
+            if (checkSide.side === side) {
+              checkSide.PD[spec_id] = target
+              checkSide.RE[spec_id] = target;
+            }
+            return checkSide;
+          });
+          return newPDRE
+        } 
+        else if (mode === "BOP") {
           const newBOP = data.depended_side_data.map((checkSide) => {
             if (checkSide.side === side) {
               checkSide.BOP[spec_id] = target;
             }
+            console.log(target,checkSide)
             return checkSide;
           });
           
@@ -57,6 +70,9 @@ exports.teethInformationHandler = (
           data.missing = target;
           return data;
         } else if (mode === "Crown") { //add 
+          if(data.missing || data.bridge || data.implant){
+            return data
+          }
           if(data.crown){
             data.crown = false
           }else{
@@ -67,6 +83,9 @@ exports.teethInformationHandler = (
           data.FUR[spec_id] = target
           return data;
         } else if (mode === "Implant") {
+          if(data.crown || data.missing || data.bridge){
+            return data;
+          }
           if(data.implant){
             data.implant = false
           }else{
@@ -74,14 +93,19 @@ exports.teethInformationHandler = (
           }
           return data;
         }else if (mode === "Bridge") {
-          if(data.bridge){
-            data.bridge = false
-          }else{
-            data.bridge = target
+          if(data.crown || data.implant || data.missing){
+            return data;
           }
+          
+            data.bridge = target
+            
+            data.bridge_edge = bridge_edge
+            
+          
           return data;
         }else if(mode === "-"){
           data.bridge = false
+          data.bridge_edge = false
           data.crown = false
           data.missing = false
           data.implant = false

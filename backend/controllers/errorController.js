@@ -1,4 +1,4 @@
-const dbErrorHandler = require('./../utils/dbErrorHandler');
+import dbErrorHandler from './../utils/dbErrorHandler'
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({

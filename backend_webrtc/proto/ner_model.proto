@@ -11,7 +11,8 @@ service NERBackend {
 message SemanticCommand {
     string command = 1;
     CommandData data = 2;
-    bool is_complete = 3;
+    CommandUndo undo = 3;
+    bool is_complete = 4;
 }
 
 // message CommandData {
@@ -25,18 +26,30 @@ message SemanticCommand {
 //     repeated bool BOP_payload = 7;  
 // }
 message CommandData {
-  Zee zee = 1;
-  string tooth_side = 2;
-  string position = 3;
-  bool is_number_PD = 4;
-  int32 payload = 5;
+    Zee zee = 1;
+    string tooth_side = 2;
+    string position = 3;
+    bool is_number_PD = 4;
+    int32 payload = 5;
 
-  repeated Zee missing = 6;
-  repeated bool BOP_payload = 7;
-  
-  repeated Zee crown = 8;
-  repeated Zee implant = 9;
-  repeated Zee bridge = 10;
+    repeated Zee missing = 6;
+    repeated bool BOP_payload = 7;
+
+    repeated Zee crown = 8;
+    repeated Zee implant = 9;
+    repeated BridgeZee bridge = 10;
+}
+
+message BridgeZee {
+  repeated Zee zee = 1;
+}
+
+message CommandUndo {
+    string command = 1;
+    Zee zee = 2;
+    string tooth_side = 3;
+    string position = 4;
+    bool is_number_PD = 5;
 }
 
 message Zee {

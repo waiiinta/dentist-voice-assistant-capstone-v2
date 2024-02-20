@@ -136,12 +136,12 @@ const RecordPage = () => {
     updateInformationIntervalIdRef.current = null;
   };
 
-  const handleSetInformation = (q, i, side, mode, target, spec_id = NaN) => {
+  const handleSetInformation = async (q, i, side, mode, target, spec_id = NaN,bridge_edge=false) => {
     const newInformation = information.map((obj) => {
-      return teethInformationHandler(obj, q, i, side, mode, target, spec_id);
+      return teethInformationHandler(obj, q, i, side, mode, target, spec_id,bridge_edge);
     });
-    setInformation(newInformation);
-    console.log(newInformation)
+    await setInformation(newInformation);
+    // console.log(newInformation)
 
     // updated record data to database immediately ********************
     // postRecordAPIHandler(token, {

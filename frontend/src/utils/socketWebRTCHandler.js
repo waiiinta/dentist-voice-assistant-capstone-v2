@@ -7,6 +7,7 @@ import {
 } from "../utils/constants";
 import { getToothStartPosition } from "./toothLogic";
 import { playConnectionSound } from "./soundPlayerHandler";
+import voiceFeedbackHandler from "./voiceFeedbackHandler";
 
 /* Import modules for using sockets */
 import io from "socket.io-client";
@@ -73,15 +74,15 @@ const initiateConnection = async (
   // ================================================================
 
   /* 1) initiate RTCPeerConnectionObject and socket object */
-  console.log("test")
-  console.log(userId)
+  // console.log("test")
+  console.log(userId);
   const pc = new RTCPeerConnection(RTC_CONFIG);
   const s = io.connect(URL_BACKEND_STREAMING, {
     reconnectionAttempts: SOCKET_RECONNECTION_ATTEMPTS,
     reconnectionDelay: SOCKET_RECONNECTION_DELAY,
     query: { userId: userId },
   });
-  console.log("test2")
+  // console.log("test2")
 
   /* 2) set up events for socket */
   // 2.1) events on connections ("connect", "connect_error", "reconnect_attempt", "reconnect_failed")
@@ -112,7 +113,7 @@ const initiateConnection = async (
     // mark connection success
     setSocketFailedToConnect(false);
   });
-  console.log("test2")
+  // console.log("test2")
 
   // "connect_error" -> fired when socket connection was lost
   s.on("connect_error", (err) => {
@@ -143,7 +144,7 @@ const initiateConnection = async (
     // mark that the socket is still trying to reconnect
     setIsSocketReconnecting(true);
   });
-  console.log("test2")
+  // console.log("test2")
 
   // "reconnect_failed" -> fired when the maximum attempts to reconnect has been reached. It still cannot make
   // any connection to the server, then
@@ -156,8 +157,7 @@ const initiateConnection = async (
 
     playConnectionSound("Disconnected");
   });
-  console.log("test2")
-
+  // console.log("test2")
 
   // 2.2) events for SDP Exchange
   setUpEventForSDPExchangeBetweenPeerConnectionsViaSocket(s, pc);
@@ -166,14 +166,22 @@ const initiateConnection = async (
   // receiving updated command from backend streaming server
   s.on("update_command", async (data) => {
     console.log("update_command", data);
-    console.log(data)
 
     // automatically determine the start position of the tooth for PDRE command (from given tooth's quadrant, id)
-    let position = null;
+    let position = data.position;
     if (data.command === "PDRE" && data.q && data.i && data.tooth_side) {
       position = getToothStartPosition(data.q, data.i, data.tooth_side);
-    }else if(data.command === "FUR" && data.q && data.i){
-      position = data.position.toLowerCase()
+    } else if (
+      (data.command === "FUR" &&
+        data.q &&
+        data.i &&
+        data.q == 1 &&
+        data.i == 4) ||
+      (data.q == 2 && data.i == 4) ||
+      ([8, 7, 6].includes(data.i) && [1, 2, 3, 4].includes(data.q))
+    ) {
+      console.log(data);
+      position = position ? position.toLowerCase() : null;
     }
 
     dispatchCurrentCommand({
@@ -183,12 +191,13 @@ const initiateConnection = async (
         tooth:
           !!data.q && !!data.i ? data.q.toString() + data.i.toString() : null,
         side: !!data.tooth_side ? data.tooth_side : null,
-        position: !!position ? position : null,
+        position: position ? position : null,
       },
     });
   });
 
   // receiving recorded data from backend streaming server
+  let pdre_value = {}
   s.on("data", async (data) => {
     console.log("data", data);
 
@@ -202,11 +211,15 @@ const initiateConnection = async (
       // console.log("autoChangeToothTimer is forced executed!")
     }
 
-    if (!["BOP","SUP","FUR"].includes(data.mode)) {
+    if (!["BOP", "SUP", "FUR", "Bridge", "Undo"].includes(data.mode)) {
       // [for "PD", "RE", "Missing", "MGJ", "MO" data]
       let spec_id = null;
       /* mapping position for PD, RE */
       if (data.mode === "PD" || data.mode === "RE") {
+        if(data.is_pdre){
+          pdre_value[data.mode] = data.target
+        }
+        console.log(pdre_value)
         if (data.position === "buccal" || data.position === "lingual") {
           spec_id = "middle";
         } else {
@@ -235,8 +248,9 @@ const initiateConnection = async (
         data.target,
         spec_id
       );
+
       // console.log(data.q, data.i, data.side, data.mode, data.target, spec_id)
-    }else if(data.mode == "FUR"){
+    } else if (data.mode == "FUR") {
       handleSetInformation(
         data.q,
         data.i,
@@ -244,9 +258,90 @@ const initiateConnection = async (
         data.mode,
         data.target,
         data.position
-      )
+      );
+    } else if (data.mode == "Bridge") {
+      console.log("pass");
+      let start = data.i < data.i2 ? data.i : data.i2;
+      let end = data.i2 > data.i ? data.i2 : data.i;
+      console.log(start, end);
+      for (let j = start; j <= end; j++) {
+        let edge = false;
+        if (j == start || j == end) edge = true;
+        await handleSetInformation(
+          data.q,
+          j,
+          data.side,
+          data.mode,
+          data.target,
+          NaN,
+          edge
+        );
+      }
+    } else if (data.mode == "Undo") {
+      let mode = data.undo_mode
+      if (["BOP", "SUP"].includes(mode)) {
+        let positionArray;
+        if (data.q === 1 || data.q === 4) {
+          positionArray = ["distal", "middle", "mesial"];
+        } else if (data.q === 2 || data.q === 3) {
+          positionArray = ["mesial", "middle", "distal"];
+        }
 
-    }else {
+        for (let i = 0; i < 3; i++) {
+          console.log(
+            data.q,
+            data.i,
+            data.side,
+            mode,
+            false,
+            positionArray[i]
+          );
+          handleSetInformation(
+            data.q,
+            data.i,
+            data.side,
+            data.undo_mode,
+            false,
+            positionArray[i]
+          );
+        }
+      }else if(["MGJ","MO","PDRE","PD","RE"].includes(mode)){
+        let spec_id = null;
+        /* mapping position for PD, RE */
+        if (["PDRE","RE","PD"].includes(mode)) {
+          if (data.position === "buccal" || data.position === "lingual") {
+            spec_id = "middle";
+          } else {
+            spec_id = data.position;
+          }
+        }
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          mode,
+          null,
+          spec_id
+        )
+      }else if(["FUR"].includes(mode)){
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          mode,
+          null,
+          data.position
+        )
+      }else if(["Missing","Crown","Implant"].includes(mode)){
+        handleSetInformation(
+          data.q,
+          data.i,
+          data.side,
+          data.undo_mode,
+          false,
+        )
+      }
+    } else {
       // for "BOP" data[]
       // console.log(data)
       let positionArray;
@@ -265,8 +360,17 @@ const initiateConnection = async (
           data.target[i],
           positionArray[i]
         );
-        // console.log(data.q, data.i, data.side, data.mode, data.target[i], positionArray[i])
       }
+    }
+    if(!data.is_pdre || data.mode != "PD"){
+      if(data.is_pdre){
+        data.target = pdre_value
+        data.mode = "PDRE"
+        pdre_value = {}
+        console.log(typeof(pdre_value))
+        console.log(pdre_value)
+      }
+      voiceFeedbackHandler(data);
     }
 
     // shift the cursor to the next tooth available (PDRE, MGJ command) when receiving

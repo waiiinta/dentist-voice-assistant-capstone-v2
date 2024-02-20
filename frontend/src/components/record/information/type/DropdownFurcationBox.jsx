@@ -19,7 +19,7 @@ function FurcationDropdownBox({
 			? ["distal", "buccal", "lingual", "mesial"]
 			: ["mesial", "buccal", "lingual", "distal"];
 	// console.log(isHighlighted)
-	console.log(isPositionHighlighted);
+	// console.log(isPositionHighlighted);
 	return (
 		<div>
 			<div className={classes.direction}>

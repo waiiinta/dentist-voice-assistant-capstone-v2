@@ -1,6 +1,42 @@
 .largebox {
     width: 7.9vw;
-    height: 3vh;
+    height: 4vh;
+
+    /* /* text-align: center; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    position:relative;
+    display: block;
+    z-index: 1;
+    /* right: -36px; */
+    bottom: 15px;
+    font-size: large;
+    z-index: 1;
+}
+
+.largebox.highlighted button {
+    background: var(--secondary-color-highlight);
+}
+
+.largebox.bridge-edge {
+    background-color:#88DDE2;
+    border-radius: 5px;
+}
+
+.largebox.bridge {
+    background-color:#88DDE2;
+    width: 13vw;
+    right:20%;
+}
+
+.submenu{
+    font-size: small;
+    text-align: center;
+}
+
+.largebox2 {
+    width: 5vw;
+    height: 2vh;
 
     /* text-align: center;
     align-items: center;
@@ -13,10 +49,6 @@
     font-size: large;
 }
 
-.largebox.highlighted button {
-    background: var(--secondary-color-highlight);
-}
-
 .box{
     width: 7.9vw;
     height:9vh;
@@ -24,13 +56,14 @@
     align-items:center;
     justify-content: center;
     overflow: visible;
+    bottom: px;
 }
 .crown{
     display: flex;
     width: 7.9vw;
     height: 3vh;
     justify-content: center;
-    align-items:end;
+    /* align-items:end; */
     z-index: 1;
 }
 
@@ -45,6 +78,14 @@
     justify-content: center;
     position: absolute;
     padding-top: 3vh;
+    gap: 2vh;
+    z-index:1;
+}
+
+.anotherdropdown{
+    width: 7.9;
+    height: 3;
+    padding-top: 4vh;
     gap: 2vh;
     z-index:1;
 }
@@ -68,9 +109,36 @@
     font-size: 2.5vh;
     margin-top: 0.5vh;
     position: absolute;
-    right:42%;
+    right:43%;
+    bottom:-2%;
+    /* background-color:; */
+    /* background-size: 400%; */
     /* margin-bottom: -0.5vh; */
-    /* background-color: var(--primary-color-highlight); */
+    
+}
+
+.title.bridge{
+    /* width: 10%; */
+    background-color: #88DDE2;
+}
+
+.title2{
+    .title {
+        width:50;
+        height: 4vh;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        font-size: 1.5vh;
+        margin-top: 0.5vh;
+        position: absolute;
+        right:42%;
+        bottom:-3px
+        /* margin-bottom: -0.5vh; */
+        /* background-color: var(--primary-color-highlight); */
+    }
 }
 
 .title.highlighted {

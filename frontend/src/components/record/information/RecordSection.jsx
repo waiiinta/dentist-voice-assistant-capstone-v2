@@ -31,7 +31,7 @@ const RecordSection = ({
     !!currentCommand && !!currentCommand.command
       ? currentCommand.command
       : null;
-  if (command === "PDRE" || command == "BOP" || command =="SUP" ) {
+  if (["PDRE","PD","RE","BOP","SUP"].includes(command) ) {
     const side = !!currentCommand.side
       ? currentCommand.side.toLowerCase()
       : null;
@@ -63,16 +63,19 @@ const RecordSection = ({
       {/* not missing */}
       {!information.missing && (
         <div className={classes.direction}>
-          <RecordBuccalInformation
+          {(information.bridge_edge || !information.bridge) && <RecordBuccalInformation
             quadrant={quadrant}
             id={id}
             buccalInformation={buccalInformation}
             mgj={mgj}
             handleSetInformation={handleSetInformation}
             currentCommand={highlightCommandBuccalSide ? currentCommand : null}
-          />
+          />}
+          {!information.bridge_edge && information.bridge && (
+            <div className={classes.largeBridgeBox}/>
+          )}
           <div className={classes.emptyBox2}/>
-          {!!information.FUR && (
+          {!!information.FUR && (information.bridge_edge || !information.bridge) && (
             <RecordFurcationInformation
             quadrant={quadrant}
             id={id}
@@ -81,7 +84,7 @@ const RecordSection = ({
             currentCommand={highlightFurcation? currentCommand:null}
           />
           )}
-          {!information.FUR && (
+          {(!information.FUR || (!information.bridge_edge && information.bridge)) && (
             <div className={classes.emptyBox}/>
           )}
           {/* <div
@@ -98,18 +101,21 @@ const RecordSection = ({
             isHighlighted={!!currentCommand}
           >
           </RecordToothInformation>
-          <RecordLingualInformation
+          {(information.bridge_edge || !information.bridge) && <RecordLingualInformation
             quadrant={quadrant}
             id={id}
             lingualInformation={lingualInformation}
             mo={mo}
             handleSetInformation={handleSetInformation}
             currentCommand={highlightCommandLingualSide ? currentCommand : null}
-          />
+          />}
+          {!information.bridge_edge && information.bridge&& (
+            <div className={classes.largeBridgeBox}/>
+          )}
         </div>
       )}
       {/* missing */}
-      {information.missing && (
+      {information.missing && !information.bridge && (
         <div className={classes.direction}>
           <div className={classes.missingBox} onClick={handleClickMissingBox}>
             <div
@@ -118,6 +124,7 @@ const RecordSection = ({
           </div>
         </div>
       )}
+      {/* bridge */}
     </div>
   );
 };
