@@ -3,6 +3,7 @@ import { useState } from "react";
 // import DropdownButton from "react-bootstrap/DropdownButton";
 import classes from "./DropdownSmBox.module.css";
 import DropdownSm from "./DropdownSm";
+import React from "react";
 
 function RecordDropdownBox({
 	quadrant,

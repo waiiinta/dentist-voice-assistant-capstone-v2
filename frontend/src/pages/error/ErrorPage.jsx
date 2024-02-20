@@ -1,6 +1,7 @@
 import classes from "./ErrorPage.module.css";
 import { Fragment } from "react";
 import NotFoundPageInfo from "../../components/error/NotFoundPageInfo";
+import React from "react";
 
 const LoginPage = () => {
   return (

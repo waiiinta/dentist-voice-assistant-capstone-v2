@@ -1,7 +1,9 @@
 import { useState } from "react";
 import classes from "./RecordInformation.module.css";
 import RecordSection from "./information/RecordSection";
-import RecordHeader from "./information/RecordHeader";
+import RecordHeader from "./information/RecordHeader"
+import React from "react";
+;
 
 const RecordInformation = ({
   information,

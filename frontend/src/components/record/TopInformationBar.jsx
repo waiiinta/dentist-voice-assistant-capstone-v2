@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import classes from "./TopInformationBar.module.css";
+import React from "react";
 
 function TopInformationBar(props) {
   const isSummary = props.isSummary;

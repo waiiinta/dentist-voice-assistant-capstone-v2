@@ -1,4 +1,6 @@
 import classes from "./CurrentCommandBox.module.css";
+import React from "react";
+
 
 const CurrentCommandBox = ({ command, tooth }) => {
   return (
