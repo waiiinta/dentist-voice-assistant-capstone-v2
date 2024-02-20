@@ -1,4 +1,4 @@
-exports.verificationContent = (id) => {
+export const verificationContent = (id) => {
   return (
     "<div> <h3>Click the button below to activate your email address </h3>" +
     `<a href='${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.FRONTEND_IP}:${process.env.PORT}/register/verification/${id}'>` +
