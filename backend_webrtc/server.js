@@ -489,7 +489,7 @@ io.on("connection", async (socket) => {
             });
           } else if (mode === "Undo") {
             q = semantic.undo.zee ? semantic.undo.zee.first_zee : null;
-            i = semantic.undo.zee ? semantic.undo.zee.first_zee : null;
+            i = semantic.undo.zee ? semantic.undo.zee.second_zee : null;
             q2 = null;
             i2 = null;
             target = true;
