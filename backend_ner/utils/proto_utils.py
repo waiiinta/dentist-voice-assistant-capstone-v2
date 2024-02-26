@@ -22,18 +22,29 @@ def create_ner_response(semantics):
             
         # {command: undo, object :semantic}
         elif command in ["Undo"]:
+            bridge = None
             cmd_to_undo = semantic.get("object", dict()).get("command", None)
-            if cmd_to_undo in ["Missing", "Crown", "Implant", "Bridge"]:
+            if cmd_to_undo in ["Missing", "Crown", "Implant"]:
                 zee = create_zee(semantic.get("object", dict()).get("data", dict()).get(cmd_to_undo.lower(), None)[-1])
+            elif cmd_to_undo in ["Bridge"]:
+                zee = None
+                bridge = create_undo_bridge(semantic.get("object", dict()).get("data", dict()).get(cmd_to_undo.lower(), None)[-1])
+                print("beforeleft",bridge,type(bridge))
             else:
                 zee = create_zee(semantic.get("object", dict()).get("data", dict()).get("zee", None))
-            data = CommandUndo(
+            data = None
+            try:
+                data = CommandUndo(
                         command = cmd_to_undo,
                         zee = zee,
                         tooth_side = semantic.get("object", dict()).get("data", dict()).get("tooth_side", None),
                         position = semantic.get("object", dict()).get("data", dict()).get("position", None),
                         is_number_PD = semantic.get("object", dict()).get("data", dict()).get("is_number_PD", None),
+                        bridge = bridge
                     )
+            except Exception as err:
+                print(err)
+            print("pass here")
         else:
             print('pass two')
             data = CommandData(
@@ -109,6 +120,15 @@ def create_bridge(list_bridge):
         result.append(BridgeZee(zee=[create_zee(bridge[0]), create_zee(bridge[1])]))
         print(result)
     return result
+
+def create_undo_bridge(list_bridge):
+    if list_bridge is None:
+        return None
+    result = []
+    print(list_bridge)
+    # print(bridge[1])
+    return BridgeZee(zee=[create_zee(list_bridge[0]), create_zee(list_bridge[1])])
+
 
 def create_incomplete_semantic(command, tooth, tooth_side, position):
     return {

@@ -1234,7 +1234,8 @@ proto.ner_backend.CommandUndo.toObject = function(includeInstance, msg) {
     zee: (f = msg.getZee()) && proto.ner_backend.Zee.toObject(includeInstance, f),
     toothSide: jspb.Message.getFieldWithDefault(msg, 3, ""),
     position: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    isNumberPd: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
+    isNumberPd: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
+    bridge: (f = msg.getBridge()) && proto.ner_backend.BridgeZee.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1291,6 +1292,11 @@ proto.ner_backend.CommandUndo.deserializeBinaryFromReader = function(msg, reader
     case 5:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsNumberPd(value);
+      break;
+    case 6:
+      var value = new proto.ner_backend.BridgeZee;
+      reader.readMessage(value,proto.ner_backend.BridgeZee.deserializeBinaryFromReader);
+      msg.setBridge(value);
       break;
     default:
       reader.skipField();
@@ -1355,6 +1361,14 @@ proto.ner_backend.CommandUndo.serializeBinaryToWriter = function(message, writer
     writer.writeBool(
       5,
       f
+    );
+  }
+  f = message.getBridge();
+  if (f != null) {
+    writer.writeMessage(
+      6,
+      f,
+      proto.ner_backend.BridgeZee.serializeBinaryToWriter
     );
   }
 };
@@ -1466,6 +1480,43 @@ proto.ner_backend.CommandUndo.prototype.getIsNumberPd = function() {
  */
 proto.ner_backend.CommandUndo.prototype.setIsNumberPd = function(value) {
   return jspb.Message.setProto3BooleanField(this, 5, value);
+};
+
+
+/**
+ * optional BridgeZee bridge = 6;
+ * @return {?proto.ner_backend.BridgeZee}
+ */
+proto.ner_backend.CommandUndo.prototype.getBridge = function() {
+  return /** @type{?proto.ner_backend.BridgeZee} */ (
+    jspb.Message.getWrapperField(this, proto.ner_backend.BridgeZee, 6));
+};
+
+
+/**
+ * @param {?proto.ner_backend.BridgeZee|undefined} value
+ * @return {!proto.ner_backend.CommandUndo} returns this
+*/
+proto.ner_backend.CommandUndo.prototype.setBridge = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.ner_backend.CommandUndo} returns this
+ */
+proto.ner_backend.CommandUndo.prototype.clearBridge = function() {
+  return this.setBridge(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ner_backend.CommandUndo.prototype.hasBridge = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 
