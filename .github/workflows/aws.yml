@@ -1,0 +1,98 @@
+name: DVCA-V2 Github Action
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  initialize-the-application:
+    runs-on: ubuntu-latest
+    env:
+      # Backend
+      NODE_ENV: ${{vars.NODE_ENV}}
+      SERVER_PORT: ${{vars.SERVER_PORT}}
+      JWT_SECRET: ${{vars.JWT_SECRET}}
+      JWT_EXPIRES_IN: ${{vars.JWT_EXPIRES_IN}}
+      JWT_COOKIE_EXPIRES_IN: ${{vars.JWT_COOKIE_EXPIRES_IN}}
+      FRONTEND_IP: ${{vars.FRONTEND_IP}}
+      FRONTEND_PORT: ${{vars.FRONTEND_PORT}}
+      DATABASE_LOCAL: ${{secrets.DATABASE_LOCAL}}
+      EMAIL_USERNAME: ${{secrets.EMAIL_USERNAME}}
+      EMAIL_PASSWORD: ${{secrets.EMAIL_PASSWORD}}
+      EMAIL_HOST: ${{vars.EMAIL_HOST}}
+      EMAIL_PORT: ${{vars.EMAIL_PORT}}
+      BACKEND_WEB_RTC_IP: ${{vars.BACKEND_WEB_RTC_IP}}
+      BACKEND_WEB_RTC_PORT: ${{vars.BACKEND_WEB_RTC_PORT}}
+
+      #Backend-WebRTC
+      WRTC_SERVER_PORT: ${{vars.WRTC_SERVER_PORT}}
+      CLIENT_IP: ${{vars.CLIENT_IP}}
+      CLIENT_PORT: ${{vars.CLIENT_PORT}}
+      NORMAL_BACKEND_IP: ${{vars.NORMAL_BACKEND_IP}}
+      NORMAL_BACKEND_PORT: ${{vars.NORMAL_BACKEND_PORT}}
+      GOWAJEE_IP: ${{vars.GOWAJEE_IP}}
+      GOWAJEE_PORT: ${{vars.GOWAJEE_PORT}}
+      NER_BACKEND_IP: ${{vars.NER_BACKEND_IP}}
+      NER_BACKEND_PORT: ${{vars.NER_BACKEND_PORT}}
+      OPEN_RELAY_USERNAME: ${{secrets.OPEN_RELAY_USERNAME}}
+      OPEN_RELAY_CREDENTIAL: ${{secrets.OPEN_RELAY_CREDENTIAL}}
+
+      #Frontend
+      PORT: ${{vars.PORT}}
+      REACT_APP_BACKEND_IP: ${{vars.REACT_APP_BACKEND_IP}}
+      REACT_APP_BACKEND_PORT: ${{vars.REACT_APP_BACKEND_PORT}}
+      REACT_APP_BACKEND_STREAMING_IP: ${{vars.REACT_APP_BACKEND_STREAMING_IP}}
+      REACT_APP_BACKEND_STREAMING_PORT: ${{vars.REACT_APP_BACKEND_STREAMING_PORT}}
+      REACT_APP_OPEN_RELAY_USERNAME: ${{secrets.REACT_APP_OPEN_RELAY_USERNAME}}
+      REACT_APP_OPEN_RELAY_CREDENTIAL: ${{secrets.REACT_APP_OPEN_RELAY_CREDENTIAL}}
+      SKIP_PREFLIGHT_CHECK: ${{vars.SKIP_PREFLIGHT_CHECK}}
+        #  -------------------
+      DOCKER_ACCESS_TOKEN: ${{secrets.DOCKER_ACCESS_TOKEN}}
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Pull from git
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: "develop"
+      - name: ls workspace
+        run: ls ${{ github.workspace }}
+      - name: Create .env in backend
+        run: |
+          cd Backend
+          touch .env
+          cd ..
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Docker compose up
+        run: |
+          docker-compose up -d --build
+      - name: Push image to DockerHub Registry
+        run: docker-compose push
+      - name: echo "🍏 This job's status is ${{ job.status }}."
+        run: echo "🍏 This job's status is ${{ job.status }}."
+
+  Deploy:
+    needs: initialize-the-application
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy in EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+          HOSTNAME: ${{ secrets.HOSTNAME }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+            # Now we have got the access of EC2 and we will start the deploy.
+            sudo docker-compose down &&
+            sudo docker-compose pull &&
+            sudo docker-compose up -d
+            # Remove unused image
+            sudo docker image prune
+          '

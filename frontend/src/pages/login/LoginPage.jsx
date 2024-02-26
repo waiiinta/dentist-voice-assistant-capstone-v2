@@ -7,6 +7,7 @@ import { Fragment, useState, useContext } from "react";
 import Modal from "../../components/ui/Modal";
 import AuthContext from "../../store/auth-context";
 import NavBar from "../../components/ui/NavBar";
+import React from "react";
 
 const LoginPage = () => {
   // [Detect between production mode or development mode]

@@ -203,7 +203,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # Create a dummy response
             if len(semantics) > 0:
                 response = create_ner_response(semantics)
-                print("response",response)
+                ("response",print,response)
                 yield response
 
 address = f"[::]:{config.PORT}"

@@ -1,4 +1,4 @@
-import dbErrorHandler from './../utils/dbErrorHandler'
+import {handleCastErrorDB,handleDuplicateFieldsDB,handleValidationErrorDB} from './../utils/dbErrorHandler.js'
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -23,14 +23,14 @@ const sendErrorProd = (err, res) => {
     console.error('ERROR 💥', err);
 
     // 2) Send generic message
-    res.status(500).json({
+    res.status(err.statusCode).json({
       status: 'error',
       message: 'Something went very wrong!'
     });
   }
 };
 
-module.exports = (err, req, res, next) => {
+const ErrorMiddleware = (err, req, res, next) => {
   // console.log(err.stack);
 
   err.statusCode = err.statusCode || 500;
@@ -42,13 +42,15 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     if (error.name === 'CastError')
-      error = dbErrorHandler.handleCastErrorDB(error);
+      error = handleCastErrorDB(error);
     if (error.code === 11000) {
-      error = dbErrorHandler.handleDuplicateFieldsDB(error);
+      error = handleDuplicateFieldsDB(error);
     }
     if (error.name === 'ValidationError')
-      error = dbErrorHandler.handleValidationErrorDB(error);
+      error = handleValidationErrorDB(error);
 
     sendErrorProd(error, res);
   }
 };
+
+export default ErrorMiddleware

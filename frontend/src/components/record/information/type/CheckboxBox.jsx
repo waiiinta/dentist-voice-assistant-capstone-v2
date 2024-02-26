@@ -3,6 +3,7 @@ import { useState } from "react";
 // import DropdownButton from "react-bootstrap/DropdownButton";
 import classes from "./CheckboxBox.module.css";
 import Checkbox from "./Checkbox";
+import React from "react";
 
 function CheckboxBox({
   quadrant,

@@ -1,5 +1,7 @@
 import classes from "./NotFoundPageInfo.module.css";
 import { useNavigate } from "react-router-dom";
+import React from "react";
+
 
 function NotFoundPageInfo() {
   const navigate = useNavigate();

@@ -1,13 +1,13 @@
-const express = require("express");
-const recordController = require("./../controllers/recordController");
-const authController = require("./../controllers/authController");
+import express from "express"
+import recordController from "../controllers/recordController.js"
+import { auth } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", authController.protect, recordController.getRecordData);
+router.get("/", auth, recordController.getRecordData);
 
-router.post("/", authController.protect, recordController.updateRecordData);
+router.post("/", auth, recordController.updateRecordData);
 
-router.delete("/", authController.protect, recordController.deleteRecordData);
+router.delete("/", auth, recordController.deleteRecordData);
 
-module.exports = router;
+export default router

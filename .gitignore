@@ -33,7 +33,8 @@ backend_webrtc/node_modules
 backend_webrtc/package-lock.json
 backend_webrtc/.env.development
 backend_webrtc/.env.production
-backend_webrtc/.env
+backend_webrtc/.
+backend_ner/backup
 
 # backend_ner
 backend_ner/model/onnx_model-quantized.onnx

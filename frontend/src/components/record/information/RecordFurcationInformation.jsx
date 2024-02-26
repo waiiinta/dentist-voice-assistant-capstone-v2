@@ -1,5 +1,6 @@
 import FurcationDropdownBox from "./type/DropdownFurcationBox";
 import classes from "./RecordFurcationInformation.module.css";
+import React from "react";
 
 const RecordFurcationInformation = ({
 	quadrant,
