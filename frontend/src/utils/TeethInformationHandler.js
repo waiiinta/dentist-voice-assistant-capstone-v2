@@ -9,7 +9,7 @@ exports.teethInformationHandler = (
   bridge_edge = false
 ) => {
   // console.log(obj);
-  console.log(q,i,side,mode,target,spec_id,);
+  console.log(q,i,side,mode,target,spec_id);
   if (obj.quadrant === q) {
     obj.idxArray.map((data) => {
       if (data.ID === i) {
