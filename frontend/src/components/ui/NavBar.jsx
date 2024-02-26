@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 import classes from "./NavBar.module.css";
 import "bootstrap/dist/css/bootstrap.css";

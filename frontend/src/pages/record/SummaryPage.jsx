@@ -1,6 +1,6 @@
 import classes from "./SummaryPage.module.css";
 /* import React Libraries */
-import { useState, Fragment, useEffect } from "react";
+import React,{ useState, Fragment, useEffect } from "react";
 import { useNavigate, useLocation, redirect } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.css";

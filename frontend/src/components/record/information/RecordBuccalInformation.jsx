@@ -1,6 +1,7 @@
 import DropdownLg from "../information/type/DropdownLg";
 import DropdownSmBox from "../information/type/DropdownSmBox";
 import CheckboxBox from "../information/type/CheckboxBox";
+import React from "react";
 
 import classes from "./RecordBuccalInformation.module.css";
 

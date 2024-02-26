@@ -1,4 +1,4 @@
-const Excel = require("exceljs");
+import Excel from "exceljs"
 
 // ----------------setting excel properties --------------------------------
 const addBorder = (ws, col, row) => {
@@ -145,7 +145,7 @@ const merge = (ws, r) => {
   ws.mergeCells(`${colID[47]}${r}:${colID[49]}${r}`);
 };
 
-exports.createReport = (DATA) => {
+const createReport = (DATA) => {
   //--------------create a workbook and worksheet--------------
   const wb = new Excel.Workbook();
   const ws = wb.addWorksheet(`My Sheet`);
@@ -342,3 +342,5 @@ exports.createReport = (DATA) => {
 
   return wb;
 };
+
+export default createReport

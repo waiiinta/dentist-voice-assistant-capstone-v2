@@ -1,7 +1,7 @@
-const fs = require("fs");
-const https = require("https");
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+import fs from "fs"
+import https from "https"
+import mongoose from 'mongoose'
+import app from './app.js'
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -10,9 +10,8 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-dotenv.config();
-const app = require('./app');
-const { prototype } = require("node-blob");
+
+
 
 // Connect MongoDB
 console.log(process.env.DATABASE_LOCAL)

@@ -1,4 +1,6 @@
 import classes from "./InformationBox.module.css";
+import React from "react";
+
 
 const CurrentCommandBox = ({ dentistID, patientID, date }) => {
   return (
