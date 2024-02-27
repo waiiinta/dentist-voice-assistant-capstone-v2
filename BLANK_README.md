@@ -212,7 +212,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Chayut Kritveeranat - [@twitter](https://twitter.com/ChayutKrit) - [dentistvoiceassistant@gmail.com][dentistvoiceassistant@gmail.com]
+Chayut Kritveeranat - [@twitter](https://twitter.com/ChayutKrit) - [dentistvoiceassistant@gmail.com](dentistvoiceassistant@gmail.com)
 
 Project Link: [https://github.com/kracker71/dentist-voice-assistant-capstone-v2e](https://github.com/kracker71/dentist-voice-assistant-capstone-v2)
 
