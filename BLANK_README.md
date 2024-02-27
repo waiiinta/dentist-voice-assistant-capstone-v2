@@ -108,7 +108,8 @@ In general, the dentists assess patients' mouth with both hands and they must re
 GETTING STARTED
 ## Getting Started
 
-* [![Installation Guide](https://docs.google.com/document/d/1Bret9-gSYwNU_Z3NNdwDi6Qz_OoOCxlHNF7yMsVefwM/edit?usp=sharing)]
+For open manually
+* [Installation Guide](https://docs.google.com/document/d/1Bret9-gSYwNU_Z3NNdwDi6Qz_OoOCxlHNF7yMsVefwM/edit?usp=sharing)
 
 ### Prerequisites
 
