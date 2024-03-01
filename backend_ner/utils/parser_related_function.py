@@ -50,6 +50,13 @@ side_mapper = {'บัคเคิล': BUCCAL, 'บัคคอล': BUCCAL, '�
                'ทั้งหมด': ALL,
                }
 
+fur_possible_tooth = [
+                      [1,4], [1,6], [1,7], [1,8],
+                      [2,4], [2,6], [2,7], [2,8],
+                      [3,6], [3,7], [3,8],
+                      [4,6], [4,7], [4,8],
+                    ]
+
 def editDistDP(str1, str2):
   # INPUT:  str1: first string
   #         str2: second string
@@ -430,9 +437,10 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
 
       # 2.3  Side for 'FUR'
       elif semantic_object['command'] == FUR:
-        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee'])==2:
-          semantic_object['data']['position'] = word_list[i]
-          semantic_object['data']['payload'] = None
+        if semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) == 2:
+          if (semantic_object['data']['zee'][1] == 4 and word_list[i] in [MESIAL, DISTAL]) or semantic_object['data']['zee'][1] in [6,7,8]:
+            semantic_object['data']['position'] = word_list[i]
+            semantic_object['data']['payload'] = None
     
     # 3. 'Number'
     elif type(word_list[i]) == int:
@@ -581,7 +589,10 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         elif semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) < 2:
           semantic_object['data']['zee'].append(word_list[i])
           if len(semantic_object['data']['zee']) == 2:
-            semantic_object = check_tooth_appopriate(semantic_object, available_teeth_dict)
+            if semantic_object['data']['zee'] in fur_possible_tooth:
+              semantic_object = check_tooth_appopriate(semantic_object, available_teeth_dict)
+            else:
+              semantic_object['data']['zee'] = None
         elif semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) == 2:
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
