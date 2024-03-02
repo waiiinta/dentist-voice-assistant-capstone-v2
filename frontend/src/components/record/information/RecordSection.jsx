@@ -55,8 +55,6 @@ const RecordSection = ({
     handleAddToothMissing(quadrant, information.ID);
   };
 
-  // console.log(currentCommand,command,highlightFurcation)
-
   return (
     <div>
       {/* not missing */}

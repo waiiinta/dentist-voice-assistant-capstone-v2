@@ -7,9 +7,9 @@
     /* justify-content: center; */
     position:relative;
     display: block;
-    z-index: 1;
     /* right: -36px; */
-    bottom: 15px;
+    top: -5px;
+    bottom: 20px;
     font-size: large;
     z-index: 1;
 }
@@ -110,7 +110,8 @@
     margin-top: 0.5vh;
     position: absolute;
     right:43%;
-    bottom:-2%;
+    top: -10%;
+    /* bottom:-10%; */
     /* background-color:; */
     /* background-size: 400%; */
     /* margin-bottom: -0.5vh; */

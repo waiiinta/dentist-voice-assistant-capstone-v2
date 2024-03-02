@@ -1,5 +1,10 @@
 const catchAsync = require("./../utils/catchAsync");
 const Record = require("./../models/recordModel");
+const FileReader = require("../utils/readFile.js")
+
+const fs = require('fs')
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink)
 
 exports.getRecordData = catchAsync(async (req, res) => {
   const userId = req.user._id;
@@ -31,3 +36,22 @@ exports.deleteRecordData = catchAsync(async (req, res) => {
     data: deletedData,
   });
 });
+
+exports.importRecordData = catchAsync(async (req,res)=>{
+  const userId = req.user._id;
+  const data = await FileReader(req.file)
+  await unlinkAsync(req.file.path)
+  const filename = req.file.originalname
+  const patientId = filename.split('_')[0]
+  const response = await Record.updateOne({
+    userId:userId
+  },{
+    finished:false,
+    patientId:patientId,
+    recordData:data
+  })
+  res.status(200).json({
+    status: "success",
+    updated: response.nModified,
+  })
+})
