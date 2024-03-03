@@ -50,6 +50,7 @@ exports.importRecordData = catchAsync(async (req,res)=>{
     patientId:patientId,
     recordData:data
   })
+  // console.log(response)
   res.status(200).json({
     status: "success",
     updated: response.nModified,

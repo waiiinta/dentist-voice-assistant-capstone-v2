@@ -92,7 +92,6 @@ const Formatter = async (data) => {
   q2 = format[1]
 	for (let i = 26; i <= 49; i += 3) {
     teethdata = q2.idxArray[parseInt((i-25)/3)]
-    console.log()
     teethdata.ID = parseInt((((i-25)/3))+1)
 		let col1 = data[i];
 		let col2 = data[i + 1];
@@ -161,11 +160,9 @@ const Formatter = async (data) => {
     }
 	}
   q3 = format[2]
-  // console.log(q3)
   for (let i = 26; i <= 49; i += 3) {
     teethdata = q3.idxArray[parseInt((i-25)/3)]
     teethdata.ID = parseInt((((i-25)/3))+1)
-    console.log(teethdata.ID)
 		let col1 = data[i];
 		let col2 = data[i + 1];
 		let col3 = data[i + 2];

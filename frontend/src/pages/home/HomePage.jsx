@@ -1,9 +1,9 @@
 import classes from "./HomePage.module.css";
 import NavBar from "../../components/ui/NavBar";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext, useEffect, Fragment } from "react";
+import { useState, useContext, useEffect, Fragment, useRef } from "react";
 import { fetchUserInfoAPIHandler } from "../../utils/userAPIHandler";
-import { fetchUserLatestRecordAPIHandler } from "../../utils/recordAPIHandler";
+import { fetchUserLatestRecordAPIHandler,importRecordDataAPIHandler } from "../../utils/recordAPIHandler";
 import AuthContext from "../../store/auth-context";
 import InputModal from "../../components/ui/InputModal";
 import Modal from "../../components/ui/Modal";
@@ -13,6 +13,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState(null);
+  const [reload,setReload] = useState(null)
   const [patientID, setPatientID] = useState("");
   const [dentistID, setDentistID] = useState("");
   const [isStart, setIsStart] = useState(false);
@@ -96,7 +97,7 @@ const HomePage = () => {
           }
         });
     }
-  }, []);
+  }, [reload]);
 
   function startHandler(mode = "new") {
     if (mode === "new") {
@@ -193,6 +194,28 @@ const HomePage = () => {
     );
   }
 
+  const inputRef = useRef(null)
+
+  const importHandler = ()=>{
+    inputRef.current.click()
+  }
+
+  const handleFileChange = async event =>{
+    const fileObj = event.target.files && event.target.files[0]
+    if (!fileObj) {
+      return;
+    }
+    console.log('fileObj is', fileObj);
+    await importRecordDataAPIHandler(token,fileObj)
+    await fetchUserInfoAPIHandler(token).then(
+      window.location.reload(false)
+    )
+    // window.location.reload(false)
+    // setReload(!reload)
+    event.target.files = null
+    // console.log(result)
+  }
+
   return (
     <Fragment>
       {/* Modals */}
@@ -263,6 +286,16 @@ const HomePage = () => {
                   disabled={isResumeButtonDisabled}
                 >
                   Resume Recording
+                </button>
+                <input
+                  style={{display:"none"}}
+                  ref={inputRef}
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <button onClick={importHandler}>
+                  <input style={{display:'none'}} type="file"/>
+                  Import Record
                 </button>
               </Fragment>
             )}

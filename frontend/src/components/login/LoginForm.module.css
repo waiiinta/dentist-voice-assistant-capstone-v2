@@ -36,21 +36,23 @@
 
 .actions button {
   border-radius: 10px;
-  font-size: 2vh;
+  font-size: 2.5vh;
   width: 85%;
   height: 40px;
   border: 0;
   background-color: black;
   color: white;
+  transition: background-color 400ms ease,transform 400ms ease;
 }
 
 .actions button:disabled,
 .actions button:disabled:hover {
   background-color: gray;
-  transition: var(--transition-hover);
+  /* transition: var(--transition-hover); */
 }
 
 .actions button:hover {
   background-color: green;
-  transition: var(--transition-hover);
+  transform: scale(1.03) translateY(-1px);
+  /* transition: var(--transition-hover); */
 }
