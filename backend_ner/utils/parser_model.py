@@ -27,7 +27,10 @@ class ParserModel:
             - threshold: CER threshold
         '''
         tokens = token_classifier.inference(sentence)
-        semantic = self.parse(tokens, threshold=threshold, save=save ) 
+        try:
+            semantic = self.parse(tokens, threshold=threshold, save=save ) 
+        except Exception as e:
+            print(e)
         return semantic # result
                
 
@@ -41,10 +44,8 @@ class ParserModel:
         new_semantic_object_list = copy.deepcopy(self.semantic_object_list)
         new_completed_semantic_object = copy.deepcopy(self.completed_semantic_object)
         new_type1_tooth = copy.deepcopy(self.type1_tooth)
-        
         word_list = create_result_list(tokens, threshold, self.last_symbol)
         result = create_semantic_object(new_semantic_object_list, new_completed_semantic_object, word_list, self.available_teeth_dict, new_type1_tooth)
-
 
         if save:
             self.semantic_object_list = new_semantic_object_list

@@ -28,7 +28,6 @@ def create_ner_response(semantics):
             elif cmd_to_undo in ["Bridge"]:
                 zee = None
                 bridge = create_undo_bridge(semantic.get("object", dict()).get("data", dict()).get(cmd_to_undo.lower(), None)[-1])
-                print("beforeleft",bridge,type(bridge))
             else:
                 zee = create_zee(semantic.get("object", dict()).get("data", dict()).get("zee", None))
             data = None
@@ -55,14 +54,12 @@ def create_ner_response(semantics):
                         implant = create_implant(semantic.get("data", dict()).get("implant", None)),
                         bridge = create_bridge(semantic.get("data", dict()).get("bridge", None)),
                     )
-            print(data)
         is_complete = semantic.get("is_complete", True)
         if command in ["Undo"]:
             semantic_command = SemanticCommand(command=command, data=None, undo=data, is_complete=is_complete)
         else:
             semantic_command = SemanticCommand(command=command, data=data, undo=None, is_complete=is_complete)
         response.append(semantic_command)
-        print(response)
     return NERResponse(response=response)
 
 def create_zee(list_zee):
@@ -113,14 +110,13 @@ def create_bridge(list_bridge):
     result = []
     for bridge in list_bridge:
         result.append(BridgeZee(zee=[create_zee(bridge[0]), create_zee(bridge[1])]))
-        print(result)
     return result
 
 def create_undo_bridge(list_bridge):
     if list_bridge is None:
         return None
-    result = []
-    print(list_bridge)
+    # result = []
+    # print(list_bridge)
     # print(bridge[1])
     return BridgeZee(zee=[create_zee(list_bridge[0]), create_zee(list_bridge[1])])
 

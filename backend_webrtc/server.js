@@ -247,7 +247,6 @@ io.on("connection", async (socket) => {
       .on("data", (response) => {
         // console.log(response.response);
         let semanticList = response.response;
-        console.log(response);
         console.log(semanticList);
         let isUpdate = false;
         // console.log("pass here 1")
@@ -260,7 +259,7 @@ io.on("connection", async (socket) => {
           side_not_depend = ["MO", "MGJ", "FUR"];
 
           // console.log(semantic.data);
-          if (!semantic.is_complete || ["Missing", "Undo"].includes(mode)) {
+          if (!semantic.is_complete || ["Missing", "Undo","Bridge"].includes(mode)) {
             q = null;
             i = null;
             if (mode != "Undo" && !(semantic.data.zee === null)) {
@@ -285,6 +284,10 @@ io.on("connection", async (socket) => {
                 q = sem.zee.first_zee;
                 i = sem.zee.second_zee;
               }
+            }else if(mode == "Bridge"){
+              let bridge = semantic.data.bridge
+              q = bridge.length > 0? bridge[bridge.length-1].zee[0].first_zee:null
+              i = bridge.length > 0? bridge[bridge.length-1].zee[0].second_zee:null
             }
             tooth_side = semantic.data ? semantic.data.tooth_side : null;
             position = semantic.data ? semantic.data.position : null;
@@ -328,7 +331,7 @@ io.on("connection", async (socket) => {
               ? semantic.data.missing.length
               : 0;
             if (
-              !["Missing", "Undo"].includes(mode) ||
+              !["Missing", "Undo","Bridge"].includes(mode) ||
               (missing_length == 0 && mode === "Missing")
             ) {
               return;

@@ -361,13 +361,11 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
 
   first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
   last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
-
   # reversion of available_teeth_dict value in each quadrant
   rev_available_teeth_dict = {}
   for e in available_teeth_dict:
     rev_available_teeth_dict[e] = available_teeth_dict[e].copy()
     rev_available_teeth_dict[e].reverse()
-
   for i in range(len(word_list)):
     semantic_object = copy.deepcopy(latest_semantic_object)
     
@@ -419,7 +417,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             type1_tooth.remove(tooth)
           first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
           last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
-
+    
     
     # 2. 'Side'
     elif word_list[i] in [BUCCAL, MESIAL, DISTAL, LINGUAL, ALL]:
@@ -615,11 +613,11 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
             semantic_object['data']['payload'] = word_list[i]
           elif semantic_object['data']['payload'] != None:
-            semantic_object['data']['zee'] = [word_list(i)]
+            semantic_object['data']['zee'] = [word_list[i]]
             semantic_object['data']['position'] = None
             semantic_object['data']['payload'] = None
           elif semantic_object['data']['position'] == None:
-            semantic_object['data']['zee'] = [word_list(i)]
+            semantic_object['data']['zee'] = [word_list[i]]
         
     # 4. 'To' For Bridge command
     elif word_list[i] == TO:

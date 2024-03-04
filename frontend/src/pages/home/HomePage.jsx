@@ -206,7 +206,6 @@ const HomePage = () => {
     if (!fileObj) {
       return;
     }
-    console.log('fileObj is', fileObj);
     await importRecordDataAPIHandler(token,fileObj)
     await fetchUserInfoAPIHandler(token).then(
       window.location.reload(false)

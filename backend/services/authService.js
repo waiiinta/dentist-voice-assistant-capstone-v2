@@ -49,7 +49,6 @@ const AuthService = {
   },
 
   async updatePassword(id,payload){
-    console.log(id,payload)
     const user = await User.findById(id).select("+password")
     if(!user){
       throw new AppError("User not found",404)
