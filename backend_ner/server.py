@@ -81,34 +81,11 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # print(sentences)
 
             # Predict the class of each token in the sentence
-            # predicted_token = self.token_classifier.inference(sentence)
-            # print(predicted_token)
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
             # print(parser.semantic_object_list)
             # print(parser.completed_semantic_object)
             command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
-            # print(tooth)
-            # print(bridge_end)
-            # Create an incomplete semantic for update display to frontend
-            # 1.) first we consider that if there is not semantic from the result but the command is not None
-            # then create incomplete semantic
-            # 2.) second we consider that if there are more than one semantic, then there is two case which we need to consider
-            # 2.1) the command in the last semantic is not the same as the command, this mean
-            #      that there is a new command from the user but does not complete yet. 
-            # 2.2) the command is a BOP command because when we speak the BOP format, it will always output one semantic
-            #      unlike other command such as PDRE which doesn't output anything before speaking the payload value
-            # 3.) last but note least the PDRE and the MGJ command has a sequential format, therefore these two command 
-            #     must send incomplete only at the start of the command and frontend will do the rest, if not, the cursor
-            #     will be pull back to the tooth of the incomplete command. Therefore, we need to separate the MGJ command
-            #     from the other (PDRE) because the tooth_side in MGJ is None.
-            # if ((len(semantics) == 0) or (len(semantics) > 0 and (semantics[-1]["command"] != command or tooth is None or tooth_side is None or command in ["BOP", "SUP"]))) \
-            # and command \
-            # and (command != old_command or old_tooth is None or old_tooth_side is None or \
-            # ((command == old_command and command != "MGJ" and (tooth is None or tooth_side is None)) or \
-            #  (command == old_command and command == "MGJ" and (tooth is None)) or \
-            #  (command == old_command and command == "BOP" and (tooth != old_tooth)))): # or tooth != old_tooth or tooth_side != old_tooth_side):
-            #     pass
 
 
             create_incomplete = False

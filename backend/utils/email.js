@@ -3,8 +3,7 @@ import env from "../config/config.js"
 
 const sendEmail = async (options) => {
   // 1) Create a transporter
-  console.log(env.EMAIL_USERNAME)
-  console.log(env.EMAIL_PASSWORD)
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host:"stmp.gmail.com",
@@ -16,7 +15,6 @@ const sendEmail = async (options) => {
     },
   });
 
-  console.log(options);
 
   // 2) Define the email options
   const mailOptions = {

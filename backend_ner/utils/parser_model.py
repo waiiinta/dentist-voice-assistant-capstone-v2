@@ -6,7 +6,7 @@ class ParserModel:
     def __init__(self):        
         self.semantic_object_list = []
         self.completed_semantic_object = []
-        self.last_pdre_state = {'command': None}
+        self.type1_tooth = []
         self.available_teeth_dict = {
             1: [[1, x] for x in range(8, 0, -1)], 
             2: [[2, x] for x in range(1, 9)], 
@@ -27,7 +27,10 @@ class ParserModel:
             - threshold: CER threshold
         '''
         tokens = token_classifier.inference(sentence)
-        semantic = self.parse(tokens, threshold=threshold, save=save ) 
+        try:
+            semantic = self.parse(tokens, threshold=threshold, save=save ) 
+        except Exception as e:
+            print(e)
         return semantic # result
                
 
@@ -40,16 +43,14 @@ class ParserModel:
         '''
         new_semantic_object_list = copy.deepcopy(self.semantic_object_list)
         new_completed_semantic_object = copy.deepcopy(self.completed_semantic_object)
-        new_last_pdre_state = copy.deepcopy(self.last_pdre_state)
-        
+        new_type1_tooth = copy.deepcopy(self.type1_tooth)
         word_list = create_result_list(tokens, threshold, self.last_symbol)
-        result = create_semantic_object(new_semantic_object_list, new_completed_semantic_object, word_list, self.available_teeth_dict, new_last_pdre_state)
-
+        result = create_semantic_object(new_semantic_object_list, new_completed_semantic_object, word_list, self.available_teeth_dict, new_type1_tooth)
 
         if save:
             self.semantic_object_list = new_semantic_object_list
             self.completed_semantic_object = new_completed_semantic_object
-            self.last_pdre_state = new_last_pdre_state
+            self.type1_tooth = new_type1_tooth
             self.last_symbol = False
 
             if len(tokens) > 0:
@@ -67,7 +68,8 @@ class ParserModel:
 
     def reset(self):
         self.semantic_object_list = []
-        self.last_pdre_state = {'command': None}
+        self.completed_semantic_object = []
+        self.type1_tooth = []
         self.available_teeth_dict = {
             1: [[1, x] for x in range(8, 0, -1)], 
             2: [[2, x] for x in range(1, 9)], 
