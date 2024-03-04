@@ -1,6 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import "./VerificationPage.css";
 import { emailActivatedHandler } from "../../utils/userAPIHandler";
+import React from "react";
 
 const VerificationPage = () => {
   const { id } = useParams();

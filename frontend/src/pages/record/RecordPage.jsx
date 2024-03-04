@@ -8,6 +8,7 @@ import {
   Fragment,
 } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import React from "react";
 
 /* import Custom Components */
 import TopInformationBar from "../../components/record/TopInformationBar";

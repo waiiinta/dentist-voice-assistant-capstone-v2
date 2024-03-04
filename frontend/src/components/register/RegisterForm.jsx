@@ -1,4 +1,5 @@
 import useInput from "../../hooks/use-input";
+import React from "react";
 import "./RegisterForm.css";
 // import {
 //   validateEmptyInput,

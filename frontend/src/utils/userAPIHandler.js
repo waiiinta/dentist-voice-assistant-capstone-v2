@@ -1,5 +1,6 @@
 import axios from "axios";
 import { URL_BACKEND } from "./constants";
+import React from "react";
 
 const USER_REGISTER_ENDPOINT = `${URL_BACKEND}/user/signup`;
 const USER_LOGIN_ENDPOINT = `${URL_BACKEND}/user/login`;

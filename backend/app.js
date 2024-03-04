@@ -1,11 +1,11 @@
-const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
-const AppError = require("./utils/appError");
-const globalErrorHandler = require("./controllers/errorController");
-
-const userRouter = require("./routes/userRoutes");
-const recordRouter = require("./routes/recordRoutes");
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import AppError from "./utils/appError.js";
+import ErrorMiddleware from "./middleware/error.middleware.js";
+import userRouter from "./routes/userRoutes.js";
+import recordRouter from "./routes/recordRoutes.js";
+import dotenv from "dotenv"
 
 
 const corsOptions = {
@@ -16,7 +16,7 @@ const corsOptions = {
   origin : '*',
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
+dotenv.config()
 console.log(process.env.FRONTEND_IP, process.env.FRONTEND_PORT)
 
 const app = express();
@@ -39,6 +39,6 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-app.use(globalErrorHandler);
+app.use(ErrorMiddleware);
 
-module.exports = app;
+export default app

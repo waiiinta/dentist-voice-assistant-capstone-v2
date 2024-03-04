@@ -1,4 +1,5 @@
 import classes from "./RecordHeader.module.css";
+import React from "react";
 
 const RecordHeader = ({ currentCommand }) => {
   const command = currentCommand.command;

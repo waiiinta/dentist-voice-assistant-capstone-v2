@@ -1,41 +1,74 @@
-const catchAsync = require("./../utils/catchAsync");
-const Record = require("./../models/recordModel");
-const FileReader = require("../utils/readFile.js")
+import Record from "./../models/recordModel.js"
+import AppError from "../utils/appError.js"
 
-const fs = require('fs')
-const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink)
+const RecordController = {
+  async getRecordData(req, res,next){
+    try {
+      const userId = req.user._id;
+      if(!userId){
+        throw new AppError("User ID lost",400)
+      }
+      const recordData = await Record.findOne({ userId: userId });
+      res.status(200).json({
+        status: "success",
+        data: recordData,
+    });
+    } catch (error) {
+      return next(error)
+    }
+    
+  },
+  
+  async updateRecordData(req, res,next){
+    try {
+      const userId = req.user._id;
+      if(!userId){
+        throw new AppError("User ID lost",400)
+      }
 
-exports.getRecordData = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const recordData = await Record.findOne({ userId: userId });
-  res.status(200).json({
-    status: "success",
-    data: recordData,
-  });
-});
+      const recordData = await Record.findOneAndUpdate(
+        { userId: userId },
+        { ...req.body, timestamp: Date.now() },
+        { new: true, upsert: true }
+      );
+      res.status(200).json({
+        status: "success",
+        data: recordData,
+      });
+    } catch (error) {
+      return next(error)
+    }
+    
+  },
+  
+  async deleteRecordData(req, res,next){
+    try {
+      const userId = req.user._id;
+      if(!userId){
+        throw new AppError("User ID lost",400)
+      }
+      const deletedData = await Record.findOneAndDelete({ userId: userId });
+      res.status(200).json({
+        status: "success",
+        data: deletedData,
+      });
+    } catch (error) {
+      return next(error)
+    }
+    
+  },
+  
+  async importRecordData(req,res,next){
+    try {
+      const userId = req.user._id
+      console.log(userId)
+    } catch (error) {
+      return next(error)
+    }
+  }
+}
 
-exports.updateRecordData = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const recordData = await Record.findOneAndUpdate(
-    { userId: userId },
-    { ...req.body, timestamp: Date.now() },
-    { new: true, upsert: true }
-  );
-  res.status(200).json({
-    status: "success",
-    data: recordData,
-  });
-});
-
-exports.deleteRecordData = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const deletedData = await Record.findOneAndDelete({ userId: userId });
-  res.status(200).json({
-    status: "success",
-    data: deletedData,
-  });
-});
+export default RecordController
 
 exports.importRecordData = catchAsync(async (req,res)=>{
   const userId = req.user._id;

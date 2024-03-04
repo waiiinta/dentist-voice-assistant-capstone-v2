@@ -4,6 +4,7 @@ import RecordFurcationInformation from "./RecordFurcationInformation";
 import RecordToothInformation from "./RecordToothInformation";
 import DropdownMode from "./type/DropdownMode";
 import classes from "./RecordSection.module.css";
+import React from "react";
 
 const RecordSection = ({
   quadrant,
