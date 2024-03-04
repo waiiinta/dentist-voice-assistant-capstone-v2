@@ -12,24 +12,32 @@ const USER_SEND_REPORT_EXCEL_ENDPOINT = `${URL_BACKEND}/user/sendReportExcel`;
 const USER_ACTIVATE_EMAIL_ENDPOINT = `${URL_BACKEND}/user/activateAccount/`;
 const USER_CHECK_TOKEN_ENDPOINT = `${URL_BACKEND}/user/checkToken`;
 
-const userRegisterAPIHandler = (
+const RegisterAPIHandler = async(registerdata)=>{
+  const result = await axios(USER_REGISTER_ENDPOINT,registerdata)
+  return result
+}
+
+const userRegisterAPIHandler = async (
   userRegisterData,
   setReigsterError,
   setIsEmailDuplicated,
   navigate
 ) => {
-  axios
-    .post(USER_REGISTER_ENDPOINT, userRegisterData)
-    .then((result) => {
-      // register completed
-      if (result.status === 201) {
-        userEmailConfirmationAPIHandler({ email: userRegisterData.email });
-        navigate("/register/email_confirmation", {
-          state: { email: userRegisterData.email },
-        });
-      }
-    })
-    .catch((error) => {
+  try {
+    const register_result = await RegisterAPIHandler(userRegisterData)
+    if(register_result.status != 201){
+      throw register_result
+    }
+    const email_result = await userEmailConfirmationAPIHandler({ email: userRegisterData.email });
+    if(email_result.status != 200){
+      throw email_result
+    }
+    navigate("/register/email_confirmation", {
+      state: { email: userRegisterData.email },
+    });
+
+  } catch (error) {
+    {
       // cannot connect to backend server
       if (!error.response) {
         setReigsterError({
@@ -64,11 +72,12 @@ const userRegisterAPIHandler = (
         });
       }
       return false;
-    });
+    };
+  }
 };
 
-const userEmailConfirmationAPIHandler = (userEmail) => {
-  axios.post(USER_EMAIL_CONFIRMATION_ENDPOINT, userEmail);
+const userEmailConfirmationAPIHandler = async (userEmail) => {
+  await axios.post(USER_EMAIL_CONFIRMATION_ENDPOINT, userEmail);
 };
 
 const emailActivatedHandler = (id) => {

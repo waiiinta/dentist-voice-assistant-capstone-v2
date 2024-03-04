@@ -4,7 +4,7 @@ import AppError from "./../utils/appError.js"
 import sendEmail from "./../utils/email.js"
 import createExcel from "./../utils/createExcelFile.js"
 import {verificationContent} from "./../utils/verifyEmail.js"
-
+import env from "../config/config.js"
 import {hashUtil,jwtGenerate} from "../utils/authUtil.js";
 import AuthService from "../services/authService.js";
 
@@ -17,7 +17,7 @@ const createSendToken = (user, statusCode, res) => {
 		expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
 		httpOnly: true,
 	};
-	if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+	if (env.NODE_ENV === "production") cookieOptions.secure = true;
 
 	res.cookie("jwt", token, cookieOptions);
 
@@ -48,6 +48,7 @@ const AuthController = {
 				},
 			});
 		} catch (error) {
+			console.log(error)
 			return next(error);
 		}
 	},
@@ -82,7 +83,7 @@ const AuthController = {
 				"host"
 			)}/user/activateAccount/${confirmToken}`;
 
-			const emailContent = verificationContent.verificationContent(
+			const emailContent = verificationContent(
 				confirmToken
 			);
 
@@ -292,8 +293,8 @@ const AuthController = {
 	async activateAccount(req, res, next) {
 		try {
 			const { token } = req.params;
-			const hashedToken = hashUtil("sha256", token);
-
+			const hashedToken =  await hashUtil("sha256", token);
+			console.log(hashedToken)
 			// console.log(req.params.token, hashedToken);
 			const user = await AuthService.activateUser({
 				active: false,

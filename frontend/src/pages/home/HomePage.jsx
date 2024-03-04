@@ -1,7 +1,7 @@
 import classes from "./HomePage.module.css";
 import NavBar from "../../components/ui/NavBar";
 import { useNavigate } from "react-router-dom";
-import React, { useState, useContext, useEffect, Fragment } from "react";
+import React, { useRef,useState, useContext, useEffect, Fragment } from "react";
 import { fetchUserInfoAPIHandler } from "../../utils/userAPIHandler";
 import { fetchUserLatestRecordAPIHandler,importRecordDataAPIHandler } from "../../utils/recordAPIHandler";
 import AuthContext from "../../store/auth-context";

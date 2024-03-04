@@ -1,4 +1,4 @@
-const xlsx = require("xlsx");
+import xlsx from "xlsx"
 
 const readXlsxFile = async (file) => {
 	const workbook = xlsx.readFile(file.path);
@@ -19,9 +19,9 @@ const readXlsxFile = async (file) => {
 const Formatter = async (data) => {
 	let format = getFormat();
 	//NOTE - Q1
-  q1 = format[0]
+  let q1 = format[0]
 	for (let i = 1; i <= 24; i += 3) {
-    teethdata = q1.idxArray[parseInt(i/3)]
+    let teethdata = q1.idxArray[parseInt(i/3)]
     teethdata.ID = parseInt((8-(i/3))+1)
 		let col1 = data[i];
 		let col2 = data[i + 1];
@@ -89,9 +89,9 @@ const Formatter = async (data) => {
       teethdata.FUR.distal = parseInt(col1[13])
     }
 	}
-  q2 = format[1]
+  let q2 = format[1]
 	for (let i = 26; i <= 49; i += 3) {
-    teethdata = q2.idxArray[parseInt((i-25)/3)]
+    let teethdata = q2.idxArray[parseInt((i-25)/3)]
     teethdata.ID = parseInt((((i-25)/3))+1)
 		let col1 = data[i];
 		let col2 = data[i + 1];
@@ -159,9 +159,9 @@ const Formatter = async (data) => {
       teethdata.FUR.distal = parseInt(col3[13])
     }
 	}
-  q3 = format[2]
+  let q3 = format[2]
   for (let i = 26; i <= 49; i += 3) {
-    teethdata = q3.idxArray[parseInt((i-25)/3)]
+    let teethdata = q3.idxArray[parseInt((i-25)/3)]
     teethdata.ID = parseInt((((i-25)/3))+1)
 		let col1 = data[i];
 		let col2 = data[i + 1];
@@ -229,9 +229,9 @@ const Formatter = async (data) => {
       teethdata.FUR.distal = parseInt(col3[36])
     }
 	}
-  q4 = format[3]
+  let q4 = format[3]
   for (let i = 1; i <= 24; i += 3) {
-    teethdata = q4.idxArray[parseInt(i/3)]
+    let teethdata = q4.idxArray[parseInt(i/3)]
     teethdata.ID = parseInt((8-(i/3))+1)
 		let col1 = data[i];
 		let col2 = data[i + 1];
@@ -533,4 +533,4 @@ const getTeethFormat = (q,i) => {
   return teeth_no_fur
 };
 
-module.exports = readXlsxFile;
+export default readXlsxFile

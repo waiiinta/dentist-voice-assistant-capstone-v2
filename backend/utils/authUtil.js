@@ -1,5 +1,6 @@
 import crypto from "crypto"
 import jwt from "jsonwebtoken";
+import env from "../config/config.js"
 
 export const hashUtil = async (method,token) =>{
     const hashedToken = crypto
@@ -11,7 +12,7 @@ export const hashUtil = async (method,token) =>{
 }
 
 export const jwtGenerate = (fields) => {
-  return jwt.sign(fields, process.env.JWT_SECRET, {
+  return jwt.sign(fields, env.JWT_SECRET, {
 		expiresIn: "20d",
 	});
 }
