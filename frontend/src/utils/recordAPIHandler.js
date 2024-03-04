@@ -29,4 +29,15 @@ const postRecordAPIHandler = async (token, recordDataToPost) => {
   // console.log(result)
 };
 
-export { fetchUserLatestRecordAPIHandler, postRecordAPIHandler };
+const importRecordDataAPIHandler = async (token,record) =>{
+  const config = { 
+    headers: {Authorization: `Bearer ${token}`}
+}
+  console.log(config)
+  const data = new FormData()
+  data.append("record",record)
+  const result = await axios.post(`${RECORD_ENDPOINT}/import`,data,config)
+  console.log(result)
+}
+
+export { fetchUserLatestRecordAPIHandler, postRecordAPIHandler,importRecordDataAPIHandler };

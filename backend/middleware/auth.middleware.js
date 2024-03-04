@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken"
 import User from "../models/userModel.js"
+import AppError from "../utils/appError.js";
 import {promisify} from "util"
+import env from "../config/config.js"
 
 export const auth = async (req, res, next) => {
   // 1) Getting token and check of it's there
@@ -19,7 +21,7 @@ export const auth = async (req, res, next) => {
   }
 
   // 2) Verification token
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const decoded = await promisify(jwt.verify)(token, env.JWT_SECRET);
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);

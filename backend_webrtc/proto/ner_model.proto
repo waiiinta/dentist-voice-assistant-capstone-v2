@@ -50,6 +50,7 @@ message CommandUndo {
     string tooth_side = 3;
     string position = 4;
     bool is_number_PD = 5;
+    BridgeZee bridge = 6;
 }
 
 message Zee {

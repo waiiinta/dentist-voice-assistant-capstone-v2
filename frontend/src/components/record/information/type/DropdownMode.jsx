@@ -20,9 +20,7 @@ function DropdownMode({
 		// console.log(i,id)
 		if(i < id){
 			for(let j = i; j <= id; j++){
-				console.log(j)
 				if(j == i || j == id){
-					console.log("pass")
 					await handleSetInformation(quadrant, j, NaN,"Bridge", true,NaN,true)
 				}else{
 					await handleSetInformation(quadrant, j, NaN,"Bridge", true);

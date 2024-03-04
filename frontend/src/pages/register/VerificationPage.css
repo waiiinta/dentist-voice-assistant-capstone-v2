@@ -17,6 +17,8 @@
 .verification__label {
   font-size: 64px;
   margin-bottom: 3rem;
+  align-content: center;
+  text-align: center;
 }
 
 .verification__detail {

@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 500px;
+  width: 750px;
 }
 
 /* iPad */
@@ -86,20 +86,21 @@
   border: 1.5px solid black;
   padding-left: 1rem;
   padding-right: 1rem;
+  transition-duration: 2s;
+  transition: transform 400ms ease,background-color 200ms ease;
 }
 
 .actions button:hover:enabled {
+  /* transition: margin-bottom 1s; */
+  /* background-color: aqua; */
   background-color: var(--secondary-color-hover);
-  transition: var(--transition-hover);
-  position: relative;
-  top: -2px;
-  transition: top 0.2s ease-in-out;
+  transform:scale(1.05) translateY(-3px);
 }
 
-.actions button:disabled,
+/* .actions button:disabled, */
 .actions button:hover:disabled {
   background-color: gray;
-  color: darkgray;
+  /* color: darkgray; */
   border-color: gray;
   transition: none;
 }

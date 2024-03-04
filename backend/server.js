@@ -1,58 +1,47 @@
-import fs from "fs"
-import https from "https"
-import mongoose from 'mongoose'
-import app from './app.js'
+import fs from "fs";
+import https from "https";
+import app from "./app.js";
+import env from "./config/config.js";
+import SyncDatabase from "./models/database.js";
 
-process.on('uncaughtException', err => {
-  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
-  console.log(err.stack);
-  process.exit(1);
-});
+main()
 
+async function main() {
+	SyncDatabase();
 
-
-
-// Connect MongoDB
-console.log(process.env.DATABASE_LOCAL)
-const DB = "mongodb+srv://modunkung:zxc142753869@cluster0.l7sz8lo.mongodb.net/";
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  })
-  .then(() => {
-    console.log('DB connection successful!');
-  });
-
-const port = process.env.SERVER_PORT || 3000;
-const env = process.env.NODE_ENV?  process.env.NODE_ENV : 'development';
-console.log(`Starting Backend Server in ${env} mode...`)
-let server
-if (env == "development") {
-  server = app.listen(port, () => {
-    console.log(`server is runing at port ${port}`)
-  });
-} else{
-  server = https
-    .createServer(
-      {
-        key: fs.readFileSync("key.pem"),
-        cert: fs.readFileSync("cert.pem"),
-      },
-      app
-    )
-    .listen(port, () => {
-      console.log(`server is runing at port ${port}`)
-    });
-}
-
-process.on('unhandledRejection', err => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
-  server.close(() => {
+  process.on("uncaughtException", (err) => {
+    console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+    console.log(err.name, err.message);
+    console.log(err.stack);
     process.exit(1);
   });
-});
+
+	let server;
+	if (env.NODE_ENV == "development") {
+		server = app.listen(env.SERVER_PORT, () => {
+			console.log(`Starting Backend Server in development mode...`);
+			console.log(`server is runing at port ${env.SERVER_PORT}`);
+		});
+	} else {
+		server = https
+			.createServer(
+				{
+					key: fs.readFileSync("key.pem"),
+					cert: fs.readFileSync("cert.pem"),
+				},
+				app
+			)
+			.listen(env.SERVER_PORT, () => {
+				console.log(`Starting Backend Server in production mode...`);
+				console.log(`server is runing at port ${env.SERVER_PORT}`);
+			});
+	}
+
+	process.on("unhandledRejection", (err) => {
+		console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+		console.log(err.name, err.message);
+		server.close(() => {
+			process.exit(1);
+		});
+	});
+}

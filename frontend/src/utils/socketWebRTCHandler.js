@@ -11,6 +11,7 @@ import voiceFeedbackHandler from "./voiceFeedbackHandler";
 
 /* Import modules for using sockets */
 import io from "socket.io-client";
+// import { stopAllAudio } from "./voiceFeedbackHandler";
 
 const getAudioTrackAndAddToTheConnection = async (
   peerConnection,
@@ -180,7 +181,6 @@ const initiateConnection = async (
       (data.q == 2 && data.i == 4) ||
       ([8, 7, 6].includes(data.i) && [1, 2, 3, 4].includes(data.q))
     ) {
-      console.log(data);
       position = position ? position.toLowerCase() : null;
     }
 
@@ -197,10 +197,11 @@ const initiateConnection = async (
   });
 
   // receiving recorded data from backend streaming server
-  let pdre_value = {}
+  let pdre_value = {};
+  let audio_list = []
   s.on("data", async (data) => {
     console.log("data", data);
-
+    // await stopAllAudio()
     /* if we receive the next data while the autoChaneToothTimer is ticking, then immediately executued the timer by
       clearout the timer and then calling the callbackFunction immediately
     */
@@ -216,10 +217,9 @@ const initiateConnection = async (
       let spec_id = null;
       /* mapping position for PD, RE */
       if (data.mode === "PD" || data.mode === "RE") {
-        if(data.is_pdre){
-          pdre_value[data.mode] = data.target
+        if (data.is_pdre) {
+          pdre_value[data.mode] = data.target;
         }
-        console.log(pdre_value)
         if (data.position === "buccal" || data.position === "lingual") {
           spec_id = "middle";
         } else {
@@ -260,10 +260,8 @@ const initiateConnection = async (
         data.position
       );
     } else if (data.mode == "Bridge") {
-      console.log("pass");
       let start = data.i < data.i2 ? data.i : data.i2;
       let end = data.i2 > data.i ? data.i2 : data.i;
-      console.log(start, end);
       for (let j = start; j <= end; j++) {
         let edge = false;
         if (j == start || j == end) edge = true;
@@ -278,7 +276,7 @@ const initiateConnection = async (
         );
       }
     } else if (data.mode == "Undo") {
-      let mode = data.undo_mode
+      let mode = data.undo_mode;
       if (["BOP", "SUP"].includes(mode)) {
         let positionArray;
         if (data.q === 1 || data.q === 4) {
@@ -288,14 +286,6 @@ const initiateConnection = async (
         }
 
         for (let i = 0; i < 3; i++) {
-          console.log(
-            data.q,
-            data.i,
-            data.side,
-            mode,
-            false,
-            positionArray[i]
-          );
           handleSetInformation(
             data.q,
             data.i,
@@ -305,25 +295,18 @@ const initiateConnection = async (
             positionArray[i]
           );
         }
-      }else if(["MGJ","MO","PDRE","PD","RE"].includes(mode)){
+      } else if (["MGJ", "MO", "PDRE", "PD", "RE"].includes(mode)) {
         let spec_id = null;
         /* mapping position for PD, RE */
-        if (["PDRE","RE","PD"].includes(mode)) {
+        if (["PDRE", "RE", "PD"].includes(mode)) {
           if (data.position === "buccal" || data.position === "lingual") {
             spec_id = "middle";
           } else {
             spec_id = data.position;
           }
         }
-        handleSetInformation(
-          data.q,
-          data.i,
-          data.side,
-          mode,
-          null,
-          spec_id
-        )
-      }else if(["FUR"].includes(mode)){
+        handleSetInformation(data.q, data.i, data.side, mode, null, spec_id);
+      } else if (["FUR"].includes(mode)) {
         handleSetInformation(
           data.q,
           data.i,
@@ -331,15 +314,24 @@ const initiateConnection = async (
           mode,
           null,
           data.position
-        )
-      }else if(["Missing","Crown","Implant"].includes(mode)){
-        handleSetInformation(
-          data.q,
-          data.i,
-          data.side,
-          data.undo_mode,
-          false,
-        )
+        );
+      } else if (["Missing", "Crown", "Implant"].includes(mode)) {
+        handleSetInformation(data.q, data.i, data.side, data.undo_mode, false);
+      } else if (["Bridge"]) {
+        let start = data.i < data.i2 ? data.i : data.i2;
+        let end = data.i2 > data.i ? data.i2 : data.i;
+        for (let j = start; j <= end; j++) {
+          let edge = false;
+          await handleSetInformation(
+            data.q,
+            j,
+            data.side,
+            data.undo_mode,
+            false,
+            NaN,
+            edge
+          );
+        }
       }
     } else {
       // for "BOP" data[]
@@ -362,14 +354,13 @@ const initiateConnection = async (
         );
       }
     }
-    if(!data.is_pdre || data.mode != "PD"){
-      if(data.is_pdre){
-        data.target = pdre_value
-        data.mode = "PDRE"
-        pdre_value = {}
-        console.log(typeof(pdre_value))
-        console.log(pdre_value)
+    if (!data.is_pdre || data.mode != "PD") {
+      if (data.is_pdre) {
+        data.target = pdre_value;
+        data.mode = "PDRE";
+        pdre_value = {};
       }
+      await new Promise(r => setTimeout(r, 250));
       voiceFeedbackHandler(data);
     }
 
