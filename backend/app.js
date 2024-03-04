@@ -5,29 +5,31 @@ import AppError from "./utils/appError.js";
 import ErrorMiddleware from "./middleware/error.middleware.js";
 import userRouter from "./routes/userRoutes.js";
 import recordRouter from "./routes/recordRoutes.js";
-import dotenv from "dotenv"
+import env from "./config/config.js"
+
 
 const corsOptions = {
   // origin: [
-  //   `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.FRONTEND_IP}:${process.env.PORT}`,
-  //   `${process.env.NODE_ENV === "production" ? "https" : "http"}://${process.env.BACKEND_WEB_RTC_IP}:${process.env.BACKEND_WEB_RTC_PORT}`,
+  //   `${env.NODE_ENV === "production" ? "https" : "http"}://${env.FRONTEND_IP}:${env.PORT}`,
+  //   `${env.NODE_ENV === "production" ? "https" : "http"}://${env.BACKEND_WEB_RTC_IP}:${env.BACKEND_WEB_RTC_PORT}`,
   // ],
   origin : '*',
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-dotenv.config()
-console.log(process.env.FRONTEND_IP, process.env.FRONTEND_PORT)
+console.log(env.FRONTEND_IP, env.FRONTEND_PORT)
 
 const app = express();
 
 // 1) MIDDLEWARES
-if (process.env.NODE_ENV === "development") {
+if (env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
 app.use(cors());
 
 app.use(express.json({ limit: "25kb" }));
+
+// app.use(express.urlencoded({extended:true}))
 
 app.use("/user", userRouter);
 app.use("/record", recordRouter);

@@ -1,4 +1,5 @@
 import dbErrorHandler from './../utils/dbErrorHandler'
+import env from "../config/config.js"
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -36,9 +37,9 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development') {
+  if (env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (env.NODE_ENV === 'production') {
     let error = { ...err };
 
     if (error.name === 'CastError')

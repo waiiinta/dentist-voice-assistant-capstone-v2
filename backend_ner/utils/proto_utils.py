@@ -2,7 +2,6 @@ from utils.ner_model_pb2 import NERResponse, Zee, CommandData, SemanticCommand, 
 
 def create_ner_response(semantics):
     response = []
-    print('pass one')
     for semantic in semantics:
         command = semantic.get("command", None)
         # if command == "BOP":
@@ -44,9 +43,7 @@ def create_ner_response(semantics):
                     )
             except Exception as err:
                 print(err)
-            print("pass here")
         else:
-            print('pass two')
             data = CommandData(
                         zee = create_zee(semantic.get("data", dict()).get("zee", None)),
                         tooth_side = semantic.get("data", dict()).get("tooth_side", None),
@@ -115,8 +112,6 @@ def create_bridge(list_bridge):
     
     result = []
     for bridge in list_bridge:
-        print(bridge[0])
-        print(bridge[1])
         result.append(BridgeZee(zee=[create_zee(bridge[0]), create_zee(bridge[1])]))
         print(result)
     return result

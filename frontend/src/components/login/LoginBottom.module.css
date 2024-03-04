@@ -2,9 +2,14 @@
   text-align: center;
   font-size: 16px;
   margin-top: 15px;
+  
 }
 
 .text a {
-  color: green;
-  transition: var(--transition-hover);
+  color: rgb(17, 125, 17);
+  transition: color 300ms ease;
+}
+
+.text a:hover{
+  color:rgb(15, 179, 15)
 }

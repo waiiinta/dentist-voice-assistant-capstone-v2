@@ -20,5 +20,6 @@ const recordSchema = new mongoose.Schema({
   recordData: { type: Array },
 });
 
+
 const Record = mongoose.model("Record", recordSchema);
 export default Record

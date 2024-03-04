@@ -84,7 +84,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # Preprocess the predicted token and convert to semantic command
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
             # print(parser.semantic_object_list)
-            print(parser.completed_semantic_object)
+            # print(parser.completed_semantic_object)
             command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
 
 
