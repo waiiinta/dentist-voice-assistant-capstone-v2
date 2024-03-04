@@ -115,7 +115,7 @@ For open manually
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+list things you need to use the software and how to install them.
 * conda
   ```sh
   conda create -n <your-env-name> python=3.9
