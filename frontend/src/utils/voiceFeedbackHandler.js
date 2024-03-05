@@ -3,6 +3,7 @@ import m_four from "../sounds/-4.mp3";
 import m_three from "../sounds/-3.mp3";
 import m_two from "../sounds/-2.mp3";
 import m_one from "../sounds/-1.mp3";
+import zero from "../sounds/0.mp3";
 import one from "../sounds/1.mp3";
 import two from "../sounds/2.mp3";
 import three from "../sounds/3.mp3";
@@ -90,13 +91,13 @@ const playNextAudio = async (audioList, index, volume, loop) => {
 };
 
 const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
-  console.log(isPlaying)
+  // console.log(isPlaying)
   if (isPlaying) {
     // If an audio sequence is currently playing, wait for it to finish
     cancelResetIsPlaying()
     resetIsPlaying()
     await new Promise((resolve) => {
-      console.log(isPlaying)
+      // console.log(isPlaying)
       const checkIsPlaying = setInterval(() => {
         if (!isPlaying) {
           clearInterval(checkIsPlaying);
@@ -109,7 +110,7 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
   isPlaying = true; // Set the flag to indicate that an audio sequence is now playing
 
   let { q, i, side, mode, position, target, undo_mode, i2, q2, is_pdre } = data;
-  console.log(data);
+  // console.log(data);
   let spec_id = [];
   switch (q) {
     case 1:
@@ -189,11 +190,14 @@ const voiceFeedbackHandler = async (data, volume = 0.2, loop = false) => {
     previousZee = [q, i];
     previosePosition = position;
     previouseSide = side;
-    console.log("path", audio_path_list);
+    // console.log("path", audio_path_list);
     for (let i = 0; i < audio_path_list.length; i++) {
       let name = audio_path_list[i];
       let audio_file;
       switch (name) {
+        case "0":
+          audio_file = zero
+          break
         case "-1":
           audio_file = m_one;
           break;

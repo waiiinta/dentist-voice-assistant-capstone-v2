@@ -76,7 +76,6 @@ const initiateConnection = async (
 
   /* 1) initiate RTCPeerConnectionObject and socket object */
   // console.log("test")
-  console.log(userId);
   const pc = new RTCPeerConnection(RTC_CONFIG);
   const s = io.connect(URL_BACKEND_STREAMING, {
     reconnectionAttempts: SOCKET_RECONNECTION_ATTEMPTS,
@@ -166,7 +165,7 @@ const initiateConnection = async (
   // 2.3) events for recieving periodental value from backend streaming
   // receiving updated command from backend streaming server
   s.on("update_command", async (data) => {
-    console.log("update_command", data);
+    // console.log("update_command", data);
 
     // automatically determine the start position of the tooth for PDRE command (from given tooth's quadrant, id)
     let position = data.position;
@@ -183,7 +182,6 @@ const initiateConnection = async (
     ) {
       position = position ? position.toLowerCase() : null;
     }
-
     dispatchCurrentCommand({
       type: "UPDATE_COMMAND",
       payload: {
@@ -200,7 +198,7 @@ const initiateConnection = async (
   let pdre_value = {};
   let audio_list = []
   s.on("data", async (data) => {
-    console.log("data", data);
+    // console.log("data", data);
     // await stopAllAudio()
     /* if we receive the next data while the autoChaneToothTimer is ticking, then immediately executued the timer by
       clearout the timer and then calling the callbackFunction immediately
@@ -228,8 +226,7 @@ const initiateConnection = async (
       }
 
       // shift the cursor when receive "RE" command
-      if (data.mode === "RE") {
-        // console.log("cursor shifted !")
+      if (["RE"].includes(data.mode)) {
         dispatchCurrentCommand({
           type: "UPDATE_PDRE_POSITION",
           payload: {
@@ -354,14 +351,18 @@ const initiateConnection = async (
         );
       }
     }
+    let timeout = [100,200]
+    let time = timeout[0]
     if (!data.is_pdre || data.mode != "PD") {
+      let feedback_data = {...data}
       if (data.is_pdre) {
-        data.target = pdre_value;
-        data.mode = "PDRE";
+        feedback_data.target = pdre_value;
+        feedback_data.mode = "PDRE";
         pdre_value = {};
       }
-      await new Promise(r => setTimeout(r, 250));
-      voiceFeedbackHandler(data);
+      time = time == timeout[0]? timeout[1]:timeout[0]
+      await new Promise(r => setTimeout(r, time));
+      voiceFeedbackHandler(feedback_data);
     }
 
     // shift the cursor to the next tooth available (PDRE, MGJ command) when receiving
