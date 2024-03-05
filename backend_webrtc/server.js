@@ -249,7 +249,6 @@ io.on("connection", async (socket) => {
         let semanticList = response.response;
         console.log(semanticList);
         let isUpdate = false;
-        // console.log("pass here 1")
         semanticList.forEach(async (semantic) => {
           // console.log("this is semantic:",semantic)
           mode = semantic.command;
@@ -336,10 +335,9 @@ io.on("connection", async (socket) => {
             ) {
               return;
             }
+
           }
           let is_pdre = false;
-          console.log(mode === "Missing");
-          // if (pd_re_bop.includes(mode)) {
           if (side_depend.includes(mode)) {
             side = semantic.data.tooth_side.toLowerCase();
             position = semantic.data.position.toLowerCase();
