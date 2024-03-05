@@ -462,6 +462,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
           semantic_object['data'][cmd_name][-1][1] = word_list[i]
           # Check if the current tooth is either "Missing", "Crown", "Implant", "Bridge" --> If yes append into type1_tooth
           if semantic_object['data'][cmd_name][-1] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data'][cmd_name][-1])+' is not available. Please try again.')
             semantic_object['data'][cmd_name].pop()
           else:
             if semantic_object['command'] == MISSING:
@@ -475,7 +476,11 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
               else:
                 semantic_object['data'][cmd_name].pop()
             else:
-              type1_tooth.append(semantic_object['data'][cmd_name][-1])                
+              if semantic_object['data'][cmd_name][-1][0] not in [1,2,3,4] or semantic_object['data'][cmd_name][-1][1] not in [1,2,3,4,5,6,7,8]:
+                print('Input teeth '+str(semantic_object['data'][cmd_name][-1])+' is not available. Please try again.')
+                semantic_object['data'][cmd_name].pop()
+              else:    
+                type1_tooth.append(semantic_object['data'][cmd_name][-1])                
         # 3.1.3 missing = [[1, 2], ...]
         elif len(semantic_object['data'][cmd_name]) != 0 and semantic_object['data'][cmd_name][-1][1] != None:
           semantic_object['data'][cmd_name].append([word_list[i], None])
@@ -608,6 +613,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             if semantic_object['data']['zee'] in fur_possible_tooth:
               semantic_object = check_tooth_appopriate(semantic_object, available_teeth_dict)
             else:
+              print('Input teeth '+str(semantic_object['data']['zee'])+' is not available. Please try again.')
               semantic_object['data']['zee'] = None
         elif semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) == 2:
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:
