@@ -80,13 +80,13 @@ const RecordController = {
 				},
 				{
 					upsert:true,
-					new:true
+					includeResultMetadata: true,
+					returnOriginal:false
 				}
 			);
 			// console.log(response)
 			res.status(200).json({
 				status: "success",
-				updated: response.nModified,
 			});
 		} catch (error) {
 			console.log(error)
