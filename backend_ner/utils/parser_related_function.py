@@ -398,6 +398,8 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         elif completed_semantic_object[-1]['command'] == BRIDGE:
           bridge_edge = completed_semantic_object[-1]['data']['bridge'][-1]
           gap = []
+          type1_tooth.remove(bridge_edge[0])
+          type1_tooth.remove(bridge_edge[1])
           if bridge_edge[0][0] == bridge_edge[1][0]:
             greater_idx = max(bridge_edge[0][1], bridge_edge[1][1])
             less_idx = min(bridge_edge[0][1], bridge_edge[1][1])
@@ -490,40 +492,59 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         # bridge = []
         if len(semantic_object['data']['bridge']) == 0:
           semantic_object['data']['bridge'].append([[word_list[i], None]])
-
         # last element in bridge = [[1,None]] --> [[1,2]]
         elif len(semantic_object['data']['bridge'][-1]) == 1 and None in semantic_object['data']['bridge'][-1][0]:
           semantic_object['data']['bridge'][-1][0][1] = word_list[i]
+          # First Bridge Edge is not a valid zee
+          if semantic_object['data']['bridge'][-1][0][0] not in [1,2,3,4] or semantic_object['data']['bridge'][-1][0][1] not in [1,2,3,4,5,6,7,8]:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][0])+' is not available. Please try again.')
+            semantic_object['data']['bridge'].pop()
+          # First Bridge Edge is already specified as either Missing, Crown or Implant
+          elif semantic_object['data']['bridge'][-1][0] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][0])+' is not available. Please try again.')
+            semantic_object['data']['bridge'].pop()
         # last element in bridge = [[1,2], None] --> [[1,2], [1,None]]
         elif semantic_object['data']['bridge'][-1][1] == None:
           semantic_object['data']['bridge'][-1][1] = [word_list[i], None]
         # last element in brdige = [[1,2], [1,None]] --> [[1,2], [1,4]] This case has to remove all gap from available_teeth_dict
         elif None in semantic_object['data']['bridge'][-1][1]:
           semantic_object['data']['bridge'][-1][1][1] = word_list[i]
-          # Next step is to remove all gap tooth from available_teeth_dict
-          edge = semantic_object['data']['bridge'][-1]
-          gap = []
-          # Bridge Edge are not on the same quadrant
-          if edge[0][0] != edge[1][0]:
-            tooth_idx = edge[0][1]
-            while tooth_idx != 1:
-              tooth_idx -= 1
-              gap.append([edge[0][0], tooth_idx])
-            tooth_idx = edge[1][1]
-            while tooth_idx != 1:
-              tooth_idx -= 1
-              gap.append([edge[1][0], tooth_idx])
-          # Bridge Edge are on the same quadrant
+          # Second Bridge Edge is not a valid zee
+          if semantic_object['data']['bridge'][-1][1][0] not in [1,2,3,4] or semantic_object['data']['bridge'][-1][1][1] not in [1,2,3,4,5,6,7,8]:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][1])+' is not available. Please try again.')
+            semantic_object['data']['bridge'][-1].pop()
+          # Second Bridge Edge is already specified as either Missing, Crown or Implant
+          elif semantic_object['data']['bridge'][-1][1] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][1])+' is not available. Please try again.')
+            semantic_object['data']['bridge'][-1].pop()
           else:
-            greater_idx = max(edge[0][1], edge[1][1])
-            less_idx = min(edge[0][1], edge[1][1])
-            for i in range(less_idx+1, greater_idx):
-              gap.append([edge[0][0], i])
-          for tooth in gap:
-            available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
-            type1_tooth.append(tooth)
-          first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
-          last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+            # Add both bridge edge to the type1_tooth
+            type1_tooth.append(semantic_object['data']['bridge'][-1][0])
+            type1_tooth.append(semantic_object['data']['bridge'][-1][1])
+            # Next step is to remove all gap tooth from available_teeth_dict
+            edge = semantic_object['data']['bridge'][-1]
+            gap = []
+            # Bridge Edge are not on the same quadrant
+            if edge[0][0] != edge[1][0]:
+              tooth_idx = edge[0][1]
+              while tooth_idx != 1:
+                tooth_idx -= 1
+                gap.append([edge[0][0], tooth_idx])
+              tooth_idx = edge[1][1]
+              while tooth_idx != 1:
+                tooth_idx -= 1
+                gap.append([edge[1][0], tooth_idx])
+            # Bridge Edge are on the same quadrant
+            else:
+              greater_idx = max(edge[0][1], edge[1][1])
+              less_idx = min(edge[0][1], edge[1][1])
+              for i in range(less_idx+1, greater_idx):
+                gap.append([edge[0][0], i])
+            for tooth in gap:
+              available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
+              type1_tooth.append(tooth)
+            first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+            last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
         # last element in bridge = [[1,2], [1,4]] --> [[2, None]]
         elif None not in semantic_object['data']['bridge'][-1][1]:
           semantic_object['data']['bridge'].append([[word_list[i], None]])
