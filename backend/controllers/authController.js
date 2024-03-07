@@ -24,7 +24,7 @@ const createSendToken = (user, statusCode, res) => {
 	// Remove password from output
 	user.password = undefined;
 
-	res.status(statusCode).json({
+	return res.status(statusCode).json({
 		status: "success",
 		token,
 		data: {
@@ -38,7 +38,7 @@ const AuthController = {
 		// console.log(req);
 		try {
 			const payload = req.body;
-			const newUser = AuthService.createUser(payload);
+			const newUser = await AuthService.createUser(payload);
 			newUser.password = undefined;
 
 			res.status(201).json({
@@ -55,13 +55,13 @@ const AuthController = {
 
 	async sendEmailConfirm(req, res, next) {
 		try {
-			const { email } = req.body;
-
+			const email = req.body;
+			console.log(email)
 			if (!email) {
 				return next(new AppError("Please provide email", 400));
 			}
 
-			const user = await User.findOne({ email }).select("+active");
+			const user = await User.findOne(email).select("+active");
 
 			if (!user) {
 				return next(
@@ -75,7 +75,7 @@ const AuthController = {
 			}
 
 			// 2) Generate the random reset token
-			const confirmToken = user.createEmailConfirmToken();
+			const confirmToken = await user.createEmailConfirmToken();
 			await user.save({ validateBeforeSave: false });
 
 			// 3) Send it to user's email
@@ -83,7 +83,7 @@ const AuthController = {
 				"host"
 			)}/user/activateAccount/${confirmToken}`;
 
-			const emailContent = verificationContent(
+			const emailContent = await verificationContent(
 				confirmToken
 			);
 
@@ -96,7 +96,7 @@ const AuthController = {
 					html: emailContent,
 				});
 
-				res.status(200).json({
+				return res.status(200).json({
 					status: "success",
 					message: "Token sent to email!",
 				});
@@ -141,7 +141,7 @@ const AuthController = {
 					},
 				],
 			});
-			res.status(200).json({
+			return res.status(200).json({
 				status: "success",
 				message: "Created Report",
 			});
@@ -168,7 +168,7 @@ const AuthController = {
 				],
 			});
 
-			res.status(200).json({
+			return res.status(200).json({
 				status: "success",
 				message: "Token sent to email!",
 			});

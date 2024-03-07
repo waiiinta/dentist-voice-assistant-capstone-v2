@@ -77,6 +77,7 @@ const RecordController = {
 					finished: false,
 					patientId: patientId,
 					recordData: data,
+					timestamp: Date.now(),
 				},
 				{
 					upsert:true,

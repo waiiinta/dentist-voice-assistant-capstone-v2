@@ -13,7 +13,7 @@ const USER_ACTIVATE_EMAIL_ENDPOINT = `${URL_BACKEND}/user/activateAccount/`;
 const USER_CHECK_TOKEN_ENDPOINT = `${URL_BACKEND}/user/checkToken`;
 
 const RegisterAPIHandler = async(registerdata)=>{
-  const result = await axios(USER_REGISTER_ENDPOINT,registerdata)
+  const result = await axios.post(USER_REGISTER_ENDPOINT,registerdata)
   return result
 }
 
@@ -29,6 +29,7 @@ const userRegisterAPIHandler = async (
       throw register_result
     }
     const email_result = await userEmailConfirmationAPIHandler({ email: userRegisterData.email });
+    console.log(email_result)
     if(email_result.status != 200){
       throw email_result
     }
@@ -38,6 +39,7 @@ const userRegisterAPIHandler = async (
 
   } catch (error) {
     {
+      console.log(error)
       // cannot connect to backend server
       if (!error.response) {
         setReigsterError({
@@ -77,15 +79,15 @@ const userRegisterAPIHandler = async (
 };
 
 const userEmailConfirmationAPIHandler = async (userEmail) => {
-  await axios.post(USER_EMAIL_CONFIRMATION_ENDPOINT, userEmail);
+  return await axios.post(USER_EMAIL_CONFIRMATION_ENDPOINT, userEmail);
 };
 
 const emailActivatedHandler = (id) => {
-  axios.patch(`${USER_ACTIVATE_EMAIL_ENDPOINT}${id}`);
+  return axios.patch(`${USER_ACTIVATE_EMAIL_ENDPOINT}${id}`);
 };
 
 const sendReportExcelAPIHandler = (data, email, file_name) => {
-  axios
+  return axios
     .post(USER_SEND_REPORT_EXCEL_ENDPOINT, {
       data: data,
       email: email,
