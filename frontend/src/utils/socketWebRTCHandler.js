@@ -351,7 +351,7 @@ const initiateConnection = async (
         );
       }
     }
-    let timeout = [100,200]
+    let timeout = [75,150]
     let time = timeout[0]
     if (!data.is_pdre || data.mode != "PD") {
       let feedback_data = {...data}
