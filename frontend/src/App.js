@@ -13,6 +13,7 @@ import { LoggedInRoute } from "./components/routes/LoggedInRoute";
 import { LoggedOutRoute } from "./components/routes/LoggedOutRoute";
 import { SUPPRESS_LOG_PRODUCTION } from "./utils/constants";
 import React from "react";
+import GraphPage from "./pages/graph/GraphPage"
 
 
 function App() {
@@ -87,6 +88,12 @@ function App() {
             <LoggedInRoute>
               <SummaryPage />
             </LoggedInRoute>
+          }
+        />
+        <Route
+          path="/graph"
+          element={
+              <GraphPage/>
           }
         />
         <Route path="*" element={<ErrorPage />} />

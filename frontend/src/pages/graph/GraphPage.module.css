@@ -1,0 +1,15 @@
+.image{
+    position: relative;
+    font-size: large;
+    height: 100vh;
+}
+
+.element{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+}
