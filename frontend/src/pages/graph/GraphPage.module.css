@@ -1,15 +1,49 @@
 .image{
     position: relative;
-    font-size: large;
-    height: 100vh;
+    width: 24cm;
+    margin-left: auto;
+    margin-right: auto;
+    /* height: 100%; */
+    /* background-image: url(../../images/background_template.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-color: #acad90; */
 }
 
 .element{
     display: block;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     width: auto;
-    height: 100%;
-    top: 0;
-    bottom: 0;
+    height: 23cm;
+    z-index: 0;
+}
+
+.topbar{
+    z-index: 1;
+    height: 5.5vh;
+    position: relative;
+}
+
+.block{
+    /* position: absolute; */
+    /* position: fixed; */
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../../images/background_template.png);
+    background-repeat: repeat-x;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-color: #acad90;
+}
+
+.container{
+    position: absolute;
+    margin-top: 2.85cm;
+    /* margin-bottom: 10cm; */
+    margin-left: 4.25cm;
+    ;
+    z-index: 1;
 }
