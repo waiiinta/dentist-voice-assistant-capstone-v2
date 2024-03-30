@@ -41,9 +41,35 @@
 
 .container{
     position: absolute;
-    margin-top: 2.85cm;
+    display: grid;
+    margin-top: 70px;
     /* margin-bottom: 10cm; */
-    margin-left: 4.25cm;
-    ;
+    margin-left: 160px;
     z-index: 1;
+}
+
+.info{
+    width: 585px;
+    height: 60px;
+    background: #acad90;
+    z-index: 1;
+    opacity: 50%;
+}
+
+.tooth_no{
+    width: 585px;
+    height: 25px;
+    background-color: aquamarine;
+    z-index: 1;
+    opacity: 50%;
+}
+
+.num_space{
+    height: 3px;
+    width: 585px;
+}
+
+.empty_box{
+    height: 9px;
+    width: 585px;
 }
