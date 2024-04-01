@@ -48,17 +48,17 @@ const GraphBox = ({
     },
     colors: ['#456be7','#d45454','#7a7a7a']
   }
-  if([3,4].includes(quadrant)){
+  if([3,4].includes(quadrant[0])){
     options.yaxis.max = 5
     options.yaxis.min = -15
   }
 
   return (
-    <div className={`${classes.graph_box} ${quadrant >= 3? classes.lower:''}`}>
+    <div className={`${classes.graph_box} ${quadrant[0] >= 3? classes.lower:''}`}>
       {/* {quadrant >= 3 && (
         <div className={classes.empty_box}/>
       )} */}
-      <div className={`${classes.left_graph} ${quadrant >= 3? classes.lower:''}`}>
+      <div className={`${classes.left_graph} ${quadrant[0] >= 3? classes.lower:''}`}>
         <Chart
           type="line"
           width={298}
@@ -67,7 +67,7 @@ const GraphBox = ({
           options={options}
         ></Chart>
       </div>
-      <div className={`${classes.right_graph} ${quadrant >= 3? classes.lower:''}`}>
+      <div className={`${classes.right_graph} ${quadrant[0] >= 3? classes.lower:''}`}>
         <Chart
           type="line"
           width={298}

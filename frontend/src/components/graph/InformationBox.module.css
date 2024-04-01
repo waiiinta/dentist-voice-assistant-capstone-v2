@@ -1,0 +1,32 @@
+.info{
+    display: flex;
+    width: 585px;
+    height: 60px;
+    /* background: #acad90; */
+    z-index: 1;
+    /* opacity: 50%; */
+}
+
+.q_left{
+    display: flex;
+    margin-top : 4.5px;
+    margin-left : 20.5px;
+    height: 51px;
+    width: 272px;
+    /* background-color: cadetblue; */
+}
+.q_right{
+    display: flex;
+    margin-top : 4.5px;
+    margin-left : 16.5px;
+    height: 51px;
+    width: 272px;
+    /* background-color: cadetblue; */
+}
+
+.tooth_box{
+    display: grid;
+    height: 51px;
+    width: 34px;
+    /* background-color: rgb(77, 7, 77); */
+}

@@ -49,9 +49,10 @@
 }
 
 .info{
+    display: flex;
     width: 585px;
     height: 60px;
-    background: #acad90;
+    /* background: #acad90; */
     z-index: 1;
     opacity: 50%;
 }

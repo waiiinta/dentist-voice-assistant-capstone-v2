@@ -1,0 +1,26 @@
+.large_box{
+    display: flex;
+    height: 10.2px;
+    width: 34px;
+    /* background-color:blueviolet; */
+    text-align: center;
+    font-size: 8px;
+    align-content: center;
+    justify-content: center;
+    color: black;
+    line-height: 10px;
+    /* border-color: black;
+    border-style: dotted;
+    border-width: thin; */
+
+}
+
+.small_box{
+    height: 9.7px;
+    width: 11.3px;
+    margin-top: 0.5px;
+    /* background-color:blueviolet; */
+    /* border-color: black;
+    border-style: dotted;
+    border-width: thin; */
+}

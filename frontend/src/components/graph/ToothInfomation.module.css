@@ -1,0 +1,59 @@
+.tooth_box{
+    display: grid;
+    height: 51px;
+    width: 34px;
+    /* background-color: rgb(196, 112, 43); */
+}
+
+.tooth_box.bridge{
+    background-color: rgb(197, 246, 255);
+    opacity: 50%;
+}
+
+.missing{
+    height: 51px;
+    width: 34px;
+    background-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-color: rgb(189, 189, 189);
+    border-width: 0.1px;
+}
+
+.edge{
+    height: 51px;
+    width: 34px;
+    background-color: rgb(197, 246, 255);
+    border-style: solid;
+    border-color: rgb(189, 189, 189);
+    border-width: 0.1px;
+}
+
+.large_box{
+    display: flex;
+    height: 10.2px;
+    width: 34px;
+    /* background-color:blueviolet; */
+    text-align: center;
+    font-size: xx-small;
+    align-content: center;
+    justify-content: center;
+    color: black;
+    line-height: 10px;
+    /* border-color: black;
+    border-style: dotted;
+    border-width: thin; */
+
+}
+
+.small_box{
+    height: 10.2px;
+    width: 11.3px;
+    /* background-color:blueviolet; */
+    /* border-color: black;
+    border-style: dotted;
+    border-width: thin; */
+}
+
+.font{
+    color: hsl(0, 0%, 0%)
+}
