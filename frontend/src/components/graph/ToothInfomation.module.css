@@ -6,8 +6,7 @@
 }
 
 .tooth_box.bridge{
-    background-color: rgb(197, 246, 255);
-    opacity: 50%;
+    background-color: rgba(213, 237, 241,70%);
 }
 
 .missing{
@@ -15,14 +14,14 @@
     width: 34px;
     background-color: rgb(255, 255, 255);
     border-style: solid;
-    border-color: rgb(189, 189, 189);
+    border-color: hsl(0, 0%, 74%);
     border-width: 0.1px;
 }
 
 .edge{
     height: 51px;
     width: 34px;
-    background-color: rgb(197, 246, 255);
+    background-color: rgb(214, 246, 252);
     border-style: solid;
     border-color: rgb(189, 189, 189);
     border-width: 0.1px;

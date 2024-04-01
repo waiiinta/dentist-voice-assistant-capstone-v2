@@ -25,6 +25,7 @@
     border-color: rgb(122, 0, 0);
     border-style:solid;
     border-width: thin;
+    z-index: 2;
 }
 
 .small_box.SUP{
@@ -32,4 +33,5 @@
     border-color: rgb(163, 117, 19);
     border-style:solid;
     border-width: thin;
+    z-index: 2;
 }
