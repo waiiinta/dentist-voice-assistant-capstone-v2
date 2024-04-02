@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState } from "react";
 import classes from "./GraphPage.module.css";
+// import graph from "../../images/marking_graph.jpg";
 import graph from "../../images/plain_graph.jpg";
 import NavBar from "../../components/ui/NavBar";
 import GraphControlBar from "../../components/graph/GraphControlBar";
 import GraphBox from "../../components/graph/GraphBox";
 import InformationBox from "../../components/graph/InformationBox";
+import ToothNumBox from "../../components/graph/ToothNumBox";
 
 const GraphPage = () => {
   let series = [
@@ -2113,10 +2115,25 @@ const GraphPage = () => {
                 quadrant={[1,2]}
                 series={series}
               />
-              <div className={classes.tooth_no}/>
+              {/* <div className={classes.tooth_no}>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+                <div className = {classes.tooth_status}/>
+              </div> */}
+              <ToothNumBox
+                quadrant={[1,2]}
+                data={[data[0],data[1]]}
+              />
               <div className={classes.num_space}/>
-              <div className={classes.tooth_no}/>
-              {/* <div className={classes.empty_box}/> */}
+              <ToothNumBox
+                quadrant={[4,3]}
+                data={[data[3],data[2]]}
+              />
               <GraphBox
                 quadrant={[4,3]}
                 series={series2}

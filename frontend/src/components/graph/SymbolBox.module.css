@@ -1,0 +1,29 @@
+.tooth_no{
+    display: grid;
+    height: 20.4px;
+    width: 34px;
+    /* margin-left: 2px; */
+    /* background-color: bisque;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px; */
+}
+
+.crown_box{
+    height: 10.2px;
+    width: 34px;
+    text-align: center;
+    object-fit: contain;
+    /* align-items: top; */
+    margin-top: -8px;
+    /* margin-left: -1px; */
+    z-index: 1;
+}
+
+.implant_box{
+    height: 10.2px;
+    width: 34px;
+    text-align: right;
+    margin-top: -10px;
+    margin-left: -2px;
+}

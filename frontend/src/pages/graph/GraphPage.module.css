@@ -58,11 +58,13 @@
 }
 
 .tooth_no{
-    width: 585px;
+    display: flex;
+    width: 595px;
     height: 25px;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     z-index: 1;
     opacity: 50%;
+    /* margin-left: 20.5px; */
 }
 
 .num_space{
@@ -73,4 +75,13 @@
 .empty_box{
     height: 9px;
     width: 585px;
+}
+
+.tooth_status{
+    display: flex;
+    height: 20.4px;
+    width: 34px;
+    margin-top: 3px;
+    /* margin-left: 2px; */
+    background-color: bisque;
 }
