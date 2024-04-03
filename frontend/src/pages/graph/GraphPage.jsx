@@ -7,8 +7,11 @@ import GraphControlBar from "../../components/graph/GraphControlBar";
 import GraphBox from "../../components/graph/GraphBox";
 import InformationBox from "../../components/graph/InformationBox";
 import ToothNumBox from "../../components/graph/ToothNumBox";
+import PersonalInfoBox from "../../components/graph/PersonalInfoBox";
+import graphDataProcessing from "../../utils/graphDataProcessing";
 
 const GraphPage = () => {
+  let [testseries,setSeries] = useState(null)
   let series = [
     {
       data: [
@@ -131,7 +134,7 @@ const GraphPage = () => {
       data:[[1,0],[24,0]]
     }
   ]
-  let data = [
+  let data = [  
     {
         "quadrant": 1,
         "idxArray": [
@@ -2088,15 +2091,34 @@ const GraphPage = () => {
             }
         ]
     }
-]
+  ]
+  let today = new Date(Date.now())
+  let personal_info = {
+    "patient":"Testname Testsurname",
+    "hn":"HN540",
+    "examiner":"testdocter testsurname",
+    "type":"initial",
+    "date": today.toISOString()
+  }
+
+  useEffect((()=>{
+		let new_series = graphDataProcessing(data)
+   	setSeries(new_series)
+		console.log(new_series)
+  } 
+  ),[])
+  
   return (
-    <Fragment>
+		testseries !== null && (<Fragment>
       <div className= {classes.block}>
         <div className={classes.topbar}>
           <NavBar></NavBar>
         </div>
         <div className= {classes.image}>
             <div className={classes.container}>
+              <PersonalInfoBox
+                data={personal_info}
+              />
               <InformationBox
                 quadrant={[1,2]}
                 data={[data[0],data[1]]}
@@ -2104,7 +2126,7 @@ const GraphPage = () => {
               />
               <GraphBox
                 quadrant={[1,2]}
-                series={series}
+                series={testseries.buccals.q12}
               />
               <InformationBox
                 quadrant={[1,2]}
@@ -2113,18 +2135,8 @@ const GraphPage = () => {
               />
               <GraphBox
                 quadrant={[1,2]}
-                series={series}
+                series={testseries.linguals.q12}
               />
-              {/* <div className={classes.tooth_no}>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-                <div className = {classes.tooth_status}/>
-              </div> */}
               <ToothNumBox
                 quadrant={[1,2]}
                 data={[data[0],data[1]]}
@@ -2136,7 +2148,7 @@ const GraphPage = () => {
               />
               <GraphBox
                 quadrant={[4,3]}
-                series={series2}
+                series={testseries.linguals.q34}
               />
               <InformationBox
                 quadrant={[4,3]}
@@ -2145,7 +2157,7 @@ const GraphPage = () => {
               />
               <GraphBox
                 quadrant={[4,3]}
-                series={series2}
+                series={testseries.buccals.q34}
               />
               <InformationBox
                 quadrant={[4,3]}
@@ -2160,7 +2172,7 @@ const GraphPage = () => {
         </div>
       </div>
     </Fragment>
-  );
+  ));
 };
 
 export default GraphPage;

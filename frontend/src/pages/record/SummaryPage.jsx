@@ -48,6 +48,7 @@ const SummaryPage = () => {
   );
   const [checkMailExport, setCheckMailExport] = useState(false);
   const [checkBackToHome, setCheckBackToHome] = useState(false);
+  const [checkChartConfirm,setCheckChartConfirm] = useState(false)
   const [showSentSuccess, setShowSentSuccess] = useState(false);
   const [value, setValue] = useState(null);
 
@@ -82,6 +83,12 @@ const SummaryPage = () => {
     });
   };
 
+  const checkChartConfirmHandler = () => {
+    setCheckChartConfirm((prevcheckChartConfirm) => {
+      return !prevcheckChartConfirm
+    })
+  }
+
   const showSentSuccessHandler = () => {
     setShowSentSuccess(true);
 
@@ -94,6 +101,21 @@ const SummaryPage = () => {
     checkBackToHomeHandler();
     navigate("/");
   };
+
+  const proceedToChartHandler = () => {
+    checkChartConfirmHandler()
+    navigate("/graph",{
+      state:{
+        information: information,
+        userData: userData,
+        patient: patientID,
+        examiner: dentistID,
+        date: date,
+        hn:"HN540",
+        type:"initial"
+      }
+    })
+  }
 
   const exportConfirmHandler = () => {
     sendReportExcelAPIHandler(information, userData.email, file_name);
@@ -148,6 +170,15 @@ const SummaryPage = () => {
     </p>
   );
 
+  const modalChart = (
+    <p>
+      Preceed to patient's periodontal chart
+      <span style={{ color: "red" }}>
+        <b> Please check fill further information.</b>
+      </span>
+    </p>
+  )
+
   /* components to be rendered */
   const PDRETableComponentToBeRendered = (
     <Fragment>
@@ -171,6 +202,18 @@ const SummaryPage = () => {
           modalType="confirm"
         />
       )}
+      {checkChartConfirm && (
+        <Modal
+          header = "Go to Periodontal Chart"
+          content = {modalChart}
+          onOKClick = {proceedToChartHandler}
+          onCancelClick = {checkChartConfirmHandler}
+          okButtonText = "Confirm"
+          modalType="confirm"
+        />
+      )
+
+      }
       <div className="landing-page">
         {showSentSuccess && (
           <div className={classes["success_message"]}>
@@ -259,6 +302,7 @@ const SummaryPage = () => {
           email={userData.email}
           checkMailExportHandler={checkMailExportHandler}
           file_name={file_name}
+          checkChartConfirmHandler={checkChartConfirmHandler}
         />
       </div>
     </Fragment>

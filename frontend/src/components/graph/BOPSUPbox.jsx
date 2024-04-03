@@ -6,7 +6,7 @@ const BUPSUPbox = ({
     data,
     command
 }) =>{
-    console.log(data)
+    // console.log(data)
     let left = [1,4].includes(quadrant)? data.distal:data.mesial
     let mid = data.middle
     let right = [1,4].includes(quadrant)? data.mesial:data.distal

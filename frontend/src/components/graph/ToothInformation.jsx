@@ -10,7 +10,7 @@ const ToothInfomation = ({
     side
 }) => {
     // console.log(quadrant,id)
-    console.log(quadrant,id,data,side)
+    // console.log(quadrant,id,data,side)
     let mo_mgj = side == "Buccal"? data.MGJ:data.MO
     let side_data = data.depended_side_data[0].side === side.toLowerCase()? data.depended_side_data[0]:data.depended_side_data[1]
     // console.log(side,side_data)

@@ -15,6 +15,7 @@ const InformationBox = ({
       <div className={classes.q_left}>
         {l_data.idxArray.map((idx) =>(
           <ToothInfomation
+            key={String(quadrant[0])+String(idx.ID)}
             quadrant={quadrant[0]}
             id={idx.ID}
             data={idx}
@@ -25,6 +26,7 @@ const InformationBox = ({
       <div className={classes.q_right}>
         {r_data.idxArray.map((idx) =>(
           <ToothInfomation
+            key={String(quadrant[1])+String(idx.ID)}
             quadrant={quadrant[1]}
             id={idx.ID}
             data={idx}
