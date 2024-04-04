@@ -15,6 +15,7 @@ const ToothNumBox = ({
                 {
                     l_data.idxArray.map((idx)=>(
                         <SymbolBox
+                            key={String(quadrant[0])+String(idx.ID)}
                             quadrant={quadrant[0]}
                             data={idx}
                         />
@@ -25,7 +26,8 @@ const ToothNumBox = ({
                 {
                     r_data.idxArray.map((idx)=>(
                         <SymbolBox
-                            quadrant={quadrant[0]}
+                            key={String(quadrant[1])+String(idx.ID)}
+                            quadrant={quadrant[1]}
                             data={idx}
                         />
                     ))

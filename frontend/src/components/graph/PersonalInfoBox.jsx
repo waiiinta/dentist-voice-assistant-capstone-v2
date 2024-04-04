@@ -2,43 +2,43 @@ import React from "react";
 import classes from "./PersonalInfoBox.module.css"
 
 const PersonalInfoBox = ({
-  data
+  props
 }) =>{
-  console.log(data)
+  // console.log(props)
   return (
     <div className={classes.personal_info}>
       <div className={classes.first_line}>
         <span className={classes.patient_name}>
-          {data.patient}
+          {props.patient}
         </span>
         <span className={classes.hn}>
-          {data.hn}
+          {props.hn}
         </span>
         <span className={classes.date}>
-          {`${data.date.slice(8,10)}`}
+          {`${props.date[0]}`}
         </span>
         <span className={classes.date}>
-          {`${data.date.slice(5,7)}`}
+          {`${props.date[1]}`}
         </span>
         <span className={classes.date}>
-          {`${data.date.slice(2,4)}`}
+          {`${props.date[2].slice(2,4)}`}
         </span>
       </div>
       <div className={classes.second_line}>
         <div  style={{width:'23px'}}/>
-        {data.type === "initial" && <div className={classes.tick_box}/>}
-        {data.type !== "initial" && <div className={classes.box}/>}
+        {props.type === "initial" && <div className={classes.tick_box}/>}
+        {props.type !== "initial" && <div className={classes.box}/>}
         <div  style={{width:'29px'}}/>
-        {data.type === "evaluation" && <div className={classes.tick_box}/>}
-        {data.type !== "evaluation" && <div className={classes.box}/>}
+        {props.type === "evaluation" && <div className={classes.tick_box}/>}
+        {props.type !== "evaluation" && <div className={classes.box}/>}
         <div  style={{width:'49px'}}/>
-        {data.type === "pre-surgical" && <div className={classes.tick_box}/>}
-        {data.type !== "pre-surgical" && <div className={classes.box}/>}
+        {props.type === "pre-surgical" && <div className={classes.tick_box}/>}
+        {props.type !== "pre-surgical" && <div className={classes.box}/>}
         <div  style={{width:'55px'}}/>
-        {data.type === "maintenance" && <div className={classes.tick_box}/>}
-        {data.type !== "maintenance" && <div className={classes.box}/>}
+        {props.type === "maintenance" && <div className={classes.tick_box}/>}
+        {props.type !== "maintenance" && <div className={classes.box}/>}
         <span className={classes.examiner}>
-          {data.examiner}
+          {props.examiner}
         </span>
       </div>
     </div>

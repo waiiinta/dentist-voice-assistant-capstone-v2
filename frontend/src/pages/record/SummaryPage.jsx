@@ -109,7 +109,7 @@ const SummaryPage = () => {
         information: information,
         userData: userData,
         patient: patientID,
-        examiner: dentistID,
+        examiner_id: dentistID,
         date: date,
         hn:"HN540",
         type:"initial"

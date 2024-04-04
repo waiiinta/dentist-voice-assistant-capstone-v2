@@ -58,7 +58,7 @@ const GraphBox = ({
     options.yaxis.max = 5
     options.yaxis.min = -15
   }
-  console.log(quadrant,series)
+  // console.log(quadrant,series)
   return (
     <div className={`${classes.graph_box} ${quadrant[0] >= 3? classes.lower:''}`}>
       {/* {quadrant >= 3 && (
