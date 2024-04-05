@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Navbar from "react-bootstrap/Navbar";
 import classes from "./RecordControlBar.module.css";
 import React from "react";
+import documentIcon from "../../images/document.png"
 
 
 function RecordControlBar(props) {
@@ -17,6 +18,17 @@ function RecordControlBar(props) {
             className={classes["icon"]}
           />
           {"Send to email"}
+        </button>
+        <button
+          className={classes.chartButton}
+          onClick={props.isInputChartHandler}
+        >
+          <img 
+            src = {documentIcon}
+            className={classes["icon"]}
+            height={30}
+          />
+          {"Proceed to Chart"}
         </button>
         <button
           className={classes.saveAsButton}

@@ -50,7 +50,7 @@ function NavBar(props) {
     //     <LogoutButton></LogoutButton>
     //   </Container>
     // </Navbar>
-    <Navbar bg="black" variant="dark" fixed="top">
+    <Navbar bg="black" variant="dark" fixed="top" >
       {/* <Container> */}
       <Navbar.Brand className={classes.actions}>
         {props.isSummary && (

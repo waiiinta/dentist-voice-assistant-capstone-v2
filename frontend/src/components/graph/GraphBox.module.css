@@ -1,0 +1,36 @@
+.left_graph{
+    /* margin-top: -23px; */
+    margin-left: 23px
+}
+.right_graph{
+    margin-left: 25px;
+    /* margin-top: -23px; */
+}
+
+.left_graph.lower{
+    margin-top: 18px;
+    margin-left: 23px;
+}
+
+.right_graph.lower{
+    margin-left: 28px;
+    margin-top: 18px;
+}
+
+.graph_box{
+    display: flex;
+    height: 92px;
+    z-index: 1;
+}
+
+.graph_box.lower{
+    display: flex;
+    height: 88px;
+}
+
+
+.empty_box{
+    height: 9px;
+    width: 585px;
+    background: #456be7;
+}

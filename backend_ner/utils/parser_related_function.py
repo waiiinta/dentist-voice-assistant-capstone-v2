@@ -28,19 +28,19 @@ number_mapper = {'ศูนย์': 0, 'หนึ่ง': 1, 'สอง': 2, '�
 # Add vocabulary here
 command_mapper = {
                   SYMBOL: ['ลบ'],
-                  MISSING: ['มิซซิ่ง', 'มิชซิ่ง', 'มิซชิ่ง', 'มิสซิ่ง', 'missing', 'miss ing', 'Missing'],
-                  CROWN: ['คลาวน์', 'คลาวด์', 'Crown', 'crown'],
-                  IMPLANT: ['อิมแพลนต์', 'อิมพลานต์', 'Implant', 'implant'],
-                  BRIDGE: ['บริดจ์', 'Bridge', 'bridge'],
-                  PDRE: ['พีดีอาร์อี', 'พีดีอาอี', 'พีดีอาร์อีร', 'PDRE', 'pdre'],
-                  PD: ['โพลบบิ้งเดพท์', 'ProbingDepth', 'Probingdepth', 'probingdepth'],
-                  RE: ['รีเส็ตชั่น', 'Recession', 'recession'],
-                  MGJ: ['เอ็มจีเจ', 'เอมจีเจ', 'เองจีเจ', 'เอ็มจีเจย', 'MGJ', 'mgj'],
-                  MO: ['เอ็มโอ', 'เอมโอ', 'เอ็มโอน', 'โมบิลิตี้', 'MO', 'mo', 'Mobility', 'mobility'],
-                  BOP: ['บีโอพี', 'บีโอที', 'บีโอพีย', 'บรีดดิ้ง', 'Bleeding', 'bleeding', 'BOP', 'bop'],
-                  SUP: ['ซับปูเรชั่น', 'ซุปปูเรชั่น', 'Suppuration', 'suppuration'],
-                  FUR: ['เฟอร์เคชั่น', 'Furcation', 'furcation'],
-                  UNDO: ['อันดู', 'อันโด', 'Undo', 'undo']
+                  MISSING: ['มิซซิ่ง','mิi่g','mิิ่g','mิin','mิิn','ปิิ่ง','mิing','miin','มิิn','มิิ้ง','มิิ่ง','มิing','เaชั','aชั','mิi่g','มิing','mิิ่ง','mิi่g','มิิ่','mig','mิิg'],
+                  CROWN: ['คลาวน์', 'คลาวด์'],
+                  IMPLANT: ['อิมแพลนต์', 'อิมพลานต์'],
+                  BRIDGE: ['บริดจ์','เบรจ','เบรท'],
+                  PDRE: ['พีดีอาร์อี', 'พีดีอาอี', 'พีดีอาร์อีร'],
+                  PD: ['พีดีี','พีดีี','ทีดี','พีบี'],
+                  RE: ['รีเส็ตชั่น','อาร์อีบ','อาร์อี','อาร์์อี','อาร์อี์','อาร์อี'],
+                  MGJ: ['เอ็มจีเจ', 'เอมจีเจ', 'เองจีเจ', 'เอ็มจีเจย'],
+                  MO: ['เอ็มโอ', 'เอมโอ', 'เอ็มโอน', 'โมบิลิตี้'],
+                  BOP: ['บีโอพี', 'บีโอที', 'บีโอพีย', 'บรีดดิ้ง'],
+                  SUP: ['ซับปูเรชั่น', 'ซุปปูเรชั่น','เอสยูพี','เอสยูพี'],
+                  FUR: ['เฟอร์เคชั่น', 'ฟอร์เคชั่น','ฟอร์เคชัน','ฟอรเคชัน','ฟอเคชัน','ฟอเคชั่น','อเคชัน','อรเคชัน','ซอรเคชัน','ฟเคชัน','เคชัน','อรเคชั','คชัน','ฟอรชัน','ฟอชัน','เaชั','aชั'],
+                  UNDO: ['อันดู', 'อันโด']
                   }
 
 side_mapper = {'บัคเคิล': BUCCAL, 'บัคคอล': BUCCAL, 'บัคคัร': BUCCAL, 'บักคัล': BUCCAL,
@@ -398,6 +398,8 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         elif completed_semantic_object[-1]['command'] == BRIDGE:
           bridge_edge = completed_semantic_object[-1]['data']['bridge'][-1]
           gap = []
+          type1_tooth.remove(bridge_edge[0])
+          type1_tooth.remove(bridge_edge[1])
           if bridge_edge[0][0] == bridge_edge[1][0]:
             greater_idx = max(bridge_edge[0][1], bridge_edge[1][1])
             less_idx = min(bridge_edge[0][1], bridge_edge[1][1])
@@ -462,6 +464,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
           semantic_object['data'][cmd_name][-1][1] = word_list[i]
           # Check if the current tooth is either "Missing", "Crown", "Implant", "Bridge" --> If yes append into type1_tooth
           if semantic_object['data'][cmd_name][-1] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data'][cmd_name][-1])+' is not available. Please try again.')
             semantic_object['data'][cmd_name].pop()
           else:
             if semantic_object['command'] == MISSING:
@@ -475,7 +478,11 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
               else:
                 semantic_object['data'][cmd_name].pop()
             else:
-              type1_tooth.append(semantic_object['data'][cmd_name][-1])                
+              if semantic_object['data'][cmd_name][-1][0] not in [1,2,3,4] or semantic_object['data'][cmd_name][-1][1] not in [1,2,3,4,5,6,7,8]:
+                print('Input teeth '+str(semantic_object['data'][cmd_name][-1])+' is not available. Please try again.')
+                semantic_object['data'][cmd_name].pop()
+              else:    
+                type1_tooth.append(semantic_object['data'][cmd_name][-1])                
         # 3.1.3 missing = [[1, 2], ...]
         elif len(semantic_object['data'][cmd_name]) != 0 and semantic_object['data'][cmd_name][-1][1] != None:
           semantic_object['data'][cmd_name].append([word_list[i], None])
@@ -485,40 +492,59 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
         # bridge = []
         if len(semantic_object['data']['bridge']) == 0:
           semantic_object['data']['bridge'].append([[word_list[i], None]])
-
         # last element in bridge = [[1,None]] --> [[1,2]]
         elif len(semantic_object['data']['bridge'][-1]) == 1 and None in semantic_object['data']['bridge'][-1][0]:
           semantic_object['data']['bridge'][-1][0][1] = word_list[i]
+          # First Bridge Edge is not a valid zee
+          if semantic_object['data']['bridge'][-1][0][0] not in [1,2,3,4] or semantic_object['data']['bridge'][-1][0][1] not in [1,2,3,4,5,6,7,8]:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][0])+' is not available. Please try again.')
+            semantic_object['data']['bridge'].pop()
+          # First Bridge Edge is already specified as either Missing, Crown or Implant
+          elif semantic_object['data']['bridge'][-1][0] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][0])+' is not available. Please try again.')
+            semantic_object['data']['bridge'].pop()
         # last element in bridge = [[1,2], None] --> [[1,2], [1,None]]
         elif semantic_object['data']['bridge'][-1][1] == None:
           semantic_object['data']['bridge'][-1][1] = [word_list[i], None]
         # last element in brdige = [[1,2], [1,None]] --> [[1,2], [1,4]] This case has to remove all gap from available_teeth_dict
         elif None in semantic_object['data']['bridge'][-1][1]:
           semantic_object['data']['bridge'][-1][1][1] = word_list[i]
-          # Next step is to remove all gap tooth from available_teeth_dict
-          edge = semantic_object['data']['bridge'][-1]
-          gap = []
-          # Bridge Edge are not on the same quadrant
-          if edge[0][0] != edge[1][0]:
-            tooth_idx = edge[0][1]
-            while tooth_idx != 1:
-              tooth_idx -= 1
-              gap.append([edge[0][0], tooth_idx])
-            tooth_idx = edge[1][1]
-            while tooth_idx != 1:
-              tooth_idx -= 1
-              gap.append([edge[1][0], tooth_idx])
-          # Bridge Edge are on the same quadrant
+          # Second Bridge Edge is not a valid zee
+          if semantic_object['data']['bridge'][-1][1][0] not in [1,2,3,4] or semantic_object['data']['bridge'][-1][1][1] not in [1,2,3,4,5,6,7,8]:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][1])+' is not available. Please try again.')
+            semantic_object['data']['bridge'][-1].pop()
+          # Second Bridge Edge is already specified as either Missing, Crown or Implant
+          elif semantic_object['data']['bridge'][-1][1] in type1_tooth:
+            print('Input teeth '+str(semantic_object['data']['bridge'][-1][1])+' is not available. Please try again.')
+            semantic_object['data']['bridge'][-1].pop()
           else:
-            greater_idx = max(edge[0][1], edge[1][1])
-            less_idx = min(edge[0][1], edge[1][1])
-            for i in range(less_idx+1, greater_idx):
-              gap.append([edge[0][0], i])
-          for tooth in gap:
-            available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
-            type1_tooth.append(tooth)
-          first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
-          last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+            # Add both bridge edge to the type1_tooth
+            type1_tooth.append(semantic_object['data']['bridge'][-1][0])
+            type1_tooth.append(semantic_object['data']['bridge'][-1][1])
+            # Next step is to remove all gap tooth from available_teeth_dict
+            edge = semantic_object['data']['bridge'][-1]
+            gap = []
+            # Bridge Edge are not on the same quadrant
+            if edge[0][0] != edge[1][0]:
+              tooth_idx = edge[0][1]
+              while tooth_idx != 1:
+                tooth_idx -= 1
+                gap.append([edge[0][0], tooth_idx])
+              tooth_idx = edge[1][1]
+              while tooth_idx != 1:
+                tooth_idx -= 1
+                gap.append([edge[1][0], tooth_idx])
+            # Bridge Edge are on the same quadrant
+            else:
+              greater_idx = max(edge[0][1], edge[1][1])
+              less_idx = min(edge[0][1], edge[1][1])
+              for i in range(less_idx+1, greater_idx):
+                gap.append([edge[0][0], i])
+            for tooth in gap:
+              available_teeth_dict, _ = remove_zee_from_available_teeth_dict(tooth, available_teeth_dict)
+              type1_tooth.append(tooth)
+            first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
+            last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
         # last element in bridge = [[1,2], [1,4]] --> [[2, None]]
         elif None not in semantic_object['data']['bridge'][-1][1]:
           semantic_object['data']['bridge'].append([[word_list[i], None]])
@@ -608,6 +634,7 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             if semantic_object['data']['zee'] in fur_possible_tooth:
               semantic_object = check_tooth_appopriate(semantic_object, available_teeth_dict)
             else:
+              print('Input teeth '+str(semantic_object['data']['zee'])+' is not available. Please try again.')
               semantic_object['data']['zee'] = None
         elif semantic_object['data']['zee'] != None and len(semantic_object['data']['zee']) == 2:
           if semantic_object['data']['position'] != None and semantic_object['data']['payload'] == None:

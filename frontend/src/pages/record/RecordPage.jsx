@@ -64,6 +64,7 @@ const RecordPage = () => {
   let dentistID = null;
   let mode = null;
   let latestInformation = null;
+  console.log(latestInformation)
   try {
     userData = state.state.userData;
     patientID = state.state.patientID;
@@ -72,6 +73,7 @@ const RecordPage = () => {
     if (mode === "resume") {
       latestInformation = state.state.latestInformation;
     }
+    console.log(latestInformation)
   } catch (err) { }
   // =========== FOR TESTING ======================
   // const userData = { email: "test@hotmail.com" };
@@ -239,6 +241,7 @@ const RecordPage = () => {
 
   const initializeToothTableInformation = (latestInformation) => {
     setInformation(latestInformation);
+    // console.log(latestInformation)
     const missingToothList =
       getListOfMissingToothFromInformation(latestInformation);
     // send missing tooth to backend, once reconnects
@@ -246,7 +249,7 @@ const RecordPage = () => {
       // console.log("missing tooth from latestData", missingToothObj);
       addToothMissing(socket, missingToothObj.q, missingToothObj.i);
     }
-    // console.log(information)
+    console.log(information)
   };
 
   // ========================================================================
@@ -423,7 +426,6 @@ const RecordPage = () => {
       </span>
     </p>
   );
-
   const PDRETableComponentToBeRendered = (
     <Fragment>
       <div className={classes["information_user"]}>

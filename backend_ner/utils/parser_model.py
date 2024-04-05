@@ -30,7 +30,7 @@ class ParserModel:
         try:
             semantic = self.parse(tokens, threshold=threshold, save=save ) 
         except Exception as e:
-            print(e)
+            print("paser_model.py",e)
         return semantic # result
                
 

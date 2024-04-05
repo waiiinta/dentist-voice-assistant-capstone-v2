@@ -1,0 +1,37 @@
+.large_box{
+    display: flex;
+    height: 10.2px;
+    width: 34px;
+    /* background-color:blueviolet; */
+    text-align: center;
+    font-size: xx-small;
+    align-content: center;
+    justify-content: center;
+    line-height: 10px;
+    /* border-color: black;
+    border-style: dotted;
+    border-width: thin; */
+
+}
+
+.small_box{
+    height: 10.2px;
+    width: 11.3px;
+    /* background-color:blueviolet; */
+}
+
+.small_box.BOP{
+    background-color: #ef5350;
+    border-color: rgb(122, 0, 0);
+    border-style:solid;
+    border-width: thin;
+    z-index: 2;
+}
+
+.small_box.SUP{
+    background-color: #efaf50;
+    border-color: rgb(163, 117, 19);
+    border-style:solid;
+    border-width: thin;
+    z-index: 2;
+}

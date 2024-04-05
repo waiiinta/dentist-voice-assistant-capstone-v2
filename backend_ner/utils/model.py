@@ -8,12 +8,16 @@ class TokenClassifier:
 
     def __init__(self):
 
-        self.vocab = [
+        self.vocab = {
             'ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ',
             'ลบ', 'ลิงกั้ว', 'ลิงกัว', 'บัคคัล', 'บัคคอล', 'มีเสี้ยว', 'ดิสทัล', 'ทั้งหมด', 'ถึง',
-            'มิซซิ่ง', 'คลาวน์', 'คลาวด์', 'อิมแพลนต์', 'อิมแพลนท์', 'อิมพลานต์', 'อิมพลานท์', 'บริดจ์', 'พีดีอาร์อี', 'โพลบบิ้งเดพท์', 'รีเส็ตชั่น',
-            'เอ็มจีเจ', 'บรีดดิ้ง', 'บีโอพี', 'ซับปูเรชั่น', 'ซุปปูเรชั่น', 'โมบีลีตี้', 'เอ็มโอ', 'เฟอร์เคชั่น', 'ฟอร์เคชั่น', 'อันดู', 'อันโด'
-        ]
+            'มิซซิ่ง', 'คลาวน์', 'คลาวด์', 'อิมแพลนต์', 'อิมแพลนท์', 'อิมพลานต์', 'อิมพลานท์', 'บริดจ์', 'พีดีอาร์อี', 'รีเส็ตชั่น','พีดีี','พีดีี','ทีดี','พีบี','อาร์อีบ','อาร์อี','อาร์์อี','อาร์อี์','อาร์อี',
+            'เอ็มจีเจ', 'บรีดดิ้ง', 'บีโอพี', 'ซับปูเรชั่น', 'ซุปปูเรชั่น', 'โมบีลีตี้', 'เอ็มโอ', 'เฟอร์เคชั่น', 'ฟอร์เคชั่น', 'อันดู', 'อันโด' ,'ฟอร์เคชัน','ฟอรเคชัน',
+            'ฟอเคชัน','ฟอเคชั่น','อเคชัน','อรเคชัน','ซอรเคชัน','ฟเคชัน','เคชัน','อรเคชั','คชัน','ฟอรชัน','ฟอชัน','เอสยูพี','เอสยูพี',
+            'mิi่g','mิิ่g','mิin','mิิn','ปิิ่ง','mิing','miin','มิิn','มิิ้ง','มิิ่ง','มิing','เaชั','aชั','mิi่g','มิing','mิิ่ง','mิi่g',
+            'เบรจ','เบรท',
+
+        }
 
 
     def inference(self, sentence):
@@ -72,39 +76,39 @@ class TokenClassifier:
     
     def labeled_token(self, tokens):
         token_label_list = []
+
         for token in tokens:
             if token in ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ']:
                 token_label_list.append([token, "Number"])
             elif token in ['ลบ']:
                 token_label_list.append([token, "Symbol"])
-            elif token in ['ลิงกั้ว', 'ลิงกัว', 'บัคคัล', 'บัคคอล', 'มีเสี้ยว', 'ดิสทัล', 'ทั้งหมด',
-                           'Lingual', 'lingual', 'Buccal', 'buccal', 'Mesial', 'mesial', 'Distal', 'distal']:
+            elif token in ['ลิงกั้ว', 'ลิงกัว', 'บัคคัล', 'บัคคอล', 'มีเสี้ยว', 'ดิสทัล', 'ทั้งหมด']:
                 token_label_list.append([token, "Side"])
-            elif token in ['มิซซิ่ง', 'Missing', 'missing']:
+            elif token in ['มิซซิ่ง','mิi่g','mิิ่g','mิin','mิิn','ปิิ่ง','mิing','miin','มิิn','มิิ้ง','มิิ่ง','มิing','เaชั','aชั','mิi่g','มิing','mิิ่ง','mิi่g','มิิ่','mig','mิิg']:
                 token_label_list.append([token, "Missing"])
-            elif token in ['คลาวน์', 'คลาวด์', 'Crown', 'crown']:
+            elif token in ['คลาวน์', 'คลาวด์']:
                 token_label_list.append([token, "Crown"])
-            elif token in ['อิมแพลนต์', 'อินแพลนท์', 'อิมพลานต์', 'อิมพลานท์', 'Implant', 'implant']:
+            elif token in ['อิมแพลนต์', 'อินแพลนท์', 'อิมพลานต์', 'อิมพลานท์']:
                 token_label_list.append([token, "Implant"])
-            elif token in ['บริดจ์', 'Bridge', 'bridge']:
+            elif token in ['บริดจ์','เบรจ','เบรท']:
                 token_label_list.append([token, "Bridge"])
-            elif token in ['พีดีอาร์อี', 'PDRE', 'pdre']:
+            elif token in ['พีดีอาร์อี']:
                 token_label_list.append([token, "PDRE"])
-            elif token in ['โพลบบิ้งเดพท์', 'ProbingDepth', 'Probingdepth', 'probingdepth']:
+            elif token in ['พีดีี','พีดีี','ทีดี','พีบี']:
                 token_label_list.append([token, "PD"])
-            elif token in ['รีเส็ตชั่น', 'Recession', 'recession']:
+            elif token in ['รีเส็ตชั่น','อาร์์อี','อาร์อี์','อาร์อี']:
                 token_label_list.append([token, "RE"])
-            elif token in ['เอ็มจีเจ', 'MGJ', 'mgj']:
+            elif token in ['เอ็มจีเจ']:
                 token_label_list.append([token, "MGJ"])
-            elif token in ['บรีดดิ้ง', 'บีโอพี', 'Bleeding', 'bleeding', 'BOP', 'bop']:
+            elif token in ['บรีดดิ้ง', 'บีโอพี']:
                 token_label_list.append([token, "BOP"])
-            elif token in ['ซับปูเรชั่น', 'ซุปปูเรชั่น', 'Suppuration', 'suppuration']:
+            elif token in ['ซับปูเรชั่น', 'ซุปปูเรชั่น','เอสยูพี','เอสยูพี']:
                 token_label_list.append([token, "SUP"])
-            elif token in ['โมบีลีตี้', 'เอ็มโอ', 'Mobility', 'mobility', 'MO', 'mo']:
+            elif token in ['โมบีลีตี้', 'เอ็มโอ']:
                 token_label_list.append([token, "MO"])
-            elif token in ['เฟอร์เคชั่น', 'ฟอร์เคชั่น', 'Furcation', 'furcation']:
+            elif token in ['เฟอร์เคชั่น', 'ฟอร์เคชั่น','ฟอร์เคชัน','ฟอรเคชัน','ฟอเคชัน','ฟอเคชั่น','อเคชัน','อรเคชัน','ซอรเคชัน','ฟเคชัน','เคชัน','อรเคชั','คชัน','ฟอรชัน','ฟอชัน']:
                 token_label_list.append([token, "FUR"])
-            elif token in ['อันดู', 'อันโด', 'Undo', 'undo']:
+            elif token in ['อันดู', 'อันโด']:
                 token_label_list.append([token, "Undo"])
             elif token in ['ถึง']:
                 token_label_list.append([token, "To"])

@@ -12,6 +12,7 @@ import RecordControlSummaryBar from "../../components/record/RecordControlSummar
 import RecordInformation from "../../components/record/RecordInformation";
 import InformationBox from "../../components/record/InformationBox";
 import NavBar from "../../components/ui/NavBar";
+import InputModal from "../../components/ui/InputModal";
 
 import Modal from "../../components/ui/Modal";
 import { createReport } from "../../utils/createExcel";
@@ -48,8 +49,14 @@ const SummaryPage = () => {
   );
   const [checkMailExport, setCheckMailExport] = useState(false);
   const [checkBackToHome, setCheckBackToHome] = useState(false);
+  const [isInputChart,setIsInputChart] = useState(false)
   const [showSentSuccess, setShowSentSuccess] = useState(false);
   const [value, setValue] = useState(null);
+  const [patientName,setPatientName] = useState(null)
+  const [chartType,setChartType] = useState(null)
+  const [hn,setHN] = useState(null)
+  const [isProceedTochart,setIsProceedToChart] = useState(false)
+  const [isConfirm,setConfirm] = useState(false)
 
   /* states for quadrant */
   const [quadrant, setQuadrant] = useState(1);
@@ -82,6 +89,31 @@ const SummaryPage = () => {
     });
   };
 
+  const checkProceedToChartHandler= () => {
+    if(patientName.length == 0 || hn.length == 0 || chartType.length == 0){
+      return 
+    }else{
+      console.log(patientName,hn,chartType)
+      setIsInputChart((prevIsInputChart)=>{
+        return !prevIsInputChart
+      })
+  
+      setIsProceedToChart((isProceedToChart) => {
+        return !isProceedToChart
+      })
+    }
+    
+  }
+
+  const isInputChartHandler = () => {
+    setPatientName("")
+    setHN("")
+    setChartType("")
+    setIsInputChart((prevIsInputChart)=>{
+      return !prevIsInputChart
+    })
+  }
+
   const showSentSuccessHandler = () => {
     setShowSentSuccess(true);
 
@@ -94,6 +126,27 @@ const SummaryPage = () => {
     checkBackToHomeHandler();
     navigate("/");
   };
+
+  const proceedToChartHandler = () => {
+    if(patientName === null || hn === null || chartType === null){
+      console.log("pass")
+      return
+    }else{
+      checkProceedToChartHandler()
+      navigate("/graph",{
+        state:{
+          information: information,
+          userData: userData,
+          patient: patientName,
+          examiner_id: dentistID,
+          date: date,
+          hn:hn,
+          type:chartType
+        }
+      })
+    }
+    
+  }
 
   const exportConfirmHandler = () => {
     sendReportExcelAPIHandler(information, userData.email, file_name);
@@ -148,6 +201,21 @@ const SummaryPage = () => {
     </p>
   );
 
+  const modalProceedToChart = (
+    <p>
+      Patient Name: {patientName}
+      <br />
+      HN: {hn}
+      <br />
+      Type: {chartType}
+      <br />
+      Once confirmed,{" "}
+      <span style={{ color: "red" }}>
+        <b> this procedure cannot be reversed.</b>
+      </span>
+    </p>
+  )
+
   /* components to be rendered */
   const PDRETableComponentToBeRendered = (
     <Fragment>
@@ -169,6 +237,31 @@ const SummaryPage = () => {
           onCancelClick={checkBackToHomeHandler}
           okButtonText="Confirm"
           modalType="confirm"
+        />
+      )}
+      {isProceedTochart && (
+        <Modal
+          header = "Go to Periodontal Chart"
+          content = {modalProceedToChart}
+          onOKClick = {proceedToChartHandler}
+          onCancelClick = {checkProceedToChartHandler}
+          okButtonText = "Confirm"
+          modalType="confirm"
+        />
+      )}
+      {isInputChart && (
+        <InputModal
+          header = "Please enter required information"
+          modalType="input"
+          patientName={patientName}
+          hn={hn}
+          chartType={chartType}
+          setPatientName={setPatientName}
+          setHN = {setHN}
+          setChartType = {setChartType}
+          onCancelClick = {isInputChartHandler}
+          onOKClick={checkProceedToChartHandler}
+          type="graph"
         />
       )}
       <div className="landing-page">
@@ -259,6 +352,7 @@ const SummaryPage = () => {
           email={userData.email}
           checkMailExportHandler={checkMailExportHandler}
           file_name={file_name}
+          isInputChartHandler={isInputChartHandler}
         />
       </div>
     </Fragment>

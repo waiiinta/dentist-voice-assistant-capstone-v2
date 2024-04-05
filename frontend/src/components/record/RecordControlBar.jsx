@@ -9,7 +9,7 @@ function RecordControlBar(props) {
   const currentConnectionStatus = props.currentConnectionStatus.toLowerCase();
 
   return (
-    <Navbar bg="black" variant="dark" fixed="bottom" style={{ zIndex: 0 }}>
+    <Navbar bg="black" variant="dar k" fixed="bottom" style={{ zIndex: 0 }}>
       {props.isFinish && (
         <div className={classes.recordControlContainer}>
           <Navbar.Brand className={classes.actions}>
@@ -23,7 +23,7 @@ function RecordControlBar(props) {
                 <SlRefresh />
               </div>
             </div>
-
+            
             <div className={classes.pauseResumeContainer} style={{ visibility: `${currentConnectionStatus !== "connected" ? 'hidden' : 'visible'}` }}>
               <button
                 className={classes.recordButton}

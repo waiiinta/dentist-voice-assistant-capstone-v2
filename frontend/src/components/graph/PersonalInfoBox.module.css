@@ -1,0 +1,57 @@
+
+.personal_info{
+  display: grid;
+  height: 40px;
+  width: 585px;
+  /* background-color:rgba(127, 255, 212,50%); */
+}
+
+.first_line{
+  display: flex;
+  height: 20px;
+  width: 585px;
+  /* background-color: rgba(222, 184, 135,50%); */
+  font-size: 9px;
+  align-items: center;
+}
+
+.second_line{
+  display: flex;
+  height: 20px;
+  width: 585px;
+  align-items: center;
+  font-size: 9px;
+  /* background-color: rgba(166, 222, 135,50%); */
+}
+
+.patient_name{
+  width: 238px;
+  margin-left: 85px;
+  margin-top: -1px;
+}
+
+.hn{
+  width:180px;
+  margin-top: -1px
+}
+
+.date{
+  /* margin-left: 20px; */
+  width: 22px;
+  margin-top: -1px
+}
+
+.tick_box{
+  background-color: rgba(0, 0, 0,70%);
+  width: 10px;
+  height: 10px;
+}
+.box{
+  width: 10px;
+  height: 10px;
+}
+
+.examiner{
+  margin-left: 233px;
+  margin-top: -3px;
+}

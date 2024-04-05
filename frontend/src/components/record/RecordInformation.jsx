@@ -12,7 +12,7 @@ const RecordInformation = ({
   handleUndoToothMissing,
   handleAddToothMissing
 }) => {
-  // console.log(currentCommand)
+  // console.log(information)
   return (
     <div className={classes.direction}>
       <RecordHeader currentCommand={currentCommand} />

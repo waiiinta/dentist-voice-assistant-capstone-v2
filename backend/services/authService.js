@@ -4,6 +4,7 @@ import AppError from "../utils/appError.js";
 const AuthService = {
   async createUser(payload){
     const new_user = await User.create(payload)
+    console.log(new_user)
     return new_user
   },
 

@@ -1,0 +1,38 @@
+.teeth_no{
+    display: flex;
+    width: 595px;
+    height: 25px;
+    /* background-color: aquamarine; */
+    z-index: 1;
+    /* opacity: 50%; */
+    
+}
+
+.tooth_no{
+    display: grid;
+    height: 20.4px;
+    width: 34px;
+    /* margin-left: 2px; */
+    /* background-color: bisque; */
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.left_no{
+    display: flex;
+    height: 20.4px;
+    width: 272px;
+    margin-left: 21px;
+    margin-top: 3px;
+    /* background-color: rgb(165, 127, 255); */
+}
+
+.right_no{
+    display: flex;
+    height: 20.4px;
+    width: 272px;
+    margin-top: 3px;
+    margin-left: 15.5px;
+    /* background-color: rgb(165, 127, 255); */
+}

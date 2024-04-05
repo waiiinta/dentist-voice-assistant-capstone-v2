@@ -10,6 +10,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["/**/*.*.js", "/**/*.*.d.ts", "/**/*.d.ts"],
+  "include": ["./**/*.*.js", "./**/*.*.d.ts", "./**/*.d.ts"],
   "exclude": ["node_modules"]
 }
