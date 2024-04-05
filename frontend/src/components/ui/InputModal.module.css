@@ -173,7 +173,38 @@
   border: 1px solid var(--primary-color-error);
 }
 
+.input_modal__control DropdownButton {
+  display: block;
+  font: inherit;
+  border-radius: 10px;
+  border: 0;
+  width: 100%;
+  /* padding: 0.3rem 0.8rem 0.3rem 0.8rem; */
+  background-color: #ececec;
+}
+
+.input_modal__control.invalid DropdownButton {
+  border: 1px solid var(--primary-color-error);
+}
+
 .input_modal__control div p {
   font-size: 1.5vh;
   margin-bottom: 0;
+}
+
+.dropdown{
+  height: 30px;
+}
+
+.dropdown_title{
+  height: 30px;
+  /* width: 70px; */
+  /* margin-left: -100%; */
+}
+
+.error{
+  width: 100%;
+  text-align: center;
+  opacity: 75%;
+  /* transition: ; */
 }

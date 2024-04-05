@@ -1,29 +1,35 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocation,useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas"
+import jspdf from "jspdf"
+
 import classes from "./GraphPage.module.css";
 import graph from "../../images/plain_graph.jpg";
 import NavBar from "../../components/ui/NavBar";
-
 import GraphControlBar from "../../components/graph/GraphControlBar";
 import GraphBox from "../../components/graph/GraphBox";
 import InformationBox from "../../components/graph/InformationBox";
 import ToothNumBox from "../../components/graph/ToothNumBox";
 import PersonalInfoBox from "../../components/graph/PersonalInfoBox";
 import Modal from "../../components/ui/Modal";
+import InputModal from "../../components/ui/InputModal";
 
 import graphDataProcessing from "../../utils/graphDataProcessing";
 
 const GraphPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const pdfRef = useRef()
   const state = location.state
 
-  let [series,setSeries] = useState(null)
-  let [personalInfo, setPersonalInfo] = useState(null)
-  let [userInfo, setUserInfo] = useState(null)
-  let [graphData,setGraphData] = useState(null)
+  const [series,setSeries] = useState(null)
+  const [personalInfo, setPersonalInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState(null)
+  const [graphData,setGraphData] = useState(null)
+  
 
   const [checkBackToHome, setCheckBackToHome] = useState(false);
+  
 
   //Back to home related
   const checkBackToHomeHandler = () => {
@@ -46,6 +52,25 @@ const GraphPage = () => {
     </p>
   );
 
+  const downloadPDF = () => {
+    const input = pdfRef.current
+    html2canvas(input,{scale:5}).then((canvas)=>{
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jspdf('p','mm','a4', true)
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight()
+      const imgWidth = canvas.width
+      const imgHeight = canvas.height
+      console.log(pdfHeight,pdfWidth)
+      console.log(imgHeight,imgWidth)
+      const ratio = Math.min(pdfWidth/imgWidth,pdfHeight/imgHeight)
+      const imgX = 0
+      const imgY = 0
+      pdf.addImage(imgData,'PNG',imgX,imgY,pdfWidth,pdfHeight)
+      pdf.save('periodontal_chart.pdf')
+    })
+  }
+
   //set every states before render
   useEffect((()=>{
     let date = state.date.split("/")
@@ -58,6 +83,7 @@ const GraphPage = () => {
     }
     let information = state.information
     let newSeries = graphDataProcessing(information)
+    console.log(newSeries)
 
     setSeries(newSeries)
     setPersonalInfo(psnInfo)
@@ -89,8 +115,8 @@ const GraphPage = () => {
               checkBackToHomeHandler={checkBackToHomeHandler}
             />
           </div>
-          <div className= {classes.image}>
-              <div className={classes.container}>
+          <div className= {classes.image} ref={pdfRef}>
+            <div className={classes.container}>
                 <PersonalInfoBox
                   props={personalInfo}
                 />
@@ -139,11 +165,13 @@ const GraphPage = () => {
                   data={[graphData[3],graphData[2]]}
                   side="Buccal"
                 />
-              </div>
-              <img src={graph} className={classes.element}/>
+            </div>
+            <img src={graph} className={classes.element}/>
           </div>
-          <div className={classes.topbar}>
-            <GraphControlBar/>
+          <div className={classes.bottombar}>
+            <GraphControlBar
+              downloadPDF = {downloadPDF}
+            />
           </div>
         </div>
       </Fragment>

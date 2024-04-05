@@ -138,6 +138,9 @@ const HomePage = () => {
   };
 
   const checkIsContinueHandler = () => {
+    if(patientID.length == 0 || dentistID.length == 0){
+      return
+    }
     // hide "Please enter required information" modal
     setIsStart((prevcheckIsStart) => {
       return !prevcheckIsStart;
@@ -229,6 +232,7 @@ const HomePage = () => {
           setPatientID={setPatientID}
           onCancelClick={checkIsStartHandler}
           onOKClick={checkIsContinueHandler}
+          type = "home"
         />
       )}
       {isContinue && (

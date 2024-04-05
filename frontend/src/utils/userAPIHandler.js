@@ -91,7 +91,7 @@ const sendReportExcelAPIHandler = (data, email, file_name) => {
     .post(USER_SEND_REPORT_EXCEL_ENDPOINT, {
       data: data,
       email: email,
-      file_name: file_name,
+      file_name: file_name, 
     })
     .then((result) => {
       // console.log(result);

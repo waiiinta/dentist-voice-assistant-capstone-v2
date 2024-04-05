@@ -21,7 +21,7 @@ function RecordControlBar(props) {
         </button>
         <button
           className={classes.chartButton}
-          onClick={props.checkChartConfirmHandler}
+          onClick={props.isInputChartHandler}
         >
           <img 
             src = {documentIcon}

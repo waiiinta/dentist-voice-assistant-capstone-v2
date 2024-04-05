@@ -1,6 +1,6 @@
 .image{
     position: relative;
-    width: 24cm;
+    width: 16.5cm;
     margin-left: auto;
     margin-right: auto;
     /* height: 100%; */
@@ -48,7 +48,7 @@
     display: grid;
     margin-top: 30px;
     /* margin-bottom: 10cm; */
-    margin-left: 160px;
+    margin-left: 18.5px;
     z-index: 1;
 }
 
@@ -94,4 +94,12 @@
     height: 40px;
     width: 585px;
     background-color:rgba(127, 255, 212,50%);
+}
+
+.bottombar{
+    z-index: 1;
+    height: 5.5vh;
+    position: relative;
+    justify-content: center;
+    align-items: center;
 }

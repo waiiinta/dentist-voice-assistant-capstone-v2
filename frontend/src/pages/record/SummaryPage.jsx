@@ -12,6 +12,7 @@ import RecordControlSummaryBar from "../../components/record/RecordControlSummar
 import RecordInformation from "../../components/record/RecordInformation";
 import InformationBox from "../../components/record/InformationBox";
 import NavBar from "../../components/ui/NavBar";
+import InputModal from "../../components/ui/InputModal";
 
 import Modal from "../../components/ui/Modal";
 import { createReport } from "../../utils/createExcel";
@@ -48,9 +49,14 @@ const SummaryPage = () => {
   );
   const [checkMailExport, setCheckMailExport] = useState(false);
   const [checkBackToHome, setCheckBackToHome] = useState(false);
-  const [checkChartConfirm,setCheckChartConfirm] = useState(false)
+  const [isInputChart,setIsInputChart] = useState(false)
   const [showSentSuccess, setShowSentSuccess] = useState(false);
   const [value, setValue] = useState(null);
+  const [patientName,setPatientName] = useState(null)
+  const [chartType,setChartType] = useState(null)
+  const [hn,setHN] = useState(null)
+  const [isProceedTochart,setIsProceedToChart] = useState(false)
+  const [isConfirm,setConfirm] = useState(false)
 
   /* states for quadrant */
   const [quadrant, setQuadrant] = useState(1);
@@ -83,9 +89,28 @@ const SummaryPage = () => {
     });
   };
 
-  const checkChartConfirmHandler = () => {
-    setCheckChartConfirm((prevcheckChartConfirm) => {
-      return !prevcheckChartConfirm
+  const checkProceedToChartHandler= () => {
+    if(patientName.length == 0 || hn.length == 0 || chartType.length == 0){
+      return 
+    }else{
+      console.log(patientName,hn,chartType)
+      setIsInputChart((prevIsInputChart)=>{
+        return !prevIsInputChart
+      })
+  
+      setIsProceedToChart((isProceedToChart) => {
+        return !isProceedToChart
+      })
+    }
+    
+  }
+
+  const isInputChartHandler = () => {
+    setPatientName("")
+    setHN("")
+    setChartType("")
+    setIsInputChart((prevIsInputChart)=>{
+      return !prevIsInputChart
     })
   }
 
@@ -103,18 +128,24 @@ const SummaryPage = () => {
   };
 
   const proceedToChartHandler = () => {
-    checkChartConfirmHandler()
-    navigate("/graph",{
-      state:{
-        information: information,
-        userData: userData,
-        patient: patientID,
-        examiner_id: dentistID,
-        date: date,
-        hn:"HN540",
-        type:"initial"
-      }
-    })
+    if(patientName === null || hn === null || chartType === null){
+      console.log("pass")
+      return
+    }else{
+      checkProceedToChartHandler()
+      navigate("/graph",{
+        state:{
+          information: information,
+          userData: userData,
+          patient: patientName,
+          examiner_id: dentistID,
+          date: date,
+          hn:hn,
+          type:chartType
+        }
+      })
+    }
+    
   }
 
   const exportConfirmHandler = () => {
@@ -170,11 +201,17 @@ const SummaryPage = () => {
     </p>
   );
 
-  const modalChart = (
+  const modalProceedToChart = (
     <p>
-      Preceed to patient's periodontal chart
+      Patient Name: {patientName}
+      <br />
+      HN: {hn}
+      <br />
+      Type: {chartType}
+      <br />
+      Once confirmed,{" "}
       <span style={{ color: "red" }}>
-        <b> Please check fill further information.</b>
+        <b> this procedure cannot be reversed.</b>
       </span>
     </p>
   )
@@ -202,18 +239,31 @@ const SummaryPage = () => {
           modalType="confirm"
         />
       )}
-      {checkChartConfirm && (
+      {isProceedTochart && (
         <Modal
           header = "Go to Periodontal Chart"
-          content = {modalChart}
+          content = {modalProceedToChart}
           onOKClick = {proceedToChartHandler}
-          onCancelClick = {checkChartConfirmHandler}
+          onCancelClick = {checkProceedToChartHandler}
           okButtonText = "Confirm"
           modalType="confirm"
         />
-      )
-
-      }
+      )}
+      {isInputChart && (
+        <InputModal
+          header = "Please enter required information"
+          modalType="input"
+          patientName={patientName}
+          hn={hn}
+          chartType={chartType}
+          setPatientName={setPatientName}
+          setHN = {setHN}
+          setChartType = {setChartType}
+          onCancelClick = {isInputChartHandler}
+          onOKClick={checkProceedToChartHandler}
+          type="graph"
+        />
+      )}
       <div className="landing-page">
         {showSentSuccess && (
           <div className={classes["success_message"]}>
@@ -302,7 +352,7 @@ const SummaryPage = () => {
           email={userData.email}
           checkMailExportHandler={checkMailExportHandler}
           file_name={file_name}
-          checkChartConfirmHandler={checkChartConfirmHandler}
+          isInputChartHandler={isInputChartHandler}
         />
       </div>
     </Fragment>
