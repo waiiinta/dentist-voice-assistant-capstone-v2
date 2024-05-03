@@ -64,7 +64,7 @@ const RecordPage = () => {
   let dentistID = null;
   let mode = null;
   let latestInformation = null;
-  console.log(latestInformation)
+  // console.log(latestInformation)
   try {
     userData = state.state.userData;
     patientID = state.state.patientID;
@@ -73,7 +73,7 @@ const RecordPage = () => {
     if (mode === "resume") {
       latestInformation = state.state.latestInformation;
     }
-    console.log(latestInformation)
+    // console.log(latestInformation)
   } catch (err) { }
   // =========== FOR TESTING ======================
   // const userData = { email: "test@hotmail.com" };

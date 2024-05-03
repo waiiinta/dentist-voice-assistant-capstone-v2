@@ -22,12 +22,18 @@ def create_ner_response(semantics):
         # {command: undo, object :semantic}
         elif command in ["Undo"]:
             bridge = None
+            recent_payload = None
             cmd_to_undo = semantic.get("object", dict()).get("command", None)
             if cmd_to_undo in ["Missing", "Crown", "Implant"]:
                 zee = create_zee(semantic.get("object", dict()).get("data", dict()).get(cmd_to_undo.lower(), None)[-1])
             elif cmd_to_undo in ["Bridge"]:
                 zee = None
                 bridge = create_undo_bridge(semantic.get("object", dict()).get("data", dict()).get(cmd_to_undo.lower(), None)[-1])
+            elif cmd_to_undo in ["BOP","SUP"]:
+                print("pass here")
+                zee = create_zee(semantic.get("object", dict()).get("data", dict()).get("zee", None))
+                recent_payload = semantic.get("recent_payload", [])
+                print(recent_payload)
             else:
                 zee = create_zee(semantic.get("object", dict()).get("data", dict()).get("zee", None))
             data = None
@@ -38,7 +44,8 @@ def create_ner_response(semantics):
                         tooth_side = semantic.get("object", dict()).get("data", dict()).get("tooth_side", None),
                         position = semantic.get("object", dict()).get("data", dict()).get("position", None),
                         is_number_PD = semantic.get("object", dict()).get("data", dict()).get("is_number_PD", None),
-                        bridge = bridge
+                        bridge = bridge,
+                        recent_payload = recent_payload
                     )
             except Exception as err:
                 print(err)

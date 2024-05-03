@@ -41,6 +41,7 @@ message CommandUndo {
     string position = 4;
     bool is_number_PD = 5;
     BridgeZee bridge = 6;
+    repeated bool recent_payload = 7;
 }
 
 message Zee {

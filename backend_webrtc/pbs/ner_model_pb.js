@@ -99,7 +99,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.ner_backend.CommandUndo = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.ner_backend.CommandUndo.repeatedFields_, null);
 };
 goog.inherits(proto.ner_backend.CommandUndo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -1199,6 +1199,13 @@ proto.ner_backend.BridgeZee.prototype.clearZeeList = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.ner_backend.CommandUndo.repeatedFields_ = [7];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -1235,7 +1242,8 @@ proto.ner_backend.CommandUndo.toObject = function(includeInstance, msg) {
     toothSide: jspb.Message.getFieldWithDefault(msg, 3, ""),
     position: jspb.Message.getFieldWithDefault(msg, 4, ""),
     isNumberPd: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
-    bridge: (f = msg.getBridge()) && proto.ner_backend.BridgeZee.toObject(includeInstance, f)
+    bridge: (f = msg.getBridge()) && proto.ner_backend.BridgeZee.toObject(includeInstance, f),
+    recentPayloadList: (f = jspb.Message.getRepeatedBooleanField(msg, 7)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -1297,6 +1305,12 @@ proto.ner_backend.CommandUndo.deserializeBinaryFromReader = function(msg, reader
       var value = new proto.ner_backend.BridgeZee;
       reader.readMessage(value,proto.ner_backend.BridgeZee.deserializeBinaryFromReader);
       msg.setBridge(value);
+      break;
+    case 7:
+      var values = /** @type {!Array<boolean>} */ (reader.isDelimited() ? reader.readPackedBool() : [reader.readBool()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addRecentPayload(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -1369,6 +1383,13 @@ proto.ner_backend.CommandUndo.serializeBinaryToWriter = function(message, writer
       6,
       f,
       proto.ner_backend.BridgeZee.serializeBinaryToWriter
+    );
+  }
+  f = message.getRecentPayloadList();
+  if (f.length > 0) {
+    writer.writePackedBool(
+      7,
+      f
     );
   }
 };
@@ -1517,6 +1538,43 @@ proto.ner_backend.CommandUndo.prototype.clearBridge = function() {
  */
 proto.ner_backend.CommandUndo.prototype.hasBridge = function() {
   return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * repeated bool recent_payload = 7;
+ * @return {!Array<boolean>}
+ */
+proto.ner_backend.CommandUndo.prototype.getRecentPayloadList = function() {
+  return /** @type {!Array<boolean>} */ (jspb.Message.getRepeatedBooleanField(this, 7));
+};
+
+
+/**
+ * @param {!Array<boolean>} value
+ * @return {!proto.ner_backend.CommandUndo} returns this
+ */
+proto.ner_backend.CommandUndo.prototype.setRecentPayloadList = function(value) {
+  return jspb.Message.setField(this, 7, value || []);
+};
+
+
+/**
+ * @param {boolean} value
+ * @param {number=} opt_index
+ * @return {!proto.ner_backend.CommandUndo} returns this
+ */
+proto.ner_backend.CommandUndo.prototype.addRecentPayload = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 7, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.ner_backend.CommandUndo} returns this
+ */
+proto.ner_backend.CommandUndo.prototype.clearRecentPayloadList = function() {
+  return this.setRecentPayloadList([]);
 };
 
 

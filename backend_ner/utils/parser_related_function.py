@@ -419,6 +419,16 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
             type1_tooth.remove(tooth)
           first_tooth_list = find_first_tooth_in_quadrant(available_teeth_dict)
           last_tooth_list = find_last_tooth_in_quadrant(available_teeth_dict)
+        elif completed_semantic_object[-1]['command'] in [BOP, SUP]:
+          if len(completed_semantic_object) == 1:
+            semantic_object['recent_payload'] = [False, False, False]
+          elif completed_semantic_object[-2]['command'] == completed_semantic_object[-1]['command'] and \
+            completed_semantic_object[-2]['data']['zee'] == completed_semantic_object[-1]['data']['zee'] and \
+            completed_semantic_object[-2]['data']['tooth_side'] == completed_semantic_object[-1]['data']['tooth_side']:
+            semantic_object['recent_payload'] = completed_semantic_object[-2]['data']['payload']
+          else:
+            semantic_object['recent_payload'] = [False, False, False]
+
     
     
     # 2. 'Side'
@@ -739,12 +749,16 @@ def create_semantic_object(semantic_object_list, completed_semantic_object, word
       if new_result[k]['data']['zee'] != latest_zee:
         latest_zee = new_result[k]['data']['zee']
       else:
-        final_result.remove(new_result[k])
+         final_result.remove(new_result[k])
+
   
   ## Remove undo object from completed_semantic_object
   for obj in final_result:
     if obj['command'] in [UNDO] and len(completed_semantic_object) > 0:
       completed_semantic_object.pop()
+    elif obj['command'] in [BOP, SUP]:
+      if True in obj['data']['payload']:
+        completed_semantic_object.append(obj)
     else:
       completed_semantic_object.append(obj)
 

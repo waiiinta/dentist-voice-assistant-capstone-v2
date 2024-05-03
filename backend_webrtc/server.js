@@ -503,9 +503,10 @@ io.on("connection", async (socket) => {
             q2 = null;
             i2 = null;
             target = true;
+            let recent_payload = null;
             side = semantic.undo.tooth_side.toLowerCase();
             position = semantic.undo.position.toLowerCase();
-            undo_mode = semantic.undo.command;
+            let undo_mode = semantic.undo.command;
             if (undo_mode == "Missing") {
               missing_tooth = semantic.undo.zee;
               q = missing_tooth.first_zee;
@@ -529,7 +530,11 @@ io.on("connection", async (socket) => {
               }
               
             }
-            console.log(semantic.undo.command);
+
+            if(["BOP","SUP"].includes(undo_mode)){
+              recent_payload = semantic.undo.recent_payload
+            }
+            console.log("semantic",semantic);
             sendUpdateToothTableDataToFrontEnd(
               socket,
               q,
@@ -541,7 +546,9 @@ io.on("connection", async (socket) => {
               null,
               q2,
               i2,
-              undo_mode
+              undo_mode,
+              null,
+              recent_payload
             );
           }
           // toothTable.showPDREValue();
@@ -567,7 +574,8 @@ const sendUpdateToothTableDataToFrontEnd = (
   q2 = null,
   i2 = null,
   undo_mode = null,
-  is_pdre = null
+  is_pdre = null,
+  recent_payload = null,
 ) => {
   data = {
     q,
@@ -581,6 +589,7 @@ const sendUpdateToothTableDataToFrontEnd = (
     i2,
     undo_mode,
     is_pdre,
+    recent_payload
   };
   // console.log("data", data);
   socket.emit("data", data);

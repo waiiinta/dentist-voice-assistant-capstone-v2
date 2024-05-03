@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import utils.ner_model_pb2 as proto_dot_ner__model__pb2
+import utils.ner_model_pb2 as ner__model__pb2
 
 
 class NERBackendStub(object):
@@ -16,18 +16,18 @@ class NERBackendStub(object):
         """
         self.StreamingNER = channel.stream_stream(
                 '/ner_backend.NERBackend/StreamingNER',
-                request_serializer=proto_dot_ner__model__pb2.NERRequest.SerializeToString,
-                response_deserializer=proto_dot_ner__model__pb2.NERResponse.FromString,
+                request_serializer=ner__model__pb2.NERRequest.SerializeToString,
+                response_deserializer=ner__model__pb2.NERResponse.FromString,
                 )
         self.UndoMissing = channel.unary_unary(
                 '/ner_backend.NERBackend/UndoMissing',
-                request_serializer=proto_dot_ner__model__pb2.Zee.SerializeToString,
-                response_deserializer=proto_dot_ner__model__pb2.Empty.FromString,
+                request_serializer=ner__model__pb2.Zee.SerializeToString,
+                response_deserializer=ner__model__pb2.Empty.FromString,
                 )
         self.AddMissing = channel.unary_unary(
                 '/ner_backend.NERBackend/AddMissing',
-                request_serializer=proto_dot_ner__model__pb2.Zee.SerializeToString,
-                response_deserializer=proto_dot_ner__model__pb2.Empty.FromString,
+                request_serializer=ner__model__pb2.Zee.SerializeToString,
+                response_deserializer=ner__model__pb2.Empty.FromString,
                 )
 
 
@@ -57,18 +57,18 @@ def add_NERBackendServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'StreamingNER': grpc.stream_stream_rpc_method_handler(
                     servicer.StreamingNER,
-                    request_deserializer=proto_dot_ner__model__pb2.NERRequest.FromString,
-                    response_serializer=proto_dot_ner__model__pb2.NERResponse.SerializeToString,
+                    request_deserializer=ner__model__pb2.NERRequest.FromString,
+                    response_serializer=ner__model__pb2.NERResponse.SerializeToString,
             ),
             'UndoMissing': grpc.unary_unary_rpc_method_handler(
                     servicer.UndoMissing,
-                    request_deserializer=proto_dot_ner__model__pb2.Zee.FromString,
-                    response_serializer=proto_dot_ner__model__pb2.Empty.SerializeToString,
+                    request_deserializer=ner__model__pb2.Zee.FromString,
+                    response_serializer=ner__model__pb2.Empty.SerializeToString,
             ),
             'AddMissing': grpc.unary_unary_rpc_method_handler(
                     servicer.AddMissing,
-                    request_deserializer=proto_dot_ner__model__pb2.Zee.FromString,
-                    response_serializer=proto_dot_ner__model__pb2.Empty.SerializeToString,
+                    request_deserializer=ner__model__pb2.Zee.FromString,
+                    response_serializer=ner__model__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -92,8 +92,8 @@ class NERBackend(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/ner_backend.NERBackend/StreamingNER',
-            proto_dot_ner__model__pb2.NERRequest.SerializeToString,
-            proto_dot_ner__model__pb2.NERResponse.FromString,
+            ner__model__pb2.NERRequest.SerializeToString,
+            ner__model__pb2.NERResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -109,8 +109,8 @@ class NERBackend(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ner_backend.NERBackend/UndoMissing',
-            proto_dot_ner__model__pb2.Zee.SerializeToString,
-            proto_dot_ner__model__pb2.Empty.FromString,
+            ner__model__pb2.Zee.SerializeToString,
+            ner__model__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -126,7 +126,7 @@ class NERBackend(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ner_backend.NERBackend/AddMissing',
-            proto_dot_ner__model__pb2.Zee.SerializeToString,
-            proto_dot_ner__model__pb2.Empty.FromString,
+            ner__model__pb2.Zee.SerializeToString,
+            ner__model__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

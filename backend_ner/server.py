@@ -85,7 +85,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             semantics = parser.inference(sentence, self.token_classifier, request.is_final)
             # print(parser.semantic_object_list)
             # print(parser.completed_semantic_object)
-            print(semantics)
+            print("semantic",semantics)
             command, tooth, tooth_side, position, bridge_end, semantics = semantics.values()
 
 
@@ -181,7 +181,7 @@ class NERBackendServicer(ner_model_pb2_grpc.NERBackendServicer):
             # Create a dummy response
             if len(semantics) > 0:
                 response = create_ner_response(semantics)
-                ("response",print,response)
+                ("response",print(response))
                 yield response
 
 address = f"[::]:{config.PORT}"

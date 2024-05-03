@@ -281,6 +281,8 @@ const initiateConnection = async (
         } else if (data.q === 2 || data.q === 3) {
           positionArray = ["mesial", "middle", "distal"];
         }
+        let recent_payload = data.recent_payload
+        console.log(recent_payload)
 
         for (let i = 0; i < 3; i++) {
           handleSetInformation(
@@ -288,7 +290,7 @@ const initiateConnection = async (
             data.i,
             data.side,
             data.undo_mode,
-            false,
+            recent_payload[i],
             positionArray[i]
           );
         }
