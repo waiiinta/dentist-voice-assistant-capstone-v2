@@ -67,14 +67,15 @@ const playNextAudio = async (audioList, index, volume, loop) => {
   playPromise = new Promise((resolve, reject) => {
     audio.volume = volume;
     audio.loop = loop;
-    audio.playbackRate = 2.0
+    audio.playbackRate = 2.5
     audio
       .play()
       .then(() => {
         audio.onended = async() => {
           cancelResetIsPlaying()
           resetIsPlaying()
-          await new Promise(r => setTimeout(r, audio.duration*10))
+          console.log(audio.duration)
+          await new Promise(r => setTimeout(r, audio.duration/2))
           resolve(
             await playNextAudio(audioList, index + 1, volume, loop)
           );
