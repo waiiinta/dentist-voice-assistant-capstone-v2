@@ -23,8 +23,8 @@ services:
     build: ./frontend
     ports:
       - "5001:5001"
-    networks:
-      - mynetwork
+    # networks:
+    #   - mynetwork
   
   backend:
     container_name: backend
@@ -36,25 +36,42 @@ services:
       - frontend
     # depends_on:
     #   - mongo
-    networks:
-      - mynetwork
+    # networks:
+    #   - mynetwork
 
   backend_streaming:
     container_name: backend_streaming
     build: ./backend_webrtc
     ports:
       - "3001:3001"
-    networks:
-      - mynetwork
+    environment:
+      - WRTC_SERVER_PORT=3001
+      - NODE_ENV=development
+      - CLIENT_IP=localhost
+      - CLIENT_PORT=5001
+
+      - NORMAL_BACKEND_IP=backend
+      - NORMAL_BACKEND_PORT=3000
+
+      - GOWAJEE_IP=host.docker.internal
+      - GOWAJEE_PORT=50051
+
+      - NER_BACKEND_IP=backend_ner
+      - NER_BACKEND_PORT=50052
+
+      - OPEN_RELAY_USERNAME=559e684f49fc156f246d90da
+      - OPEN_RELAY_CREDENTIAL=ors+Hu/NBo3GuLZN
+    # networks:
+    #   - mynetwork
 
   backend_ner:
     container_name: backend_ner
     build: ./backend_ner
     ports:
       - "50052:50052"
-    networks:
-      - mynetwork
+    # networks:
+    #   - mynetwork
 
 
-networks:
-  mynetwork:
+# networks:
+#   mynetwork:
